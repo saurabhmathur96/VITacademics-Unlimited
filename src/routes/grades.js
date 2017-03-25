@@ -1,3 +1,5 @@
+var path = require('path');
+var requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 var express = require('express');
 var router = express.Router();
 
@@ -6,7 +8,13 @@ var router = express.Router();
  *
  * respond with academic history
  */
-router.get('/', (req, res, next) => {
+
+const uri = 'https://vtop.vit.ac.in/student/student_history.asp';
+router.post('/', (req, res, next) => {
+  let task = requests.post(uri, req.cookies);
+  task.then(response => {
+
+  })
   res.json({ message: 'Work in Progress!' });
 });
 

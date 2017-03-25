@@ -6,6 +6,7 @@ var spotlight = require(path.join(__dirname, '..', 'src', 'scrapers', 'spotlight
 var attendance = require(path.join(__dirname, '..', 'src', 'scrapers', 'attendance'));
 var schedule = require(path.join(__dirname, '..','src', 'scrapers', 'schedule'));
 var history = require(path.join(__dirname, '..', 'src', 'scrapers', 'history'));
+var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
 
 describe('Unit Tests', () => {
   it('scrape spotlight', (done) => {
@@ -64,7 +65,7 @@ describe('Unit Tests', () => {
   it('scrape timetable', (done) => {
     let filePath = path.join('test', 'data', 'attn_report.html')
     let html = fs.readFileSync(filePath, 'utf8');
-    let task = schedule.parseTimetable(html);
+    let task = schedule.parseDaily(html);
     expect(task).to.be.a('promise');
 
     task.then(result => {
@@ -77,7 +78,20 @@ describe('Unit Tests', () => {
   it('scrape exam schedule', (done) => {
     let filePath = path.join('test', 'data', 'attn_report.html')
     let html = fs.readFileSync(filePath, 'utf8');
-    let task = schedule.parseExamSchedule(html);
+    let task = schedule.parseExam(html);
+    expect(task).to.be.a('promise');
+
+    task.then(result => {
+      expect(result).to.be.instanceof(Array);
+
+      done();
+    }).catch(err => { throw err; })
+  });
+
+  it('scrape messages', (done) => {
+    let filePath = path.join('test', 'data', 'stud_home.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = home.parseMessages(html);
     expect(task).to.be.a('promise');
 
     task.then(result => {
