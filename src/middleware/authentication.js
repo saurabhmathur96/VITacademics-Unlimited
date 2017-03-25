@@ -4,7 +4,10 @@
  * middleware that performs sign-in to vtop.
  */
 
+const getCookie = require('../utils/getcookie');
+
 module.exports = (req, res, next) => {
+
   req.checkBody('reg_no', '`reg_no` cannot be empty.').notEmpty();
   req.checkBody('password', '`password` cannot be empty.').notEmpty();
 
@@ -20,18 +23,15 @@ module.exports = (req, res, next) => {
       next(err);
 
     } else {
-
-      //
-      // Some magic here.
-      let success = true;
-      if (success) {
-        return next();
-      } else {
-        let err = new Error('Authentication failed.');
+      getCookie(req.body.reg_no, req.body.password)
+      .then(function(cookie){
+          // console.log(cookie);
+          return next();
+      })
+       .catch((err) => {
         err.status = 403;
-
         next(err);
-      }
+      })
     }
   });
 

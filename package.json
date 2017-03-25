@@ -7,13 +7,15 @@
     "test": "mocha"
   },
   "dependencies": {
+    "bluebird": "^3.5.0",
     "body-parser": "~1.16.0",
     "chai": "^3.5.0",
     "debug": "~2.6.0",
     "express": "~4.14.1",
     "express-validator": "^3.1.2",
     "mocha": "^3.2.0",
-    "morgan": "~1.7.0"
+    "morgan": "~1.7.0",
+    "zombie": "^5.0.5"
   },
   "engines": {
     "node": "6.10.0"
