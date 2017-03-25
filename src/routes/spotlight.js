@@ -1,3 +1,5 @@
+var path = require('path');
+var requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 var express = require('express');
 var router = express.Router();
 
@@ -6,7 +8,7 @@ var router = express.Router();
  *
  * respond with spotlight items
  */
-router.get('/', (req, res, next) => {
+router.post('/', (req, res, next) => {
   res.json({ message: 'Work in Progress!' });
 });
 
