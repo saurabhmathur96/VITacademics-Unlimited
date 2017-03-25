@@ -27,10 +27,10 @@ const uri = {
 }
 router.post('/', (req, res, next) => {
   var tasks = [
-    requests.post(uri.attendance.report, req.user.cookie).then(r => attendance.parseReport(r.body)).then(fetchAttendanceDetails),
-    requests.post(uri.schedule.timetable, req.user.cookie).then(r => timetable.parseDaily(r.body)),
-    requests.post(uri.schedule.exam, req.user.cookie).then(r => timetable.parseExam(r.body)),
-    requests.post(uri.marks, req.user.cookie).then(r => marks.parse(r.body))
+    requests.post(uri.attendance.report, req.user.cookie).then(attendance.parseReport).then(fetchAttendanceDetails),
+    requests.post(uri.schedule.timetable, req.user.cookie).then(timetable.parseDaily),
+    requests.post(uri.schedule.exam, req.user.cookie).then(timetable.parseExam),
+    requests.post(uri.marks, req.user.cookie).then(marks.parse)
   ];
   Promise.all(tasks)
   .then(results => {
