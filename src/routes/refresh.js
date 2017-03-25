@@ -51,7 +51,7 @@ function fetchAttendanceDetails(courses) {
       classnbr: course.class_number,
       crscd: course.crscd,
       crstp: course.crstp
-    }).then(response => attendance.parseDetails(response.body))
+    }).then(attendance.parseDetails)
   ));
 }
 
