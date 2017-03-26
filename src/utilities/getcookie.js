@@ -22,26 +22,25 @@ module.exports = (username, password) => {
       browser
         .fetch('https://vtop.vit.ac.in/student/captcha.asp?x=' + now.toUTCString())
         .then(function (response) {
-          console.log('Status code:', response.status);
           if (response.status === 200)
             return response.arrayBuffer();
           else
-            reject(new Error("Authentication Failed. Connection Error."))
+            reject(new Error(`Authentication Failed. Connection Error. (Status ${response.status})`))
         })
-        .then(Buffer)
+        .then(arrayBuffer => new Buffer(arrayBuffer))
         .then(function (buffer) {
           console.log(buffer);
 
           var pixelMap = parser.getPixelMapFromBuffer(buffer);
           var captcha = parser.getCaptcha(pixelMap);
 
-          browser.fill("regno", username)
-            .fill("passwd", password)
-            .fill("vrfcd", captcha)
+          browser.fill('regno', username)
+            .fill('passwd', password)
+            .fill('vrfcd', captcha)
             .pressButton('Login', function () {
               var regCookie = browser.getCookie('logstudregno');
               if (username != regCookie) {
-                reject(new Error("Authentication Failed. Wrong Credentials."));
+                reject(new Error('Authentication Failed. Wrong Credentials.'));
               } else {
                 resolve(browser.cookies[0].toString());
               }

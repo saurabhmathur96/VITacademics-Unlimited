@@ -2,17 +2,17 @@ var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
 
-var spotlight = require(path.join(__dirname, '..', 'src', 'scrapers', 'spotlight'));
+var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
 var attendance = require(path.join(__dirname, '..', 'src', 'scrapers', 'attendance'));
 var schedule = require(path.join(__dirname, '..','src', 'scrapers', 'schedule'));
-var history = require(path.join(__dirname, '..', 'src', 'scrapers', 'history'));
+var academic = require(path.join(__dirname, '..', 'src', 'scrapers', 'academic'));
 var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
 
 describe('Unit Tests', () => {
   it('scrape spotlight', (done) => {
-    let filePath = path.join('test', 'data', 'include_spotlight.html');
+    let filePath = path.join('test', 'data', 'stud_home.html');
     let html = fs.readFileSync(filePath, 'utf8');
-    let task = spotlight.parse(html);
+    let task = home.parseSpotlight(html);
     expect(task).to.be.a('promise');
 
     task.then(result => {
@@ -53,9 +53,20 @@ describe('Unit Tests', () => {
   it('scrape grades', (done) => {
     let filePath = path.join('test', 'data', 'student_history.html')
     let html = fs.readFileSync(filePath, 'utf8');
-    let task = history.parse(html);
+    let task = academic.parseHistory(html);
     expect(task).to.be.a('promise');
 
+    task.then(result => {
+      expect(result).to.be.instanceof(Array);
+      done();
+    }).catch(err => { throw err; })
+  });
+
+  it('scrape marks', (done) => {
+    let filePath = path.join('test', 'data', 'marks.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = academic.parseMarks(html);
+    expect(task).to.be.a('promise');
     task.then(result => {
       expect(result).to.be.instanceof(Array);
       done();

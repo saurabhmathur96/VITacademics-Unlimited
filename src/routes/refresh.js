@@ -2,6 +2,7 @@ var path = require('path');
 var requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 var attendance = require(path.join(__dirname, '..', 'utilities', 'attendance'));
 var schedule = require(path.join(__dirname, '..', 'utilities', 'schedule'));
+var academic = require(path.join(__dirname, '..', 'utilities', 'academic'));
 var express = require('express');
 var router = express.Router();
 
@@ -30,7 +31,7 @@ router.post('/', (req, res, next) => {
     requests.post(uri.attendance.report, req.cookie).then(attendance.parseReport).then(fetchAttendanceDetails),
     requests.post(uri.schedule.timetable, req.cookie).then(timetable.parseDaily),
     requests.post(uri.schedule.exam, req.cookie).then(timetable.parseExam),
-    requests.post(uri.marks, req.cookie).then(marks.parse)
+    requests.post(uri.marks, req.cookie).then(academic.parseMarks)
   ];
   Promise.all(tasks)
     .then(results => {

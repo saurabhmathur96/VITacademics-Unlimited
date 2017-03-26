@@ -676,6 +676,5 @@ module.exports.getCaptcha = function(img) {
         res = res + captcha[i];
     }
 
-    console.log(res);
     return res;
 };
