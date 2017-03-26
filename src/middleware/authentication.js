@@ -4,7 +4,7 @@
  * middleware that performs sign-in to vtop.
  */
 
-const getCookie = require('../utilities/getcookie');
+const signIn = require('../utilities/getcookie');
 
 module.exports = (req, res, next) => {
 
@@ -18,21 +18,17 @@ module.exports = (req, res, next) => {
     if (!result.isEmpty()) {
       let message = result.array().map((error) => error.msg).join('\n');
       let err = new Error(message);
-      err.status = 403;
-
-      next(err);
+      throw err;
 
     } else {
-      getCookie(req.body.reg_no, req.body.password)
-      .then(function(cookie){
-          req.cookie = cookie.split(';');
-          return next();
-      })
-       .catch((err) => {
-        err.status = 403;
-        next(err);
-      })  
-  }
-});
+      return signIn(req.body.reg_no, req.body.password);
+    }
+  }).then(function (cookie) {
+    req.cookie = cookie.split(';');
+    return next();
+  }).catch((err) => {
+    err.status = 403;
+    next(err);
+  })
 
 }
