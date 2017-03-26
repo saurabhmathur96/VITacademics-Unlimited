@@ -11,7 +11,7 @@ var router = express.Router();
 
 const uri = 'https://vtop.vit.ac.in/student/student_history.asp';
 router.post('/', (req, res, next) => {
-  let task = requests.post(uri, req.cookies);
+  let task = requests.get(uri, req.cookies);
   task.then(response => {
 
   })

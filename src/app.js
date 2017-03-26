@@ -4,7 +4,6 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
-var authentication = require(path.join(__dirname, 'middleware', 'authentication'));
 
 var refresh = require(path.join(__dirname, 'routes', 'refresh'));
 var grades = require(path.join(__dirname, 'routes', 'grades'));

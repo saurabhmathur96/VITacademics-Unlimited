@@ -23,8 +23,8 @@ module.exports = (req, res, next) => {
     } else {
       return signIn(req.body.reg_no, req.body.password);
     }
-  }).then(function (cookie) {
-    req.cookie = cookie.split(';');
+  }).then(function (cookies) {
+    req.cookies = cookies;
     return next();
   }).catch((err) => {
     err.status = 403;

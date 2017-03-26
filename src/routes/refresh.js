@@ -1,11 +1,12 @@
 var path = require('path');
 var requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
-var attendance = require(path.join(__dirname, '..', 'utilities', 'attendance'));
-var schedule = require(path.join(__dirname, '..', 'utilities', 'schedule'));
-var academic = require(path.join(__dirname, '..', 'utilities', 'academic'));
+var attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
+var schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
+var academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
 var express = require('express');
 var router = express.Router();
 
+var authentication = require(path.join(__dirname,'..', 'middleware', 'authentication'));
 
 /**
  * POST /refresh
@@ -26,12 +27,12 @@ const uri = {
   },
   marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
 };
-router.post('/', (req, res, next) => {
+router.post('/', authentication, (req, res, next) => {
   var tasks = [
-    requests.post(uri.attendance.report, req.cookie).then(attendance.parseReport).then(fetchAttendanceDetails),
-    requests.post(uri.schedule.timetable, req.cookie).then(timetable.parseDaily),
-    requests.post(uri.schedule.exam, req.cookie).then(timetable.parseExam),
-    requests.post(uri.marks, req.cookie).then(academic.parseMarks)
+    requests.get(uri.attendance.report, req.cookies).then(attendance.parseReport).then(fetchAttendanceDetails),
+    requests.get(uri.schedule.timetable, req.cookies).then(schedule.parseDaily),
+    requests.get(uri.schedule.exam, req.cookies).then(schedule.parseExam),
+    requests.get(uri.marks, req.cookies).then(academic.parseMarks)
   ];
   Promise.all(tasks)
     .then(results => {
@@ -41,7 +42,7 @@ router.post('/', (req, res, next) => {
         'exam_schedule': results[2],
         'marks': results[3]
       })
-    }).catch(err => res.status(500).json({ message: 'Error accessing vtop.' }));
+    }).catch(err => res.status(500).json({ message: err }));
 });
 
 function fetchAttendanceDetails(courses) {

@@ -29,8 +29,6 @@ module.exports = (username, password) => {
         })
         .then(arrayBuffer => new Buffer(arrayBuffer))
         .then(function (buffer) {
-          console.log(buffer);
-
           var pixelMap = parser.getPixelMapFromBuffer(buffer);
           var captcha = parser.getCaptcha(pixelMap);
 
@@ -42,7 +40,7 @@ module.exports = (username, password) => {
               if (username != regCookie) {
                 reject(new Error('Authentication Failed. Wrong Credentials.'));
               } else {
-                resolve(browser.cookies[0].toString());
+                resolve(browser.cookies);
               }
             });
         });
