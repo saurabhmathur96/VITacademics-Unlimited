@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
+var Promise = require('bluebird')
 
 var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
 var attendance = require(path.join(__dirname, '..', 'src', 'scrapers', 'attendance'));
@@ -14,7 +15,7 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'attn_report.html');
     let html = fs.readFileSync(filePath, 'utf8');
     let task = attendance.parseReport(html);
-    expect(task).to.be.a('promise');
+    expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
       expect(result).to.be.instanceof(Array);
@@ -27,7 +28,7 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'attn_report_details.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = attendance.parseDetails(html);
-    expect(task).to.be.a('promise');
+    expect(task).to.be.instanceof(Promise);
 
     task.then(result => {
       expect(result).to.be.instanceof(Array);
@@ -39,7 +40,7 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'student_history.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = academic.parseHistory(html);
-    expect(task).to.be.a('promise');
+    expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
       expect(result).to.be.instanceof(Object);
@@ -59,7 +60,7 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'marks.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = academic.parseMarks(html);
-    expect(task).to.be.a('promise');
+    expect(task).to.be.instanceOf(Promise);
     task.then(result => {
       expect(result).to.be.instanceof(Array);
       done();
@@ -70,7 +71,7 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'course_regular.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = schedule.parseDaily(html, 'vellore');
-    expect(task).to.be.a('promise');
+    expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
       expect(result).to.be.instanceof(Array);
@@ -82,7 +83,7 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'exam_schedule.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = schedule.parseExam(html);
-    expect(task).to.be.a('promise');
+    expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
       expect(result).to.be.instanceof(Object);
@@ -101,7 +102,7 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'stud_home.html');
     let html = fs.readFileSync(filePath, 'utf8');
     let task = home.parseSpotlight(html);
-    expect(task).to.be.a('promise');
+    expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
       expect(result).to.be.instanceof(Array);
@@ -115,7 +116,7 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'stud_home.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = home.parseMessages(html);
-    expect(task).to.be.a('promise');
+    expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
       expect(result).to.be.instanceof(Array);
