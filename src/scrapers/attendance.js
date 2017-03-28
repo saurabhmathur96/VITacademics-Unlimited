@@ -1,7 +1,8 @@
-var cheerio = require('cheerio');
-var moment = require('moment');
-var momentTimezone = require('moment-timezone');
-var tabletojson = require('tabletojson')
+const cheerio = require('cheerio');
+const moment = require('moment');
+const momentTimezone = require('moment-timezone');
+const tabletojson = require('tabletojson')
+const Promise = require('bluebird');
 
 /**
  * attendance.parseReport

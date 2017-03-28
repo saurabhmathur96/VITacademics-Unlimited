@@ -1,10 +1,12 @@
-var path = require('path');
-var requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
-var attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
-var schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
-var academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
-var express = require('express');
-var moment = require('moment-timezone');
+const path = require('path');
+const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
+const attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
+const schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
+const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
+const express = require('express');
+const moment = require('moment-timezone');
+const Promise = require('bluebird');
+
 var router = express.Router();
 
 var authentication = require(path.join(__dirname, '..', 'middleware', 'authentication'));

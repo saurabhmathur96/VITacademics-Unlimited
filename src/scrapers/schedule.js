@@ -1,8 +1,9 @@
-var cheerio = require('cheerio');
+const cheerio = require('cheerio');
 const moment = require('moment');
 const momentTimezone = require('moment-timezone');
 
-var tabletojson = require('tabletojson')
+const tabletojson = require('tabletojson');
+const Promise = require('bluebird');
 
 /**
  * timetable.parseDaily

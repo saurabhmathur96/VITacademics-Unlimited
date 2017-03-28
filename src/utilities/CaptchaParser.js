@@ -1,4 +1,4 @@
-var keys = {
+const keys = {
     "0": [
         ["0", "0", "0", "1", "1", "1", "1", "0", "0", "0"],
         ["0", "1", "1", "1", "1", "1", "1", "1", "1", "0"],
@@ -540,14 +540,14 @@ var keys = {
         ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]
     ]
 };
-var order = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+const order = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
-var matchImg  = function (rx, ry, pix, mask) {
-    var flag = 1;
-    var breakflag = 0;
-    var count = 0;
-    for (var x = 0; x < mask.length; ++x) {
-        for (var y = 0; y < mask[0].length; ++y) {
+const matchImg  = function (rx, ry, pix, mask) {
+    let flag = 1;
+    let breakflag = 0;
+    let count = 0;
+    for (let x = 0; x < mask.length; ++x) {
+        for (let y = 0; y < mask[0].length; ++y) {
             try {
                 if (mask[x][y] == '1') {
                     if (pix[rx + x][ry + y] == '1') {
@@ -576,9 +576,9 @@ var matchImg  = function (rx, ry, pix, mask) {
     return flag;
 };
 
-var skip = function (start, end, y) {
-    var flag = 0;
-    for (var i = 0; i < start.length; ++i) {
+let skip = function (start, end, y) {
+    let flag = 0;
+    for (let i = 0; i < start.length; ++i) {
         if (y >= start[i] && y <= end[i]) {
             flag = 1;
             break;
@@ -587,12 +587,12 @@ var skip = function (start, end, y) {
     return flag;
 };
 
-var sort = function (sorter, captcha) {
-    for (var i = 0; i < sorter.length; ++i) {
-        var less = sorter[i];
-        var swap = 0;
-        var ls = i;
-        for (var k = i; k < sorter.length; k++) {
+const sort = function (sorter, captcha) {
+    for (let i = 0; i < sorter.length; ++i) {
+        let less = sorter[i];
+        let swap = 0;
+        let ls = i;
+        for (let k = i; k < sorter.length; k++) {
             if (sorter[k] < less) {
                 less = sorter[k];
                 ls = k;
@@ -600,10 +600,10 @@ var sort = function (sorter, captcha) {
             }
         }
         if (swap) {
-            var temps = sorter[i];
+            let temps = sorter[i];
             sorter[i] = sorter[ls];
             sorter[ls] = temps;
-            var tempc = captcha[i];
+            let tempc = captcha[i];
             captcha[i] = captcha[ls];
             captcha[ls] = tempc;
         }
@@ -611,10 +611,10 @@ var sort = function (sorter, captcha) {
 };
 
 module.exports.getPixelMapFromBuffer = function(bitmapBuffer) {
-    var pixelMap = [];
-    var subArray = [];
-    var row = 0;
-    for (var i = bitmapBuffer.length - (25 * 132), r = 0; i < bitmapBuffer.length; ++i, ++r) {
+    let pixelMap = [];
+    let subArray = [];
+    let row = 0;
+    for (let i = bitmapBuffer.length - (25 * 132), r = 0; i < bitmapBuffer.length; ++i, ++r) {
         if (Math.floor(r / 132) !== row) {
             row = Math.floor(r / 132);
             pixelMap.push(subArray);
@@ -628,8 +628,8 @@ module.exports.getPixelMapFromBuffer = function(bitmapBuffer) {
 };
 
 module.exports.getCaptcha = function(img) {
-    var temp = 0;
-    var x, y;
+    let temp = 0;
+    let x, y;
     for (x = 0; x < 25; ++x) {
         for (y = 0; y < 132; ++y) {
             temp = img[x][y];
@@ -641,15 +641,15 @@ module.exports.getCaptcha = function(img) {
 
         }
     }
-    var yoff = 2;
-    var xoff = 2;
-    var skipstart = [];
-    var skipend = [];
-    var sorter = [];
-    var captcha = [];
-    for (var l = 0; l < 36; ++l) {
-        var mask = keys[order[l]];
-        var f = 0;
+    let yoff = 2;
+    let xoff = 2;
+    let skipstart = [];
+    let skipend = [];
+    let sorter = [];
+    let captcha = [];
+    for (let l = 0; l < 36; ++l) {
+        let mask = keys[order[l]];
+        let f = 0;
         for (x = xoff; x < 25; ++x) {
             for (y = yoff; y < 132; ++y) {
                 if (skip(skipstart, skipend, y)) {
@@ -671,8 +671,8 @@ module.exports.getCaptcha = function(img) {
         }
     }
     sort(sorter, captcha);
-    var res = "";
-    for (var i = 0; i < captcha.length; ++i) {
+    let res = "";
+    for (let i = 0; i < captcha.length; ++i) {
         res = res + captcha[i];
     }
 

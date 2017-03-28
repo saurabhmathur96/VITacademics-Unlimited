@@ -1,7 +1,9 @@
-var cheerio = require('cheerio');
-var moment = require('moment');
-var momentTimezone = require('moment-timezone');
-var underscore = require('underscore');
+const cheerio = require('cheerio');
+const moment = require('moment');
+const momentTimezone = require('moment-timezone');
+const underscore = require('underscore');
+const Promise = require('bluebird');
+
 const _gradeValue = {
   'S': 10,
   'A': 9,

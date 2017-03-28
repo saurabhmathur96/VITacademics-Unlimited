@@ -1,11 +1,11 @@
-var Zombie = require('zombie');
+const Zombie = require('zombie');
 
 
 /**
  * Gets HTML markup doing get request
  */
 module.exports.get = (uri, cookies) => {
-  var browser = new Zombie();
+  let browser = new Zombie();
 
   browser.cookies = cookies;
 
@@ -27,7 +27,7 @@ module.exports.get = (uri, cookies) => {
  * Untested
  */
 module.exports.post = (uri, cookies, form) => {
-  var browser = new Zombie();
+  let browser = new Zombie();
 
   browser.cookies = cookies;
 
