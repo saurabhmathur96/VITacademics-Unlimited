@@ -4,9 +4,10 @@ var attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
 var schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
 var academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
 var express = require('express');
+var moment = require('moment-timezone');
 var router = express.Router();
 
-var authentication = require(path.join(__dirname,'..', 'middleware', 'authentication'));
+var authentication = require(path.join(__dirname, '..', 'middleware', 'authentication'));
 
 /**
  * POST /refresh
@@ -15,10 +16,11 @@ var authentication = require(path.join(__dirname,'..', 'middleware', 'authentica
  */
 
 const semester = 'WS';
+const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY')
 
 const uri = {
   attendance: {
-    report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}`,
+    report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
     details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
   },
   schedule: {
@@ -28,6 +30,16 @@ const uri = {
   marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
 };
 router.post('/', authentication, (req, res, next) => {
+  const fetchAttendanceDetails = (courses) => {
+    return Promise.all(courses.map(course => {
+      return requests.post(uri.attendance.details, req.cookies, course.form)
+        .then(attendance.parseDetails).then((details) => {
+          course.details = details;
+          return course;
+        });
+    }));
+  }
+
   var tasks = [
     requests.get(uri.attendance.report, req.cookies).then(attendance.parseReport).then(fetchAttendanceDetails),
     requests.get(uri.schedule.timetable, req.cookies).then(schedule.parseDaily),
@@ -45,16 +57,6 @@ router.post('/', authentication, (req, res, next) => {
     }).catch(err => res.status(500).json({ message: err }));
 });
 
-function fetchAttendanceDetails(courses) {
-  Promise.all(courses.map(course =>
-    requests.post(uri.attendance.details, req.cookie, {
-      sem: course.semester,
-      from_date: course.from_date,
-      classnbr: course.class_number,
-      crscd: course.crscd,
-      crstp: course.crstp
-    }).then(attendance.parseDetails)
-  ));
-}
+
 
 module.exports = router;

@@ -1,6 +1,5 @@
 var Zombie = require('zombie');
 var parser = require('./CaptchaParser');
-var Promise = require('bluebird');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -9,7 +8,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
  */
 module.exports = (username, password) => {
   var browser = new Zombie();
-
 
   browser.on('response', function (request, response) {
     browser.response = response;
@@ -28,7 +26,7 @@ module.exports = (username, password) => {
             reject(new Error(`Authentication Failed. Connection Error. (Status ${response.status})`))
         })
         .then(arrayBuffer => new Buffer(arrayBuffer))
-        .then(function (buffer) {
+        .then((buffer) => {
           var pixelMap = parser.getPixelMapFromBuffer(buffer);
           var captcha = parser.getCaptcha(pixelMap);
 
@@ -38,12 +36,13 @@ module.exports = (username, password) => {
             .pressButton('Login', function () {
               var regCookie = browser.getCookie('logstudregno');
               if (username != regCookie) {
-                reject(new Error('Authentication Failed. Wrong Credentials.'));
+                throw new Error('Authentication Failed. Wrong Credentials.');
               } else {
+
                 resolve(browser.cookies);
               }
             });
-        });
+        }).catch(err => reject(err))
 
     });
   });

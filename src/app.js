@@ -9,6 +9,8 @@ var refresh = require(path.join(__dirname, 'routes', 'refresh'));
 var grades = require(path.join(__dirname, 'routes', 'grades'));
 var spotlight = require(path.join(__dirname, 'routes', 'spotlight'));
 
+var authentication = require(path.join(__dirname, 'middleware', 'authentication'));
+
 var app = express();
 
 
@@ -17,6 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 
+app.use(authentication);
 app.use('/refresh', refresh);
 app.use('/grades', grades);
 app.use('/spotlight', spotlight);
@@ -35,6 +38,7 @@ app.use((err, req, res, next) => {
   let error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
+  console.error(err.stack)
   res.status(err.status || 500);
   res.json({
     error: error,

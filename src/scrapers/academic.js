@@ -1,4 +1,42 @@
 var cheerio = require('cheerio');
+var moment = require('moment');
+var momentTimezone = require('moment-timezone');
+var underscore = require('underscore');
+const _gradeValue = {
+  'S': 10,
+  'A': 9,
+  'B': 8,
+  'C': 7,
+  'D': 6,
+  'E': 5,
+  'F': 0,
+  'P': true
+}
+function gradeValue(c) {
+  if (c in _gradeValue) {
+    return _gradeValue[c];
+  } else {
+    return null;
+  }
+}
+
+const _gradeCharacter = {
+  0: 'S',
+  1: 'A',
+  2: 'B',
+  3: 'C',
+  4: 'D',
+  5: 'E',
+  6: 'F',
+  7: 'N',
+}
+function gradeCharacter (i) {
+  if (i >= 0 && i <= 7) {
+    return _gradeCharacter[i];
+  } else {
+    return null;
+  }
+}
 
 /**
  * history.parse
@@ -8,8 +46,89 @@ var cheerio = require('cheerio');
  */
 
 module.exports.parseHistory = (html) => {
-  //
-  // Some magic here
+
+  let data = {
+    grades: [],
+    semester_wise: {},
+    grade_count: []
+  };
+  return new Promise((resolve, reject) => {
+    try {
+      // Scraping Grades
+      const baseScraper = cheerio.load(html);
+      const gradesScraper = cheerio.load(baseScraper('table table').eq(1).html());
+      gradesScraper('tr').each(function (i, elem) {
+        if (i > 0) {
+          const attrs = baseScraper(this).children('td');
+          const exam_held = moment(attrs.eq(6).text(), 'MMM-YYYY').format('YYYY-MM');
+          const grade = attrs.eq(5).text();
+          const credits = parseInt(attrs.eq(4).text());
+          data.grades.push({
+            'course_code': attrs.eq(1).text(),
+            'course_title': attrs.eq(2).text(),
+            'course_type': attrs.eq(3).text(),
+            'credits': credits,
+            'grade': grade,
+            'exam_held': exam_held,
+            'result_date': moment(attrs.eq(7).text(), 'DD-MMM-YYYY').isValid() ? moment(attrs.eq(7).text(), 'DD-MMM-YYYY').format('YYYY-MM-DD') : null,
+            'option': attrs.eq(8).text()
+          });
+
+          // Computing Semester-Wise GPA
+          if (gradeValue(grade) === true) {
+            if (data.semester_wise[exam_held]) {
+              data.semester_wise[exam_held].credits = data.semester_wise[exam_held].credits + credits;
+            }
+            else {
+              data.semester_wise[exam_held] = {
+                exam_held: exam_held,
+                credits: credits,
+                gpa: 0.0
+              };
+            }
+          }
+          else if (gradeValue(grade)) {
+            if (data.semester_wise[exam_held]) {
+              data.semester_wise[exam_held].gpa = Math.round((data.semester_wise[exam_held].gpa * data.semester_wise[exam_held].credits + gradeValue(grade) * credits) / (data.semester_wise[exam_held].credits + credits) * 1e2) / 1e2;
+              data.semester_wise[exam_held].credits = data.semester_wise[exam_held].credits + credits;
+            }
+            else {
+              data.semester_wise[exam_held] = {
+                exam_held: exam_held,
+                credits: credits,
+                gpa: gradeValue(grade)
+              };
+            }
+          }
+        }
+      });
+
+      // Convert semester-wise object to array
+      data.semester_wise = underscore.values(data.semester_wise);
+
+      // Scraping the credit summary
+      const creditsTable = baseScraper('table table').eq(2).children('tr').eq(1);
+      data.credits_registered = parseInt(creditsTable.children('td').eq(0).text());
+      data.credits_earned = parseInt(creditsTable.children('td').eq(1).text());
+      data.cgpa = parseFloat(creditsTable.children('td').eq(2).text().trim());
+
+      // Scraping the grade summary information
+      const gradeSummaryTable = baseScraper('table table').eq(3).children('tr').eq(1);
+
+      const forEachGradeCount = function (i, elem) {
+        data.grade_count.push({
+          count: parseInt(gradeSummaryTable.children('td').eq(i).text()),
+          value: gradeValue(gradeCharacter(i)),
+          grade: gradeCharacter(i)
+        });
+      };
+      gradeSummaryTable.children('td').each(forEachGradeCount);
+      resolve(data);
+    }
+    catch (ex) {
+      reject(ex);
+    }
+  });
 }
 
 
