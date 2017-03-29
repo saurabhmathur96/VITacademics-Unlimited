@@ -99,14 +99,13 @@ describe('Unit Tests', () => {
   });
 
   it('scrape spotlight', (done) => {
-    let filePath = path.join('test', 'data', 'stud_home.html');
+    let filePath = path.join('test', 'data', 'include_spotlight.html');
     let html = fs.readFileSync(filePath, 'utf8');
     let task = home.parseSpotlight(html);
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
       expect(result).to.be.instanceof(Array);
-
 
       done();
     }).catch(err => { throw err; })
