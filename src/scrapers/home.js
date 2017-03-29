@@ -1,5 +1,6 @@
 var cheerio = require('cheerio');
 var cheerioTableparser = require('cheerio-tableparser');
+const Promise = require('bluebird');
 
 /**
  * home.parseMessages
