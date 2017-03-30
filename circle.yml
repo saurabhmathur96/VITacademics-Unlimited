@@ -2,7 +2,7 @@ machine:
   node:
     version: stable
   services:
-    - mongodb
+    - mongod
 deployment:
   production:
     branch: master
