@@ -36,6 +36,7 @@ router.post('/', (req, res, next) => {
       return requests.post(uri.attendance.details, req.cookies, course.form)
         .then(attendance.parseDetails).then((details) => {
           course.details = details;
+          delete course.form;
           return course;
         });
     }));

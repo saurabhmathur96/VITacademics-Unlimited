@@ -1,6 +1,8 @@
 machine:
   node:
     version: stable
+  services:
+    - mongodb
 deployment:
   production:
     branch: master
