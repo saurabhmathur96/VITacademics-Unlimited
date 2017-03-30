@@ -5,4 +5,4 @@ deployment:
   production:
     branch: master
     commands:
-      - ./deploy_ec2.sh
+      - sh ./deploy_ec2.sh
