@@ -1,17 +1,18 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
 var bodyParser = require('body-parser');
-var expressValidator = require('express-validator');
+const expressValidator = require('express-validator');
 
 
-var refresh = require(path.join(__dirname, 'routes', 'refresh'));
-var grades = require(path.join(__dirname, 'routes', 'grades'));
-var spotlight = require(path.join(__dirname, 'routes', 'spotlight'));
+const refresh = require(path.join(__dirname, 'routes', 'refresh'));
+const grades = require(path.join(__dirname, 'routes', 'grades'));
+const spotlight = require(path.join(__dirname, 'routes', 'spotlight'));
+const faculty = require(path.join(__dirname, 'routes', 'faculty'));
 
-var authentication = require(path.join(__dirname, 'middleware', 'authentication'));
+const authentication = require(path.join(__dirname, 'middleware', 'authentication'));
 
-var app = express();
+let app = express();
 
 
 app.use(logger('dev'));
@@ -19,10 +20,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 
-app.use(authentication);
-app.use('/refresh', refresh);
-app.use('/grades', grades);
-app.use('/spotlight', spotlight);
+app.use('/student', authentication);
+app.use('/student/refresh', refresh);
+app.use('/student/grades', grades);
+app.use('/student/spotlight', spotlight);
+
+
+app.use('/faculty', faculty);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

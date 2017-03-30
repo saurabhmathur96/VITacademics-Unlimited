@@ -3,13 +3,12 @@ const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
 const schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
 const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
-const express = require('express');
 const moment = require('moment-timezone');
 const Promise = require('bluebird');
+const express = require('express');
+let router = express.Router();
 
-var router = express.Router();
-
-var authentication = require(path.join(__dirname, '..', 'middleware', 'authentication'));
+const authentication = require(path.join(__dirname, '..', 'middleware', 'authentication'));
 
 /**
  * POST /refresh
@@ -31,7 +30,7 @@ const uri = {
   },
   marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
 };
-router.post('/', authentication, (req, res, next) => {
+router.post('/', (req, res, next) => {
   const fetchAttendanceDetails = (courses) => {
     return Promise.all(courses.map(course => {
       return requests.post(uri.attendance.details, req.cookies, course.form)
@@ -42,7 +41,7 @@ router.post('/', authentication, (req, res, next) => {
     }));
   }
 
-  var tasks = [
+  const tasks = [
     requests.get(uri.attendance.report, req.cookies).then(attendance.parseReport).then(fetchAttendanceDetails),
     requests.get(uri.schedule.timetable, req.cookies).then(schedule.parseDaily),
     requests.get(uri.schedule.exam, req.cookies).then(schedule.parseExam),
@@ -56,7 +55,7 @@ router.post('/', authentication, (req, res, next) => {
         'exam_schedule': results[2],
         'marks': results[3]
       })
-    }).catch(err => res.status(500).json({ message: err }));
+    }).catch(next);
 });
 
 

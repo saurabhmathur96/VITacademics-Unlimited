@@ -1,8 +1,8 @@
-var path = require('path');
-var requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
-var academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
-var express = require('express');
-var router = express.Router();
+const path = require('path');
+const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
+const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
+const express = require('express');
+let router = express.Router();
 
 /**
  * POST /grades
