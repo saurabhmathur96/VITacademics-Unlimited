@@ -1,6 +1,8 @@
 # VITAcademics-Unlimited
 VITAcademics student-login API server
 
+Find the API documentation [here](./API.md)
+
 
 ## Directory Structure
 
