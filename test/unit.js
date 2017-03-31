@@ -43,6 +43,7 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
+      console.log(JSON.stringify(result, null, 2));
       expect(result).to.be.instanceof(Object);
       expect(result).to.have.property('grades');
       expect(result).to.have.property('semester_wise');

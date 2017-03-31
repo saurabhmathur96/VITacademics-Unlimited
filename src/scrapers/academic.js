@@ -125,6 +125,10 @@ module.exports.parseHistory = (html) => {
         });
       };
       gradeSummaryTable.children('td').each(forEachGradeCount);
+
+      console.log(data.grades.length)
+      data.grades = data.grades.filter((grade) => grade.credits != null && !isNaN(grade.credits));
+      console.log(data.grades.length)
       resolve(data);
     }
     catch (ex) {

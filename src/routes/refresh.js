@@ -16,7 +16,7 @@ const authentication = require(path.join(__dirname, '..', 'middleware', 'authent
  * respond with (daily, exam) schedule, attendance and marks details
  */
 
-const semester = 'WS';
+const semester = process.env.SEM || 'WS';
 const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY')
 
 const uri = {
