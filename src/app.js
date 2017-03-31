@@ -1,49 +1,99 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var expressValidator = require('express-validator');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
+
+const Promise = require('bluebird');
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
 
 
-var refresh = require(path.join(__dirname, 'routes', 'refresh'));
-var grades = require(path.join(__dirname, 'routes', 'grades'));
-var spotlight = require(path.join(__dirname, 'routes', 'spotlight'));
 
-var authentication = require(path.join(__dirname, 'middleware', 'authentication'));
+const refresh = require(path.join(__dirname, 'routes', 'refresh'));
+const grades = require(path.join(__dirname, 'routes', 'grades'));
+const spotlight = require(path.join(__dirname, 'routes', 'spotlight'));
+const faculty = require(path.join(__dirname, 'routes', 'faculty'));
 
-var app = express();
+const authentication = require(path.join(__dirname, 'middleware', 'authentication'));
+
+let app = express();
 
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(expressValidator());
+app.use(expressValidator({
+  customValidators: {
+    isObjectId: (value) => mongodb.ObjectID.isValid(value)
+  }
+}));
 
-app.use(authentication);
-app.use('/refresh', refresh);
-app.use('/grades', grades);
-app.use('/spotlight', spotlight);
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+app.use('/student', authentication);
+app.use('/student/refresh', refresh);
+app.use('/student/grades', grades);
+app.use('/student/spotlight', spotlight);
 
-// error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  let message = err.message;
-  let error = req.app.get('env') === 'development' ? err : {};
+const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/test';
+const task = MongoClient.connect(uri, { promiseLibrary: Promise });
+task.then((db) => {
+  app.use('/faculty', (req, res, next) => {
+    req.db = db;
+    next();
+  });
 
-  // render the error page
-  console.error(err.stack)
-  res.status(err.status || 500);
-  res.json({
-    error: error,
-    message: message
-  })
-});
+  app.use('/faculty', faculty);
+
+  // catch 404 and forward to error handler
+  app.use((req, res, next) => {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+  });
+
+  // error handler
+  app.use((err, req, res, next) => {
+    // set locals, only providing error in development
+    let message = err.message;
+    let error = req.app.get('env') === 'development' ? err : {};
+
+    // console.error(err.stack)
+    res.status(err.status || 500);
+    res.json({
+      error: error,
+      message: message
+    })
+  });
+
+  console.log(`Connected to MongoDB at ${uri}`);
+
+}).catch(err => {
+  console.error(`Unable to connect to MongoDB. ${err}`);
+
+  // catch 404 and forward to error handler
+  app.use((req, res, next) => {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+  });
+
+  // error handler
+  app.use((err, req, res, next) => {
+    // set locals, only providing error in development
+    let message = err.message;
+    let error = req.app.get('env') === 'development' ? err : {};
+
+    // console.error(err.stack)
+    res.status(err.status || 500);
+    res.json({
+      error: error,
+      message: message
+    })
+  });
+})
+
+
+
 
 module.exports = app;

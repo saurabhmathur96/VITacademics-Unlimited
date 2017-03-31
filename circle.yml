@@ -1,0 +1,10 @@
+machine:
+  node:
+    version: stable
+  services:
+    - mongod
+deployment:
+  production:
+    branch: master
+    commands:
+      - sh ./deploy_ec2.sh

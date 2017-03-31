@@ -36,7 +36,7 @@ module.exports = (username, password) => {
             .pressButton('Login', function () {
               var regCookie = browser.getCookie('logstudregno');
               if (username != regCookie) {
-                throw new Error('Authentication Failed. Wrong Credentials.');
+                reject(new Error('Authentication Failed. Wrong Credentials.'));
               } else {
 
                 resolve(browser.cookies);

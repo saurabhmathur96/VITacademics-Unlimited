@@ -187,8 +187,3 @@ module.exports.parseMarks = (html) => {
 
   });
 }
-
-
-
-
-

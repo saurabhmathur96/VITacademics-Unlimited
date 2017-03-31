@@ -111,7 +111,7 @@ describe('Unit Tests', () => {
     }).catch(err => { throw err; })
   });
 
-  it('scrape messages', (done) => {
+  xit('scrape messages', (done) => {
     let filePath = path.join('test', 'data', 'stud_home.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = home.parseMessages(html);
