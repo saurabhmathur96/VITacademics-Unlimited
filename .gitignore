@@ -43,3 +43,7 @@ yarn.lock
 
 # credentials
 test/credentials.json
+
+# IDE configuration
+.idea/
+.vscode/
