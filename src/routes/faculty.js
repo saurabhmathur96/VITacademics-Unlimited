@@ -69,7 +69,6 @@ router.get('/details/:faculty_id', (req, res, next) => {
         err.status = 400;
         throw err;
       } else {
-        console.log(req.params)
         return req.params.faculty_id;
       }
     })

@@ -16,7 +16,10 @@ module.exports.parseDaily = (html, campus) => {
   return new Promise((resolve, reject) => {
     try {
       const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0]
-      const schedule = table.slice(2, table.length - 11).map((row) => {
+      const schedule = table.slice(2, table.length - 11)
+      .filter(row => (Object.keys(row).length == 15) || (Object.keys(row).length == 10))
+      .filter(row => (row[2] !== 'Sl.No.') || (row[0] !== 'Sl.No.'))
+      .map((row) => {
         if (Object.keys(row).length == 15) {
           return {
             'class_number': row[2],
