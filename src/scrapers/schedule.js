@@ -18,7 +18,6 @@ module.exports.parseDaily = (html, campus) => {
       const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0]
       const schedule = table.slice(2, table.length - 11)
       .filter(row => (Object.keys(row).length == 15) || (Object.keys(row).length == 10))
-      .filter(row => (row[2] !== 'Sl.No.') || (row[0] !== 'Sl.No.'))
       .map((row) => {
         if (Object.keys(row).length == 15) {
           return {
@@ -33,7 +32,7 @@ module.exports.parseDaily = (html, campus) => {
             'venue': row[10],
             'faculty_name': row[11],
           }
-        } else if (Object.keys(row).length == 10) {
+        } else {
           return {
             'class_number': row[0],
             'course_code': row[1],
@@ -49,6 +48,7 @@ module.exports.parseDaily = (html, campus) => {
 
         }
       })
+      .filter((course) => !isNaN(course.class_number))
       resolve(schedule);
     } catch (ex) {
       reject(ex);
