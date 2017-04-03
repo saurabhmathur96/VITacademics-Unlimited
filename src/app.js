@@ -14,6 +14,7 @@ const refresh = require(path.join(__dirname, 'routes', 'refresh'));
 const grades = require(path.join(__dirname, 'routes', 'grades'));
 const spotlight = require(path.join(__dirname, 'routes', 'spotlight'));
 const faculty = require(path.join(__dirname, 'routes', 'faculty'));
+const messages = require(path.join(__dirname, 'routes', 'messages'));
 
 const authentication = require(path.join(__dirname, 'middleware', 'authentication'));
 
@@ -34,6 +35,7 @@ app.use('/student', authentication);
 app.use('/student/refresh', refresh);
 app.use('/student/grades', grades);
 app.use('/student/spotlight', spotlight);
+app.use('/student/messages', messages);
 
 const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/test';
 const task = MongoClient.connect(uri, { promiseLibrary: Promise });

@@ -96,9 +96,22 @@ describe('Integration Tests', () => {
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-          expect(res.body).to.be.instanceof(Array);
-          expect(res.body.length).to.be.greaterThan(0);
+         expect(res.body).to.be.instanceof(Object);
+         expect(res.body).to.have.property("spotlight")
+         expect(res.body["spotlight"]).to.be.instanceof(Array);
+          done();
+        });
+    });
 
+    it('POST /student/messages', (done) => {
+      request.post('/student/messages')
+        .send(credentials)
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.not.exist;
+         expect(res.body).to.be.instanceof(Object);
+         expect(res.body).to.have.property("messages")
+         expect(res.body["messages"]).to.be.instanceof(Array);
           done();
         });
     });

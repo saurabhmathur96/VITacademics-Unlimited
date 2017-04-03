@@ -1,6 +1,8 @@
 const cheerio = require('cheerio');
 const cheerioTableparser = require('cheerio-tableparser');
 const Promise = require('bluebird');
+const tabletojson = require('tabletojson')
+const _ = require('lodash');
 
 /**
  * home.parseMessages
@@ -11,8 +13,28 @@ const Promise = require('bluebird');
 
 
 module.exports.parseMessages = (html) => {
-  //
-  // Some magic here
+  return new Promise((resolve, reject) => {
+    try{
+        const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[1].splice(1);
+        table.pop();
+
+        let result = table.map((row) => ({
+            faculty: row[0],
+            subject: row[1],
+            message: row[2],
+            time: row[3]
+          })
+        );
+
+        result = _.uniqBy(result, 'message');
+        resolve({
+        messages: result,
+        refreshed_on: new Date()
+        });
+    }catch(err){
+      reject(err);
+    }
+  })
 };
 
 /**
@@ -50,7 +72,10 @@ module.exports.parseSpotlight = (html) => {
           });
         }
       });
-      resolve(result);
+      resolve({
+        spotlight: result,
+        refreshed_on: new Date()
+        });
     }
     catch (ex){
       reject(ex);

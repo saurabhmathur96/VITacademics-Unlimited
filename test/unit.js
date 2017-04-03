@@ -105,21 +105,23 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Array);
-
+      expect(result).to.be.instanceof(Object);
+      expect(result).to.have.property("spotlight")
+      expect(result["spotlight"]).to.be.instanceof(Array);
       done();
     }).catch(err => { throw err; })
   });
 
-  xit('scrape messages', (done) => {
-    let filePath = path.join('test', 'data', 'stud_home.html')
+  it('scrape messages', (done) => {
+    let filePath = path.join('test', 'data', 'class_message_view.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = home.parseMessages(html);
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Array);
-
+      expect(result).to.be.instanceof(Object);
+      expect(result).to.have.property("messages")
+      expect(result["messages"]).to.be.instanceof(Array);
       done();
     }).catch(err => { throw err; })
   });
