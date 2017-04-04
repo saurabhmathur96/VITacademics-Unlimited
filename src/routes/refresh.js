@@ -17,20 +17,9 @@ const authentication = require(path.join(__dirname, '..', 'middleware', 'authent
  */
 
 const semester = process.env.SEM || 'WS';
-const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY')
 
-const uri = {
-  attendance: {
-    report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
-    details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
-  },
-  schedule: {
-    timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
-    exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
-  },
-  marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
-};
 router.post('/', (req, res, next) => {
+
   const fetchAttendanceDetails = (courses) => {
     return Promise.all(courses.map(course => {
       return requests.post(uri.attendance.details, req.cookies, course.form)
@@ -41,6 +30,20 @@ router.post('/', (req, res, next) => {
         });
     }));
   }
+
+  const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY')
+
+  const uri = {
+    attendance: {
+      report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
+      details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
+    },
+    schedule: {
+      timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
+      exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
+    },
+    marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
+  };
 
   const tasks = [
     requests.get(uri.attendance.report, req.cookies).then(attendance.parseReport).then(fetchAttendanceDetails),
