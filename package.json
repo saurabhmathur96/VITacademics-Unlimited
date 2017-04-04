@@ -12,6 +12,7 @@
     "chai": "^3.5.0",
     "cheerio": "^0.22.0",
     "cheerio-tableparser": "^1.0.1",
+    "compression": "^1.6.2",
     "debug": "~2.6.0",
     "express": "~4.14.1",
     "express-validator": "^3.1.2",
