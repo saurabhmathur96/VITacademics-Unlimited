@@ -1,0 +1,11 @@
+{
+  "id": "/FacultyMessage",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "faculty": { "type": "string", "required": "true"  },
+    "subject": { "type": "string", "required": "true"  },
+    "message": { "type": "string", "required": "true"  },
+    "time": { "type": "string", "required": "true"  }
+  }
+}

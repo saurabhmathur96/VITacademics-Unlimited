@@ -1,0 +1,13 @@
+{
+  "id": "/Grades",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "grades": { "type": "array", "items": { "$ref": "GradeDetail" }, "required": "true"  },
+    "semester_wise": { "type": "array", "items": { "$ref": "SemesterGradeDetail" }, "required": "true"  },
+    "grade_count": { "type": "array", "items": { "$ref": "GradeCount" }, "required": "true"  },
+    "credits_registered": { "type": "number", "required": "true"  },
+    "credits_earned": { "type": "number", "required": "true"  },
+    "cgpa": { "type": "number", "required": "true"  }
+  }
+}

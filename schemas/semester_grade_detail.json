@@ -1,0 +1,10 @@
+{
+  "id": "/SemesterGradeDetail",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "exam_held": { "type": "string", "required": "true"  },
+    "credits": { "type": "integer", "required": "true"  },
+    "gpa": { "type": "number", "required": "true"  }
+  }
+}

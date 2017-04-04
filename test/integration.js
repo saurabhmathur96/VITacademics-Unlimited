@@ -1,16 +1,33 @@
 var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
+var Validator = require('jsonschema').Validator;
+var Promise = require('bluebird');
 
 var supertest = require('supertest');
 var app = require(path.join(__dirname, '..', 'src', 'app'));
 var request = supertest(app);
 
-var Promise = require('bluebird');
-var mongodb = require('mongodb');
-var MongoClient = mongodb.MongoClient;
 
 
+// Power up the jsonschema validator
+var validator = new Validator();
+
+// Read and load each schema file from schemas/
+var schemaFiles = fs.readdirSync(path.join(__dirname, '..', 'schemas'));
+schemaFiles.forEach((fileName) => {
+  try {
+    let filePath = path.join(__dirname, '..', 'schemas', fileName);
+    let schema = JSON.parse(fs.readFileSync(filePath));
+    validator.addSchema(schema);
+
+  } catch (ex) {
+    console.error(`${fileName} contains invalid JSON.`);
+  }
+});
+
+
+// Load test vtop credentials
 try {
   var credentials = JSON.parse(fs.readFileSync(path.join(__dirname, 'credentials.json'), 'utf-8'));
 } catch (ex) {
@@ -27,29 +44,30 @@ describe('Integration Tests', () => {
         .end((err, res) => {
           expect(err).to.not.exist;
 
+          let r;
+
           expect(res.body).to.have.property('attendance');
-          expect(res.body.attendance).to.be.instanceof(Array);
+          r = validator.validate(res.body.attendance, { "type": "array", "items": { "$ref": "/Attendance" } }, { nestedErrors: true });
+          expect(r.valid).to.be.true;
           expect(res.body.attendance.length).to.be.above(0);
 
           expect(res.body).to.have.property('timetable');
-          expect(res.body.timetable).to.be.instanceof(Array);
+          r = validator.validate(res.body.timetable, { "type": "array", "items": { "$ref": "/DailySchedule" } }, { nestedErrors: true });
+          expect(r.valid).to.be.true;
           expect(res.body.timetable.length).to.be.above(0);
 
-
           expect(res.body).to.have.property('exam_schedule');
-          expect(res.body.exam_schedule).to.be.instanceof(Object);
-          expect(res.body.exam_schedule).to.have.property('CAT - I');
-          expect(res.body.exam_schedule['CAT - I']).to.be.instanceof(Array);
-          expect(res.body.exam_schedule['CAT - I'].length).to.be.above(0);
-          expect(res.body.exam_schedule).to.have.property('CAT - II');
-          expect(res.body.exam_schedule['CAT - II']).to.be.instanceof(Array);
-          expect(res.body.exam_schedule['CAT - II'].length).to.be.above(0);
-          expect(res.body.exam_schedule).to.have.property('Final Assessment Test');
-          expect(res.body.exam_schedule['Final Assessment Test']).to.be.instanceof(Array);
-          expect(res.body.exam_schedule['Final Assessment Test'].length).to.be.above(0);
+          let exams = ['CAT - I', 'CAT - II', 'Final Assessment Test'];
+          for (let i = 0; i < exams.length; i++) {
+            expect(res.body.exam_schedule).to.have.property(exams[i]);
+            r = validator.validate(res.body.exam_schedule[exams[i]], { "type": "array", "items": { "$ref": "/ExamSchedule" } }, { nestedErrors: true });
+            expect(r.valid).to.be.true;
+            expect(res.body.exam_schedule[exams[i]].length).to.be.above(0);
+          }
 
           expect(res.body).to.have.property('marks');
-          expect(res.body.marks).to.be.instanceof(Array);
+          r = validator.validate(res.body.marks, { "type": "array", "items": { "$ref": "/Marks" } }, { nestedErrors: true });
+          expect(r.valid).to.be.true;
           expect(res.body.marks.length).to.be.above(0);
 
 
@@ -63,9 +81,8 @@ describe('Integration Tests', () => {
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-          expect(res.body).to.be.instanceof(Object);
-          expect(res.body).to.have.property('spotlight')
-          expect(res.body['spotlight']).to.be.instanceof(Array);
+          let r = validator.validate(res.body.spotlight, { "type": "array", "items": { "$ref": "/SpotlightItem" } }, { nestedErrors: true });
+          expect(r.valid).to.be.true;
           done();
         });
     });
@@ -76,9 +93,8 @@ describe('Integration Tests', () => {
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-          expect(res.body).to.be.instanceof(Object);
-          expect(res.body).to.have.property('messages')
-          expect(res.body['messages']).to.be.instanceof(Array);
+          let r = validator.validate(res.body.messages, { "type": "array", "items": { "$ref": "/FacultyMessage" } }, { nestedErrors: true });
+          expect(r.valid).to.be.true;
           done();
         });
     });
@@ -89,17 +105,8 @@ describe('Integration Tests', () => {
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-          expect(res.body).to.have.property('grades');
-          expect(res.body.grades).to.be.instanceof(Array);
-          expect(res.body.grades.length).to.be.greaterThan(0);
-
-          expect(res.body).to.have.property('semester_wise');
-          expect(res.body.grades).to.be.instanceof(Object);
-
-          expect(res.body).to.have.property('grade_count');
-          expect(res.body.grade_count).to.be.instanceof(Array);
-          expect(res.body.grade_count.length).to.be.greaterThan(0);
-
+          let r = validator.validate(res.body, { "$ref": "/Grades" });
+          expect(r.valid).to.be.true
           done();
         });
     });
@@ -111,8 +118,8 @@ describe('Integration Tests', () => {
       .end((err, res) => {
         expect(err).to.not.exist;
         expect(res.body).to.have.property('faculty');
-        expect(res.body.faculty).to.be.instanceof(Array);
-        expect(res.body.faculty.length).to.be.greaterThan(0);
+        let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/Faculty" } }, { nestedErrors: true });
+        expect(r.valid).to.be.true;
         done();
       });
   });

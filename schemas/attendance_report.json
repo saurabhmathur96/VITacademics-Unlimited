@@ -1,0 +1,29 @@
+{
+  "id": "/AttendanceReport",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "course_code": { "type": "string", "required": "true"  },
+    "course_title": { "type": "string", "required": "true"  },
+    "course_type": { "type": "string", "required": "true"  },
+    "slot": { "type": "string", "required": "true"  },
+    "registration_date": { "type": "string", "required": "true"  },
+    "attended_classes": { "type": "string", "required": "true"  },
+    "total_classes": { "type": "string", "required": "true"  },
+    "attendance_percentage": { "type": "string", "required": "true"  },
+    "status": { "type": "string", "required": "true"  },
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "semcode": { "type": "string", "required": "true"  },
+        "classnbr": { "type": "string", "required": "true"  },
+        "from_date": { "type": "string", "required": "true"  },
+        "to_date": { "type": "string", "required": "true"  },
+        "crscd": { "type": "string", "required": "true"  },
+        "crstp": { "type": "string", "required": "true"  }
+
+      }
+    }
+  }
+}

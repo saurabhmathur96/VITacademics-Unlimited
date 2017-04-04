@@ -18,7 +18,7 @@ const uri = {
 router.post('/', (req, res, next) => {
   const task = requests.get(uri.spotlight, req.cookies).then(home.parseSpotlight);
   task
-    .then(result => res.json(result))
+    .then(result => res.json({ 'spotlight': result }))
     .catch(next);
 });
 

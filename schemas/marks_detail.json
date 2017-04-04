@@ -1,0 +1,14 @@
+{
+  "id": "/MarksDetail",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": { "type": "string", "required": "true"  },
+    "max_marks": { "type": "number", "required": "true"  },
+    "weightage": { "type": "number", "required": "true"  },
+    "conducted_on": { "type": "string", "required": "true"  },
+    "status": { "type": "string", "required": "true"  },
+    "scored_marks": { "required": "false"  },
+    "scored_percentage": { "required": "false" }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "/ExamSchedule",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "course_code": { "type": "string", "required": "true"  },
+    "course_name": { "type": "string", "required": "true"  },
+    "course_type": { "type": "string", "required": "true"  },
+    "slot": { "type": "string", "required": "true"  },
+    "exam_date": { "type": "string", "required": "true"  },
+    "week_day": { "type": "string", "required": "true"  },
+    "session": { "type": "string", "required": "true"  },
+    "time": { "type": "string", "required": "true"  },
+    "venue": { "type": "string", "required": "true"  },
+    "table_number": { "type": "string", "required": "true"  }
+  }
+}

@@ -10,6 +10,28 @@
       "intercom": "2497",
       "email": "tjayabarathi@vit.ac.in",
       "room": "TT-241-241"
+    },
+    {
+      "empid": 10021,
+      "division": "Department of Environmental and Water Resources Engineering (SCALE)",
+      "school": "School of Civil and Chemical Engineering",
+      "name": "PORCHELVAN P",
+      "designation": "Senior Professor",
+      "open_hours": [
+        {
+          "start_time": "11:30 AM",
+          "day": "Mon",
+          "end_time": "12:30 PM"
+        },
+        {
+          "start_time": "11:30 AM",
+          "day": "Tue",
+          "end_time": "12:30 PM"
+        }
+      ],
+      "intercom": "0",
+      "email": "pporchelvan@vit.ac.in",
+      "room": "GDN-115-115"
     }
   ]
 }

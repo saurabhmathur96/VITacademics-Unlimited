@@ -1,0 +1,15 @@
+{
+  "id": "/GradeDetail",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "course_code": { "type": "string", "required": "true"  },
+    "course_title": { "type": "string", "required": "true"  },
+    "course_type": { "type": "string", "required": "true"  },
+    "credits": { "type": "integer", "required": "true"  },
+    "grade": { "type": "string", "required": "true"  },
+    "exam_held": { "type": "string", "required": "true"  },
+    "result_date": { "type": "string", "required": "true"  },
+    "option": { "type": "string", "required": "true"  }
+  }
+}

@@ -20,7 +20,7 @@ const uri = {
 router.post('/', (req, res, next) => {
   const task = requests.get(uri.messages, req.cookies).then(home.parseMessages);
   task
-    .then(result => res.json(result))
+    .then(result => res.json({ 'messages': result }))
     .catch(next);
 });
 

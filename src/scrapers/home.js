@@ -28,10 +28,7 @@ module.exports.parseMessages = (html) => {
       });
 
       result = _.uniqBy(result, 'message');
-      resolve({
-        messages: result,
-        refreshed_on: new Date().toUTCString()
-      });
+      resolve(result);
     } catch (err) {
       reject(err);
     }
@@ -73,10 +70,7 @@ module.exports.parseSpotlight = (html) => {
           });
         }
       });
-      resolve({
-        spotlight: result,
-        refreshed_on: new Date()
-      });
+      resolve(result);
     }
     catch (ex) {
       reject(ex);

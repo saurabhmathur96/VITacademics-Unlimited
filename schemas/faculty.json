@@ -1,0 +1,28 @@
+{
+  "id": "/Faculty",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "empid": { "type": "integer", "required": "true"  },
+    "division": { "type": "string", "required": "true"  },
+    "school": { "type": "string", "required": "true"  },
+    "name": { "type": "string", "required": "true"  },
+    "designation": { "type": "string", "required": "true"  },
+    "intercom": { "type": "string", "required": "true"  },
+    "email": { "type": "string", "required": "true"  },
+    "room": { "type": "string", "required": "true"  },
+    "open_hours": {
+      "type": "array",
+      "required": "true",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "start_time": { "type": "string", "required": "true"  },
+          "day": { "type": "string", "required": "true"  },
+          "end_time": { "type": "string", "required": "true"  }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "/Attendance",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "course_code": { "type": "string", "required": "true"  },
+    "course_title": { "type": "string", "required": "true"  },
+    "course_type": { "type": "string", "required": "true"  },
+    "slot": { "type": "string", "required": "true"  },
+    "registration_date": { "type": "string", "required": "true"  },
+    "attended_classes": { "type": "string", "required": "true"  },
+    "total_classes": { "type": "string", "required": "true"  },
+    "attendance_percentage": { "type": "string", "required": "true"  },
+    "status": { "type": "string", "required": "true"  },
+    "details": {
+      "type": "array",
+      "items": { "$ref": "AttendanceDetail" },
+      "required": "true"
+    }
+  }
+}

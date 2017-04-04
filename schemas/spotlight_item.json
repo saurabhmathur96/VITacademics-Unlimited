@@ -1,0 +1,19 @@
+{
+  "id": "/SpotlightItem",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": { "type": "string", "required": "true"  },
+    "data": {
+      "type": "array",
+      "required": "true",
+      "items": {
+        "type": "object",
+        "properties": {
+          "link": { "type": "string", "required": "true"  },
+          "text": { "type": "string", "required": "true"  }
+        }
+      }
+    }
+  }
+}

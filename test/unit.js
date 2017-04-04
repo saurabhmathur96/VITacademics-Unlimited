@@ -1,13 +1,30 @@
 var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
-var Promise = require('bluebird')
+var Promise = require('bluebird');
+var Validator = require('jsonschema').Validator;
 
 var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
 var attendance = require(path.join(__dirname, '..', 'src', 'scrapers', 'attendance'));
 var schedule = require(path.join(__dirname, '..', 'src', 'scrapers', 'schedule'));
 var academic = require(path.join(__dirname, '..', 'src', 'scrapers', 'academic'));
 var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
+
+// Power up the jsonschema validator
+var validator = new Validator();
+
+// Read and load each schema file from schemas/
+var schemaFiles = fs.readdirSync(path.join(__dirname, '..', 'schemas'));
+schemaFiles.forEach((fileName) => {
+  try {
+    let filePath = path.join(__dirname, '..', 'schemas', fileName);
+    let schema = JSON.parse(fs.readFileSync(filePath));
+    validator.addSchema(schema);
+
+  } catch (ex) {
+    console.error(`${fileName} contains invalid JSON.`);
+  }
+});
 
 describe('Unit Tests', () => {
 
@@ -18,9 +35,8 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Array);
-
-
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AttendanceReport" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })
   });
@@ -31,7 +47,8 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceof(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Array);
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AttendanceDetail" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })
   });
@@ -43,15 +60,8 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Object);
-      expect(result).to.have.property('grades');
-      expect(result).to.have.property('semester_wise');
-      expect(result).to.have.property('grade_count');
-
-      expect(result.grades).to.be.instanceOf(Array);
-      expect(result.semester_wise).to.be.instanceOf(Object);
-      expect(result.grade_count).to.be.instanceOf(Array);
-
+      let r = validator.validate(result, { "$ref": "/Grades" });
+      expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })
   });
@@ -62,7 +72,8 @@ describe('Unit Tests', () => {
     let task = academic.parseMarks(html);
     expect(task).to.be.instanceOf(Promise);
     task.then(result => {
-      expect(result).to.be.instanceof(Array);
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/Marks" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })
   });
@@ -74,7 +85,8 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Array);
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/DailySchedule" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })
   });
@@ -86,14 +98,13 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Object);
-      expect(result).to.have.property('CAT - I')
-      expect(result).to.have.property('CAT - II')
-      expect(result).to.have.property('Final Assessment Test')
+      let exams = ['CAT - I', 'CAT - II', 'Final Assessment Test'];
+      for (let i=0; i<exams.length; i++) {
+        expect(result).to.have.property(exams[i]);
+        let r = validator.validate(result[exams[i]], { "type": "array", "items": { "$ref": "/ExamSchedule" } }, { nestedErrors: true });
+        expect(r.valid).to.be.true;
+      }
 
-      expect(result['CAT - I']).to.be.instanceof(Array);
-      expect(result['CAT - II']).to.be.instanceof(Array);
-      expect(result['Final Assessment Test']).to.be.instanceof(Array);
       done();
     }).catch(err => { throw err; })
   });
@@ -105,14 +116,9 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Object);
-      expect(result).to.have.property('spotlight')
-      expect(result.spotlight).to.be.instanceof(Array);
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/SpotlightItem" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
 
-      for (let i = 0; i < result.spotlight.length; i++) {
-        expect(result.spotlight[i]).to.have.property('title');
-        expect(result.spotlight[i]).to.have.property('data');
-      }
 
       done();
     }).catch(err => { throw err; })
@@ -125,15 +131,11 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      expect(result).to.be.instanceof(Object);
-      expect(result).to.have.property('messages')
-      expect(result.messages).to.be.instanceof(Array);
-      for (let i = 0; i < result.messages.length; i++) {
-        expect(result.messages[i]).to.have.property('faculty');
-        expect(result.messages[i]).to.have.property('subject');
-        expect(result.messages[i]).to.have.property('message')
-        expect(result.messages[i]).to.have.property('time')
-      }
+
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/FacultyMessage" } }, { nestedErrors: true });
+
+      expect(r.valid).to.be.true;
+
       done();
     }).catch(err => { throw err; })
   });

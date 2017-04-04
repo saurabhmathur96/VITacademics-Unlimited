@@ -1,0 +1,10 @@
+{
+  "id": "/GradeCount",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "count": { "type": "integer", "required": "true"  },
+    "value": { "type": "integer", "required": "true"  },
+    "grade": { "type": "string", "required": "true"  }
+  }
+}

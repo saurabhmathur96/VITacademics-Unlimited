@@ -120,7 +120,7 @@ module.exports.parseHistory = (html) => {
       const forEachGradeCount = function (i, elem) {
         data.grade_count.push({
           count: parseInt(gradeSummaryTable.children('td').eq(i).text()),
-          value: gradeValue(gradeCharacter(i)),
+          value: gradeValue(gradeCharacter(i)) || 0,
           grade: gradeCharacter(i)
         });
       };
