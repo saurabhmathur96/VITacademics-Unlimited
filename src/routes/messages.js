@@ -8,7 +8,7 @@ let router = express.Router();
 /**
  * POST /messages
  *
- * respond with spotlight items
+ * respond with faculty messages
  */
 const semester = process.env.SEM || 'WS';
 

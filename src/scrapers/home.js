@@ -14,24 +14,25 @@ const _ = require('lodash');
 
 module.exports.parseMessages = (html) => {
   return new Promise((resolve, reject) => {
-    try{
-        const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[1].splice(1);
-        table.pop();
+    try {
+      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[1].splice(1);
+      table.pop();
 
-        let result = table.map((row) => ({
-            faculty: row[0],
-            subject: row[1],
-            message: row[2],
-            time: row[3]
-          })
-        );
+      let result = table.map(row => {
+        return {
+          faculty: row[0],
+          subject: row[1],
+          message: row[2],
+          time: row[3]
+        }
+      });
 
-        result = _.uniqBy(result, 'message');
-        resolve({
+      result = _.uniqBy(result, 'message');
+      resolve({
         messages: result,
-        refreshed_on: new Date()
-        });
-    }catch(err){
+        refreshed_on: new Date().toUTCString()
+      });
+    } catch (err) {
       reject(err);
     }
   })
@@ -75,9 +76,9 @@ module.exports.parseSpotlight = (html) => {
       resolve({
         spotlight: result,
         refreshed_on: new Date()
-        });
+      });
     }
-    catch (ex){
+    catch (ex) {
       reject(ex);
     }
   })

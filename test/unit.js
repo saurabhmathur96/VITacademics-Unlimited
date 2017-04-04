@@ -42,7 +42,7 @@ describe('Unit Tests', () => {
     let task = academic.parseHistory(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {;
+    task.then(result => {
       expect(result).to.be.instanceof(Object);
       expect(result).to.have.property('grades');
       expect(result).to.have.property('semester_wise');
@@ -106,8 +106,14 @@ describe('Unit Tests', () => {
 
     task.then(result => {
       expect(result).to.be.instanceof(Object);
-      expect(result).to.have.property("spotlight")
-      expect(result["spotlight"]).to.be.instanceof(Array);
+      expect(result).to.have.property('spotlight')
+      expect(result.spotlight).to.be.instanceof(Array);
+
+      for (let i = 0; i < result.spotlight.length; i++) {
+        expect(result.spotlight[i]).to.have.property('title');
+        expect(result.spotlight[i]).to.have.property('data');
+      }
+
       done();
     }).catch(err => { throw err; })
   });
@@ -120,8 +126,14 @@ describe('Unit Tests', () => {
 
     task.then(result => {
       expect(result).to.be.instanceof(Object);
-      expect(result).to.have.property("messages")
-      expect(result["messages"]).to.be.instanceof(Array);
+      expect(result).to.have.property('messages')
+      expect(result.messages).to.be.instanceof(Array);
+      for (let i = 0; i < result.messages.length; i++) {
+        expect(result.messages[i]).to.have.property('faculty');
+        expect(result.messages[i]).to.have.property('subject');
+        expect(result.messages[i]).to.have.property('message')
+        expect(result.messages[i]).to.have.property('time')
+      }
       done();
     }).catch(err => { throw err; })
   });

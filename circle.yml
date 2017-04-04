@@ -1,8 +1,6 @@
 machine:
   node:
     version: stable
-  services:
-    - mongod
 deployment:
   production:
     branch: master

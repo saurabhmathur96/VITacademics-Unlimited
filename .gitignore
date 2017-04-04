@@ -41,9 +41,11 @@ jspm_packages
 # Yarn specific files
 yarn.lock
 
-# credentials
+# credentials and data
 test/credentials.json
+data/faculty_info.json
 
 # IDE configuration
 .idea/
 .vscode/
+

@@ -17,41 +17,8 @@ try {
   console.error('Credentials not found. Please create test/credentials.json with keys (reg_no, password).')
 }
 
-var db = null;
-var uri = process.env.MONGO_URI || 'mongodb://localhost:27017/test';
-var faculty = [
-  { name: 'TEST FACULTY ALPHA', school: 'School of Information Technology and Engineering', designation: 'Associate Professor', room: 'SJT-213-A39', intercom: '123', email: 'emai1l@domain.com', division: '	Department of Digital Communications (SITE)', additional_role: '', open_hours: [{ 'day': 'Mom', 'start_time': '04:00 PM', 'end_time': '06:00 PM' }, { 'day': 'Tue', 'start_time': '04:00 PM', 'end_time': '06:00 PM' }], test: true },
-  { name: 'TEST FACULTY BETA', school: 'School of Advanced Sciences', designation: 'Assistant Professor (Senior)', room: 'TT-430-E', intercom: '1234', email: 'email2@domain.com', division: 'Department of Physics (SAS)', additional_role: '', open_hours: [{ 'day': 'Fri', 'start_time': '04:00 PM', 'end_time': '06:00 PM' }, { 'day': 'Tue', 'start_time': '04:00 PM', 'end_time': '06:00 PM' }], test: true }
-];
 
 describe('Integration Tests', () => {
-  // Setup: Add dummy entries to db.
-  before((done) => {
-    var task = MongoClient.connect(uri, { promiseLibrary: Promise });
-    task.then((_db) => {
-      db = _db;
-
-      return db.collection('faculty').insertMany(faculty);
-    })
-      .then(() => {
-        done();
-      })
-      .catch((err) => {
-        throw err;
-      });
-  });
-
-  // Teardown: Remove dummy entries from db.
-  after((done) => {
-    db.collection('faculty').remove({ test: true })
-      .then(() => {
-        done();
-      })
-      .catch((err) => {
-        throw err;
-      });
-  });
-
   if (credentials) {
     it('POST /student/refresh', (done) => {
       request.post('/student/refresh')
@@ -96,9 +63,9 @@ describe('Integration Tests', () => {
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-         expect(res.body).to.be.instanceof(Object);
-         expect(res.body).to.have.property("spotlight")
-         expect(res.body["spotlight"]).to.be.instanceof(Array);
+          expect(res.body).to.be.instanceof(Object);
+          expect(res.body).to.have.property('spotlight')
+          expect(res.body['spotlight']).to.be.instanceof(Array);
           done();
         });
     });
@@ -109,9 +76,9 @@ describe('Integration Tests', () => {
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-         expect(res.body).to.be.instanceof(Object);
-         expect(res.body).to.have.property("messages")
-         expect(res.body["messages"]).to.be.instanceof(Array);
+          expect(res.body).to.be.instanceof(Object);
+          expect(res.body).to.have.property('messages')
+          expect(res.body['messages']).to.be.instanceof(Array);
           done();
         });
     });
@@ -138,61 +105,15 @@ describe('Integration Tests', () => {
     });
   }
 
-  it('GET /faculty/search?name=[name]', (done) => {
-    request.get('/faculty/search?name=test faculty')
+  it('GET /faculty/all', (done) => {
+    request.get('/faculty/all')
       .expect(200)
       .end((err, res) => {
         expect(err).to.not.exist;
-
-        expect(res.body).to.have.property('query');
-        expect(res.body).to.have.property('result');
-
-        expect(res.body.result).to.be.instanceOf(Array);
-        expect(res.body.result.length).to.equal(2);
-
+        expect(res.body).to.have.property('faculty');
+        expect(res.body.faculty).to.be.instanceof(Array);
+        expect(res.body.faculty.length).to.be.greaterThan(0);
         done();
-
       });
   });
-
-  it('GET /faculty/search?school=[school_name]', (done) => {
-    request.get('/faculty/search?school=School of Advanced Sciences')
-      .expect(200)
-      .end((err, res) => {
-        expect(err).to.not.exist;
-
-        expect(res.body).to.have.property('query');
-        expect(res.body).to.have.property('result');
-
-        expect(res.body.result).to.be.instanceOf(Array);
-        expect(res.body.result.length).to.be.greaterThan(0);
-
-        done();
-
-      });
-  });
-
-  it('GET /faculty/details/:faculty_id', (done) => {
-    request.get('/faculty/search?name=test faculty alpha')
-      .expect(200)
-      .end((err1, res1) => {
-        expect(err1).to.not.exist;
-
-        expect(res1.body).to.have.property('query');
-        expect(res1.body).to.have.property('result');
-
-        expect(res1.body.result).to.be.instanceOf(Array);
-        expect(res1.body.result.length).to.equal(1);
-
-        request.get(`/faculty/details/${res1.body.result[0]._id}`)
-          .expect(200)
-          .end((err2, res2) => {
-            expect(err2).to.not.exist;
-            expect(res2.body.name).to.equal('TEST FACULTY ALPHA');
-            done();
-          });
-
-      });
-  });
-
 })

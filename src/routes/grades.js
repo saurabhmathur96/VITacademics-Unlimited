@@ -14,8 +14,8 @@ const uri = 'https://vtop.vit.ac.in/student/student_history.asp';
 router.post('/', (req, res, next) => {
   let task = requests.get(uri, req.cookies);
   task.then(academic.parseHistory)
-  .then(result => res.json(result))
-  .catch(next);
+    .then(result => res.json(result))
+    .catch(next);
 });
 
 module.exports = router;
