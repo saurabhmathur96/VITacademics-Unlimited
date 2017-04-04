@@ -43,7 +43,6 @@ yarn.lock
 
 # credentials and data
 test/credentials.json
-data/faculty_info.json
 
 # IDE configuration
 .idea/

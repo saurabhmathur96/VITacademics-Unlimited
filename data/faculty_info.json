@@ -1,0 +1,15 @@
+{
+  "faculty_info": [
+    {
+      "empid": 10020,
+      "division": "Department of Electrical Engineering (SELECT)",
+      "school": "School of Electrical Engineering",
+      "name": "JAYABARATHI T",
+      "designation": "Senior Professor",
+      "open_hours": [],
+      "intercom": "2497",
+      "email": "tjayabarathi@vit.ac.in",
+      "room": "TT-241-241"
+    }
+  ]
+}
