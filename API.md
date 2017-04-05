@@ -83,13 +83,15 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   * **Code:** 403 UNAUTHORIZED
 
 
-**Messages**
+
+
+**Home**
 ----
-  _Scrapes messages sent by faculty._
+  _Scrapes faculty messages and spotlight items._
 
 * **URL**
 
-  _/student/messages_
+  _/student/home_
 
 * **Method:**
 
@@ -108,41 +110,8 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     **Content:**
     ```
     {
+      spotlight: Array<SpotlightItem>,
       messages: Array<FacultyMessage>
-    }
-    ````
-
-* **Error Response:**
-
-  * **Code:** 403 UNAUTHORIZED
-
-
-**Spotlight**
-----
-  _Scrapes spotlight items._
-
-* **URL**
-
-  _/student/spotlight_
-
-* **Method:**
-
-  `POST`
-
-* **Data Params**
-
-  `reg_no`=[string]
-
-  `password`=[string]
-
-* **Success Response:**
-
-
-  * **Code:** 200 <br />
-    **Content:**
-    ```
-    {
-      spotlight: Array<SpotlightItem>
     }
     ````
 
