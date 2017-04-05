@@ -11,9 +11,8 @@ const Promise = require('bluebird');
 
 const refresh = require(path.join(__dirname, 'routes', 'refresh'));
 const grades = require(path.join(__dirname, 'routes', 'grades'));
-const spotlight = require(path.join(__dirname, 'routes', 'spotlight'));
 const faculty = require(path.join(__dirname, 'routes', 'faculty'));
-const messages = require(path.join(__dirname, 'routes', 'messages'));
+const home = require(path.join(__dirname, 'routes', 'home'));
 
 const authentication = require(path.join(__dirname, 'middleware', 'authentication'));
 
@@ -33,8 +32,7 @@ app.use(compression());
 app.use('/student', authentication);
 app.use('/student/refresh', refresh);
 app.use('/student/grades', grades);
-app.use('/student/spotlight', spotlight);
-app.use('/student/messages', messages);
+app.use('/student/home', home);
 app.use('/faculty', faculty);
 
 

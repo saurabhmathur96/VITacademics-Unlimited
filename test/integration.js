@@ -75,25 +75,21 @@ describe('Integration Tests', () => {
         });
     });
 
-    it('POST /student/spotlight', (done) => {
-      request.post('/student/spotlight')
+    it('POST /student/home', (done) => {
+      request.post('/student/home')
         .send(credentials)
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-          let r = validator.validate(res.body.spotlight, { "type": "array", "items": { "$ref": "/SpotlightItem" } }, { nestedErrors: true });
-          expect(r.valid).to.be.true;
-          done();
-        });
-    });
-
-    it('POST /student/messages', (done) => {
-      request.post('/student/messages')
-        .send(credentials)
-        .expect(200)
-        .end((err, res) => {
-          expect(err).to.not.exist;
-          let r = validator.validate(res.body.messages, { "type": "array", "items": { "$ref": "/FacultyMessage" } }, { nestedErrors: true });
+          let schema = {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              messages: { "type": "array", required: true, "items": { "$ref": "/FacultyMessage" } },
+              spotlight: { "type": "array", required: true, "items": { "$ref": "/SpotlightItem" } }
+            }
+          }
+          let r = validator.validate(res.body, schema, { nestedErrors: true });
           expect(r.valid).to.be.true;
           done();
         });
