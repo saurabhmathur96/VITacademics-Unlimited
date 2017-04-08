@@ -2,6 +2,8 @@
  * authentication
  *
  * middleware that performs sign-in to vtop.
+ * reg_no=[string]
+ * password=[string]
  */
 
 const signIn = require('../utilities/getcookie');

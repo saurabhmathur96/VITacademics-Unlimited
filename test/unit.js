@@ -8,7 +8,7 @@ var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
 var attendance = require(path.join(__dirname, '..', 'src', 'scrapers', 'attendance'));
 var schedule = require(path.join(__dirname, '..', 'src', 'scrapers', 'schedule'));
 var academic = require(path.join(__dirname, '..', 'src', 'scrapers', 'academic'));
-var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
+var hostel = require(path.join(__dirname, '..', 'src', 'scrapers', 'hostel'));
 
 // Power up the jsonschema validator
 var validator = new Validator();
@@ -99,7 +99,7 @@ describe('Unit Tests', () => {
 
     task.then(result => {
       let exams = ['CAT - I', 'CAT - II', 'Final Assessment Test'];
-      for (let i=0; i<exams.length; i++) {
+      for (let i = 0; i < exams.length; i++) {
         expect(result).to.have.property(exams[i]);
         let r = validator.validate(result[exams[i]], { "type": "array", "items": { "$ref": "/ExamSchedule" } }, { nestedErrors: true });
         expect(r.valid).to.be.true;
@@ -139,4 +139,21 @@ describe('Unit Tests', () => {
       done();
     }).catch(err => { throw err; })
   });
-})
+
+  it('scrape leave request applications', (done) => {
+    let filePath = path.join('test', 'data', 'leave_request.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = hostel.parseLeaveApplications(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      console.log(JSON.stringify(result, null, 2));
+
+      // let r = validator.validate(result, { "type": "array", "items": { "$ref": "/FacultyMessage" } }, { nestedErrors: true });
+
+      // expect(r.valid).to.be.true;
+
+      done();
+    }).catch(err => { throw err; })
+  });
+});

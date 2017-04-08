@@ -13,6 +13,7 @@ const refresh = require(path.join(__dirname, 'routes', 'refresh'));
 const grades = require(path.join(__dirname, 'routes', 'grades'));
 const faculty = require(path.join(__dirname, 'routes', 'faculty'));
 const home = require(path.join(__dirname, 'routes', 'home'));
+const hostel = require(path.join(__dirname, 'routes', 'hostel'));
 
 const authentication = require(path.join(__dirname, 'middleware', 'authentication'));
 
@@ -22,17 +23,14 @@ let app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(expressValidator({
-  customValidators: {
-    isObjectId: (value) => mongodb.ObjectID.isValid(value)
-  }
-}));
+app.use(expressValidator());
 app.use(compression());
 
 app.use('/student', authentication);
 app.use('/student/refresh', refresh);
 app.use('/student/grades', grades);
 app.use('/student/home', home);
+app.use('/student/hostel', hostel);
 app.use('/faculty', faculty);
 
 

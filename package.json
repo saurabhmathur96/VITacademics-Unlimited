@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./src/bin/www",
-    "test": "mocha --timeout 28000"
+    "test": "mocha test/unit.js --timeout 28000"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -21,7 +21,6 @@
     "mocha": "^3.2.0",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.11",
-    "mongodb": "^2.2.25",
     "morgan": "~1.7.0",
     "supertest": "^3.0.0",
     "tabletojson": "^0.4.0",

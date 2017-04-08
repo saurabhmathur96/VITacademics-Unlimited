@@ -1,0 +1,341 @@
+
+
+
+<html>
+<head>
+<title>V-TOP Student Login</title>
+
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="style2.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="datetimepicker_css.js"></script>
+<SCRIPT src="validate2.js" type=text/javascript></SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript">
+function check_null()
+{
+	var d = document.leave_request;
+
+	var vltp = d.lvtype.value;
+
+	if (d.apply.selectedIndex==0)
+	{
+		alert("Select the Approving Authorigy.")
+		d.apply.focus();
+		return false;
+	}
+
+	if (d.lvtype.selectedIndex==0)
+	{
+		alert("Select the Leave Type")
+		d.lvtype.focus();
+		return false;
+	}
+
+	if((vltp == "HT") || (vltp == "EY") || (vltp == "WP") || (vltp == "LG") || (vltp == "PJ") || (vltp == "II") || (vltp == "EP") || (vltp == "AE") || (vltp == "SL") || (vltp == "WV"))
+	{
+
+		if((d.exitdate.value.length<1) || (d.exitdate.value.charAt(0)==" "))
+		{
+			alert("Select the Exit Date");
+			d.exitdate.select();
+			d.exitdate.focus();
+			return false;
+		}
+
+		if(d.sttime_hh.selectedIndex == 0)
+		{
+			alert("Select Exit On Time Hours.");
+			d.sttime_hh.focus();
+			return false;
+		}
+
+		if(d.sttime_mm.selectedIndex == 0)
+		{
+			alert("Select Exit On Time Minutes.");
+			d.sttime_mm.focus();
+			return false;
+		}
+
+		if((d.frm_timetype[0].checked == false) && (d.frm_timetype[1].checked == false))
+		{
+			alert("Choose AM or PM.");
+			d.frm_timetype[0].focus();
+			return false;
+		}
+
+		if((d.reentry_date.value.length<1) || (d.reentry_date.value.charAt(0)==" "))
+		{
+			alert("Select the Entry Date");
+			d.reentry_date.select();
+			d.reentry_date.focus();
+			return false;
+		}
+
+		if(d.endtime_hh.selectedIndex == 0)
+		{
+			alert("Select Entry On Time Hours.");
+			d.endtime_hh.focus();
+			return false;
+		}
+
+		if(d.endtime_mm.selectedIndex == 0)
+		{
+			alert("Select Entry On Time Minutes.");
+			d.endtime_mm.focus();
+			return false;
+		}
+
+		if((d.to_timetype[0].checked == false) && (d.to_timetype[1].checked == false))
+		{
+			alert("Choose AM or PM.");
+			d.to_timetype[0].focus();
+			return false;
+		}
+
+	}
+	else
+	{
+
+		if((d.exitdate.value.length<1) || (d.exitdate.value.charAt(0)==" "))
+		{
+			alert("Select the Exit Date.");
+			d.exitdate.focus();
+			return false;
+		}
+
+		if(d.sttime_hh.selectedIndex == 0)
+		{
+			alert("Select Exit On Time Hours.");
+			d.sttime_hh.focus();
+			return false;
+		}
+
+		if(d.sttime_mm.selectedIndex == 0)
+		{
+			alert("Select Exit On Time Minutes.");
+			d.sttime_mm.focus();
+			return false;
+		}
+
+		if((d.frm_timetype[0].checked == false) && (d.frm_timetype[1].checked == false))
+		{
+			alert("Choose AM or PM.");
+			d.frm_timetype[0].focus();
+			return false;
+		}
+
+		if(d.endtime_hh.selectedIndex == 0)
+		{
+			alert("Select Entry On Time Hours.");
+			d.endtime_hh.focus();
+			return false;
+		}
+
+		if(d.endtime_mm.selectedIndex == 0)
+		{
+			alert("Select Entry On Time Minutes.");
+			d.endtime_mm.focus();
+			return false;
+		}
+
+		if((d.to_timetype[0].checked == false) && (d.to_timetype[1].checked == false))
+		{
+			alert("Choose AM or PM.");
+			d.to_timetype[0].focus();
+			return false;
+		}
+
+	}
+
+	if ((d.place.value.length<1) || (d.place.value.charAt(0)==" "))
+	{
+		alert("Enter the place");
+		d.place.select();
+		d.place.focus();
+		return false;
+	}
+
+	if ((d.reason.value.length<1) || (d.reason.value.charAt(0)==" "))
+	{
+		alert("Enter the reason");
+		d.reason.select();
+		d.reason.focus();
+		return false;
+	}
+
+	return true;
+}
+
+function call_leave_dt()
+{
+
+	var lvtyp = document.leave_request.lvtype.value;
+
+
+	if (lvtyp == "")
+	{
+		document.getElementById("txtHint").innerHTML="";
+		return;
+	}
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+	    {
+	    	document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+	    }
+	}
+
+	var now = new Date();
+	xmlhttp.open("GET","leave_apply_dt.asp?x="+ now.toUTCString() +"&lvtyp="+ lvtyp,true);
+	xmlhttp.send();
+}
+
+function textCounter(field,cntfield,maxlimit)
+{
+	if (field.value.length > maxlimit)	// if too long...trim it!
+	{
+		field.value = field.value.substring(0, maxlimit);
+	}
+	else	// otherwise, update 'characters left' counter
+	{
+		cntfield.value = maxlimit - field.value.length;
+	}
+}
+
+
+
+</script>
+</head>
+
+<table width="79%" border="0" cellpadding="0" cellspacing="0" height="350">
+ <tr>
+	<td valign="top" width="1%" bgcolor=#FFFFFF>
+		&nbsp;
+	</td>
+	<td valign="top" width="78%" bgcolor=#FFFFFF>
+	<br><br>
+
+
+
+	<form name="leave_request" action="leave_request_submit.asp" method="post">
+
+	<table border="1" width="76%" style="border-collapse: collapse" cellpadding="3">
+
+	<tr bgcolor=#5A768D>
+		<td align="center" colspan="2">
+		<font color="#FFFFFF"><b>LEAVE REQUEST</b></font>
+		</td>
+	</tr>
+
+	<tr>
+		<td width="37%"  bgcolor=#5A768D><font color="#FFFFFF"><b>Select</b></font> </td>
+		<td width="58%" bgcolor="#EDEADE">
+
+			<select name="apply" class=textbox>
+			<option value="" selected>-- Approving Authority --</option>
+
+					<option value="11061\FA">Faculty Advisor - JAYALAKSHMI P (11061)</option>
+
+					<option value="12102\PM">HOD/PC - DINAKARAN M (12102)</option>
+
+
+			</select>
+
+		</td>
+	</tr>
+
+	<tr>
+		<td width="37%" bgcolor=#5A768D><font color="#FFFFFF"><b>Leave Type</b></font></td>
+		<td width="58%" bgcolor="#EDEADE">
+		<select name="lvtype" class="textbox" tabindex=1 onchange="call_leave_dt()">
+		<option value="" selected>-- Select --</option>
+		<option value='EY'>EMERGENCY LEAVE</option><option value='AE'>EXAMINATIONS (GATE)</option><option value='HT'>HOME TOWN / LOCAL GUARDIANS PLACE</option><option value='II'>INDUSTRIAL VISIT (THROUGH FACULTY COORDINATORS)</option><option value='PJ'>OFF CAMPUS INTERVIEWS (THROUGH PAT OFFICE)</option><option value='EP'>OFFICIAL EVENTS</option><option value='OG'>OUTING</option><option value='SP'>SUSPEND</option><option value='WV'>WINTER VACATION</option><option value='WP'>WITH PARENT LEAVE</option>
+		</select>
+	</tr>
+
+	<tr bgcolor="#B0BFCC">
+		<td colspan=2 align="center">
+			<span id="txtHint">
+			</span>
+		</td>
+	</tr>
+
+	<tr>
+		<td width="37%" bgcolor="#5A768D"><font color="#FFFFFF"><b>Place and Address</b></font></td>
+		<td width="58%" bgcolor="#EDEADE">
+			<textarea name="place" rows="5" cols="87" class="textbox" tabindex=3 style="overflow:hidden;" onKeyDown="textCounter(document.leave_request.place,document.leave_request.remLen1,100)" onKeyUp="textCounter(document.leave_request.place,document.leave_request.remLen1,100)">
+			</textarea>
+			&nbsp;<input class="textbox" type="text" name="remLen1" size="4" maxlength="3" value="100" readOnly> Characters left
+		</td>
+	</tr>
+
+	<tr>
+		<td width="37%" bgcolor="#5A768D"><font color="#FFFFFF"><b>Reason</b></font></td>
+		<td width="58%" bgcolor="#EDEADE">
+			<input type=text name=reason class=textbox size=50 maxlength=50></input>
+		</td>
+	</tr>
+
+	<tr bgcolor=#5A768D align="center">
+		<td align="center" colspan="2">
+			<input type=submit class="submit3" value="Apply" name="requestcmd" class=textbox onclick="return check_null()"></input>
+			&nbsp;&nbsp;
+			<input type=button name=reset class="submit3" value="Reset" class=textbox></input>
+		</td>
+	</tr>
+	</table>
+	</form>
+
+
+		<br>
+		<table cellpadding=4 cellspacing=0 border=1 style='border-collapse: collapse;' bordercolor='black' width="800">
+
+		<tr align=center bgcolor=#5A768D height="30">
+			<td width="50"><font color=#FFFFFF>Serial.No.</font></td>
+			<td width="80"><font color=#FFFFFF>Apply Id.</font></td>
+			<td width="80"><font color=#FFFFFF>Reg.No.</font></td>
+			<td><font color=#FFFFFF>Student Name </font></td>
+			<td width="80"><font color=#FFFFFF>From</font></td>
+			<td width="80"><font color=#FFFFFF>To</font></td>
+			<td width="100"><font color=#FFFFFF>Leave Request</font></td>
+			<td width="100"><font color=#FFFFFF>Status</font></td>
+			<td width="80"><font color=#FFFFFF>&nbsp;</font></td>
+		</tr>
+
+			<tr bgcolor=#E6F2FF>
+
+			<td align=center><font color=black>1</font></td>
+			<td align=center><font color=black>17071305</font></td>
+			<td align=center><font color=black>14BIT0180</font></td>
+			<td><font color=black>SAURABH MATHUR</font></td>
+			<td align=center><font color=black>15-APR-2017</font></td>
+			<td align=center><font color=black>15-APR-2017</font></td>
+			<td><font color=black>OUTING</font></td>
+			<td><font color=black>Not Approved</font></td>
+
+			<form method="post" action="leave_cancel_submit.asp" target="_self">
+			<td align=center width="80">
+				<input type="hidden" name="leave_id" value=17071305>
+				<input type="submit" class="submit3" name="requestcmd" value="Cancel">
+			</td>
+			</form>
+
+			</tr>
+
+		</table>
+
+
+	</td>
+  </tr>
+</table>
+</html>
