@@ -1,7 +1,3 @@
-const cheerio = require('cheerio');
-const moment = require('moment');
-const momentTimezone = require('moment-timezone');
-
 const tabletojson = require('tabletojson');
 const Promise = require('bluebird');
 
@@ -12,7 +8,7 @@ const Promise = require('bluebird');
  * test-input: test/data/course_regular.html
  */
 
-module.exports.parseDaily = (html, campus) => {
+module.exports.parseDaily = (html) => {
   return new Promise((resolve, reject) => {
     try {
       const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0]

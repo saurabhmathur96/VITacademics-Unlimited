@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const compression = require('compression');
 
-const Promise = require('bluebird');
-
 
 
 const refresh = require(path.join(__dirname, 'routes', 'refresh'));

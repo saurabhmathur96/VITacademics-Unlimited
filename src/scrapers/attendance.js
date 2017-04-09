@@ -1,5 +1,4 @@
 const cheerio = require('cheerio');
-const moment = require('moment');
 const momentTimezone = require('moment-timezone');
 const tabletojson = require('tabletojson')
 const Promise = require('bluebird');
@@ -77,8 +76,7 @@ module.exports.parseDetails = (html) => {
       });
       resolve(details)
     } catch (err) {
-      console.error(err);
-      resolve(details)
+      reject(err);
     }
   })
 }

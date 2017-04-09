@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
 var Validator = require('jsonschema').Validator;
-var Promise = require('bluebird');
+var moment = require('moment');
 
 var supertest = require('supertest');
 var app = require(path.join(__dirname, '..', 'src', 'app'));
@@ -104,6 +104,124 @@ describe('Integration Tests', () => {
           let r = validator.validate(res.body, { "$ref": "/Grades" });
           expect(r.valid).to.be.true
           done();
+        });
+    });
+
+    it('POST student/hostel/[applications|outing]', (done) => {
+
+      request.post('/student/hostel/applications')
+        .send(credentials)
+        .expect(200)
+        .end((err1, res1) => {
+          expect(err1).to.not.exist;
+          let schema = {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
+              "authorities": { "type": "array", "items": { "type": "string", "minItems": 1 } }
+            }
+          }
+          let r = validator.validate(res1.body, schema, { nestedErrors: true });
+          expect(r.valid).to.be.true
+
+          const from = moment().hours(38);
+          const to = moment().hours(41);
+          request.post('/student/hostel/outing')
+            .send({
+              reg_no: credentials.reg_no,
+              password: credentials.password,
+              authority: res1.body.authorities[0],
+              place: 'test',
+              reason: 'test',
+              from: from.toISOString(),
+              to: to.toISOString()
+            })
+            .expect(200)
+            .end((err2, res2) => {
+              expect(err2).to.not.exist;
+              r = validator.validate(res2.body, schema, { nestedErrors: true });
+              expect(r.valid).to.be.true;
+
+              var index = res2.body.applications.map((e) => e.from).indexOf(from.format('DD-MMM-YYYY').toUpperCase());
+              if (index === -1) {
+                throw new Error('Outing application not found !');
+              }
+              request.post('/student/hostel/cancel')
+                .send({
+                  reg_no: credentials.reg_no,
+                  password: credentials.password,
+                  application_id: res2.body.applications[index].application_id
+                })
+                .expect(200)
+                .end((err3, res3) => {
+                  expect(err3).to.not.exist;
+
+                  r = validator.validate(res3.body, schema, { nestedErrors: true });
+                  expect(r.valid).to.be.true;
+
+                  done();
+                });
+            });
+        });
+    });
+
+    it('POST student/hostel/[applications|leave]', (done) => {
+
+      request.post('/student/hostel/applications')
+        .send(credentials)
+        .expect(200)
+        .end((err1, res1) => {
+          expect(err1).to.not.exist;
+          let schema = {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
+              "authorities": { "type": "array", "items": { "type": "string", "minItems": 1 } }
+            }
+          }
+          let r = validator.validate(res1.body, schema, { nestedErrors: true });
+          expect(r.valid).to.be.true
+
+          const from = moment().hours(38).add(60 * 60 * 1000 * 24);
+          const to = moment().hours(41).add(60 * 60 * 1000 * 24 * 3);
+          request.post('/student/hostel/leave')
+            .send({
+              reg_no: credentials.reg_no,
+              password: credentials.password,
+              authority: res1.body.authorities[0],
+              place: 'test',
+              reason: 'test',
+              from: from.toISOString(),
+              to: to.toISOString(),
+              type: 'HT'
+            })
+            .expect(200)
+            .end((err2, res2) => {
+              expect(err2).to.not.exist;
+              r = validator.validate(res2.body, schema, { nestedErrors: true });
+              expect(r.valid).to.be.true;
+
+              var index = res2.body.applications.map((e) => e.from).indexOf(from.format('DD-MMM-YYYY').toUpperCase());
+              if (index === -1) {
+                throw new Error('Outing application not found !');
+              }
+              request.post('/student/hostel/cancel')
+                .send({
+                  reg_no: credentials.reg_no,
+                  password: credentials.password,
+                  application_id: res2.body.applications[index].application_id
+                })
+                .expect(200)
+                .end((err3, res3) => {
+                  expect(err3).to.not.exist;
+                  r = validator.validate(res3.body, schema, { nestedErrors: true });
+                  expect(r.valid).to.be.true;
+
+                  done();
+                });
+            });
         });
     });
   }

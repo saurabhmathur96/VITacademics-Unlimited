@@ -1,6 +1,5 @@
 const cheerio = require('cheerio');
 const moment = require('moment');
-const momentTimezone = require('moment-timezone');
 const underscore = require('underscore');
 const Promise = require('bluebird');
 

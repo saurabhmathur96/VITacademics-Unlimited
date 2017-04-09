@@ -147,11 +147,16 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      console.log(JSON.stringify(result, null, 2));
-
-      // let r = validator.validate(result, { "type": "array", "items": { "$ref": "/FacultyMessage" } }, { nestedErrors: true });
-
-      // expect(r.valid).to.be.true;
+      let schema = {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
+          "authorities": { "type": "array", "items": { "type": "string", "minItems": 1 } }
+        }
+      }
+      let r = validator.validate(result, schema, { nestedErrors: true });
+      expect(r.valid).to.be.true;
 
       done();
     }).catch(err => { throw err; })

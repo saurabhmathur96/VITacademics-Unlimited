@@ -8,7 +8,6 @@ const Promise = require('bluebird');
 const express = require('express');
 let router = express.Router();
 
-const authentication = require(path.join(__dirname, '..', 'middleware', 'authentication'));
 
 /**
  * POST /refresh

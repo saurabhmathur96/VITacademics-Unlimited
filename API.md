@@ -121,6 +121,154 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 
 
+**Hostel Application Details**
+----
+  _Responds with details and status of leave/outing requests along with available approving authorities._
+
+* **URL**
+
+  _/student/hostel/applications_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      applications: Array<HostelApplication>,
+      authorities: Array<string>
+    }
+    ````
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+
+
+
+**Hostel Outing Application**
+----
+  _Makes request to vtop to apply for an outing._
+
+* **URL**
+
+  _/student/hostel/outing_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+  `authority`=[string]
+
+  `place`=[string]
+
+  `reason`=[string]
+
+  `from`=[string,ISO 8601 UTC] ex. 2017-04-09T06:48:37.745Z
+
+  `to`=[string,ISO 8601 UTC] ex. 2017-04-09T06:48:37.745Z
+
+* **Constraints**
+
+  `to` and `from` should be on same day.
+
+  `to` should be after `from`.
+
+  Outing can only be between 7AM to 6PM.
+
+  `authority` code should be one from the `authorities` list.
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      applications: Array<HostelApplication>,
+      authorities: Array<string>
+    }
+    ````
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+  * **Code:** 400 BAD REQUEST
+
+
+
+
+**Hostel Leave Application**
+----
+  _Makes request to vtop to apply for a leave._
+
+* **URL**
+
+  _/student/hostel/leave_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+  `authority`=[string]
+
+  `place`=[string]
+
+  `reason`=[string]
+
+  `type`=[string]
+
+  `from`=[string,ISO 8601 UTC] ex. 2017-04-09T06:48:37.745Z
+
+  `to`=[string,ISO 8601 UTC] ex. 2017-04-09T06:48:37.745Z
+
+* **Constraints**
+
+  `to` should be after `from`.
+
+  `authority` code should be one from the `authorities` list.
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      applications: Array<HostelApplication>,
+      authorities: Array<string>
+    }
+    ````
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+  * **Code:** 400 BAD REQUEST
+
+
 
 **All Faculty**
 ----
@@ -145,6 +293,6 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     **Content:**
     ```
     {
-      Faculty: Array<Faculty>
+      faculty: Array<Faculty>
     }
     ````
