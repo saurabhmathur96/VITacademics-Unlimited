@@ -251,6 +251,19 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   `authority` code should be one from the `authorities` list.
 
+  `type` can have following values
+
+  |Value| Meaning                                          |
+  |-----|:-------------------------------------------------|
+  |"EY" | Emergency Leave                                  |
+  |"AE" | Examinations (GATE)                              |
+  |"HT" | Home Town / Local Guardian"s Place               |
+  |"II" | Industrial Visit (Through Faculty Coordinators)  |
+  |"PJ" | Off Campus Interviews (Throught PAT Office)      |
+  |"EP" | Official Events                                  |
+  |"WV" | Winter Vacation                                  |
+  |"WP" | With Parent Leave                                |
+
 * **Success Response:**
 
 
