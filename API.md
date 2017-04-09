@@ -283,6 +283,50 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 
 
+
+**Hostel Application Cancellation**
+----
+  _Makes request to vtop to cancel to a leave/outing._
+
+* **URL**
+
+  _/student/hostel/cancel_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+  `application_id`=[integer]
+
+* **Constraints**
+
+  `application_id` should be from an existing applied leave/outing (see `HostelAplication`).
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      applications: Array<HostelApplication>,
+      authorities: Array<string>
+    }
+    ````
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+
+
+
+
 **All Faculty**
 ----
   _Responds with details of all ~2k faculty._
