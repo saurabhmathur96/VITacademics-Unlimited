@@ -4,6 +4,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const compression = require('compression');
+const helmet = require('helmet');
 
 
 
@@ -19,6 +20,7 @@ let app = express();
 
 
 app.use(logger('dev'));
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
