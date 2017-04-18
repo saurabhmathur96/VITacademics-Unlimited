@@ -14,7 +14,10 @@ module.exports.parseLeaveApplications = (html) => {
   return new Promise((resolve, reject) => {
     try {
       let $ = cheerio.load(html);
-      const authorities = $('select[name=apply] > option').toArray().map(e => $(e).val()).filter(e => e.length > 0);
+      const authorities = $('select[name=apply] > option')
+        .toArray()
+        .map(e => { return { 'id': $(e).val(), 'name': $(e).text() } })
+        .filter(e => (e.name.length > 0) && (e.id.length > 0));
 
       html = $('table[cellpadding=4]').html();
       const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0];

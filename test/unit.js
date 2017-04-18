@@ -152,7 +152,7 @@ describe('Unit Tests', () => {
         "additionalProperties": false,
         "properties": {
           "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
-          "authorities": { "type": "array", "items": { "type": "string", "minItems": 1 } }
+          "authorities": { "type": "array", "items": { "$ref": "/ApprovingAuthority", "minItems": 1 } }
         }
       }
       let r = validator.validate(result, schema, { nestedErrors: true });

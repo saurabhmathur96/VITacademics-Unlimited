@@ -1,0 +1,9 @@
+{
+  "id": "/ApprovingAuthority",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": { "type": "string", "required": "true"  },
+    "id": { "type": "string", "required": "true"  }
+  }
+}

@@ -147,7 +147,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     ```
     {
       applications: Array<HostelApplication>,
-      authorities: Array<string>
+      authorities: Array<ApprovingAuthority>
     }
     ````
 * **Error Response:**
@@ -193,7 +193,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   Outing can only be between 7AM to 6PM.
 
-  `authority` code should be one from the `authorities` list.
+  `authority` id should be from the `authorities` list.
 
 * **Success Response:**
 
@@ -203,7 +203,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     ```
     {
       applications: Array<HostelApplication>,
-      authorities: Array<string>
+      authorities: Array<ApprovingAuthority>
     }
     ````
 * **Error Response:**
@@ -249,7 +249,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   `to` should be after `from`.
 
-  `authority` code should be one from the `authorities` list.
+  `authority` id should be from the `authorities` list.
 
   `type` can have following values
 
@@ -272,7 +272,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     ```
     {
       applications: Array<HostelApplication>,
-      authorities: Array<string>
+      authorities: Array<ApprovingAuthority>
     }
     ````
 * **Error Response:**
@@ -316,7 +316,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     ```
     {
       applications: Array<HostelApplication>,
-      authorities: Array<string>
+      authorities: Array<ApprovingAuthority>
     }
     ````
 * **Error Response:**

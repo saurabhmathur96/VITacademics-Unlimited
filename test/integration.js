@@ -119,7 +119,7 @@ describe('Integration Tests', () => {
             "additionalProperties": false,
             "properties": {
               "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
-              "authorities": { "type": "array", "items": { "type": "string", "minItems": 1 } }
+              "authorities": { "type": "array", "items": { "$ref": "/ApprovingAuthority", "minItems": 1 } }
             }
           }
           let r = validator.validate(res1.body, schema, { nestedErrors: true });
@@ -131,7 +131,7 @@ describe('Integration Tests', () => {
             .send({
               reg_no: credentials.reg_no,
               password: credentials.password,
-              authority: res1.body.authorities[0],
+              authority: res1.body.authorities[0].id,
               place: 'test',
               reason: 'test',
               from: from.toISOString(),
@@ -178,7 +178,7 @@ describe('Integration Tests', () => {
             "additionalProperties": false,
             "properties": {
               "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
-              "authorities": { "type": "array", "items": { "type": "string", "minItems": 1 } }
+              "authorities": { "type": "array", "items": { "$ref": "/ApprovingAuthority", "minItems": 1 } }
             }
           }
           let r = validator.validate(res1.body, schema, { nestedErrors: true });
@@ -190,7 +190,7 @@ describe('Integration Tests', () => {
             .send({
               reg_no: credentials.reg_no,
               password: credentials.password,
-              authority: res1.body.authorities[0],
+              authority: res1.body.authorities[0].id,
               place: 'test',
               reason: 'test',
               from: from.toISOString(),
