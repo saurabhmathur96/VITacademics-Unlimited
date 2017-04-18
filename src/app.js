@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
   let message = err.message;
   let error = req.app.get('env') === 'development' ? err : {};
 
-  console.error(err.stack)
+  // console.error(err.stack)
   res.status(err.status || 500);
   res.json({
     error: error,
