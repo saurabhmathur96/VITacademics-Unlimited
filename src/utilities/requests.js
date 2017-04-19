@@ -31,7 +31,6 @@ module.exports.post = (uri, cookies, form) => {
 
   browser.cookies = cookies;
 
-
   let options = {
     method: 'post',
     headers: {

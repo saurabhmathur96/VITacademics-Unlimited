@@ -125,10 +125,10 @@ module.exports.parseHistory = (html) => {
         });
       });
       data.grades = data.grades.filter((grade) => grade.credits != null && !isNaN(grade.credits));
-      resolve(data);
+      return resolve(data);
     }
     catch (ex) {
-      reject(ex);
+      return reject(ex);
     }
   });
 }
