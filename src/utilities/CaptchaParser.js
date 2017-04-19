@@ -576,15 +576,13 @@ const matchImg  = function (rx, ry, pix, mask) {
     return flag;
 };
 
-let skip = function (start, end, y) {
-    let flag = 0;
+const skip = function (start, end, y) {
     for (let i = 0; i < start.length; ++i) {
         if (y >= start[i] && y <= end[i]) {
-            flag = 1;
-            break;
+            return 1;
         }
     }
-    return flag;
+    return 0;
 };
 
 const sort = function (sorter, captcha) {
@@ -641,15 +639,15 @@ module.exports.getCaptcha = function(img) {
 
         }
     }
-    let yoff = 2;
-    let xoff = 2;
+    const yoff = 2;
+    const xoff = 2;
     let skipstart = [];
     let skipend = [];
     let sorter = [];
     let captcha = [];
     for (let l = 0; l < 36; ++l) {
-        let mask = keys[order[l]];
-        let f = 0;
+        const mask = keys[order[l]];
+        // let f = 0;
         for (x = xoff; x < 25; ++x) {
             for (y = yoff; y < 132; ++y) {
                 if (skip(skipstart, skipend, y)) {
@@ -661,12 +659,12 @@ module.exports.getCaptcha = function(img) {
                         skipend.push(y + mask[0].length);
                         sorter.push(y);
                         captcha.push(order[l]);
-                        f = f + 1;
+                        // f = f + 1;
                     }
                 }
             }
         }
-        if (f == 6) {
+        if (sorter.length == 6) {
             break;
         }
     }

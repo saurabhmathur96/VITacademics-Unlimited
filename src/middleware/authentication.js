@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
   req.sanitize('reg_no').trim();
   req.sanitize('password').trim();
 
-  req.getValidationResult().then((result) => {
+  req.getValidationResult().then(result => {
     if (!result.isEmpty()) {
       let message = result.array().map((error) => error.msg).join('\n');
       let err = new Error(message);
@@ -23,10 +23,10 @@ module.exports = (req, res, next) => {
     } else {
       return signIn(req.body.reg_no, req.body.password);
     }
-  }).then(function (cookies) {
+  }).then(cookies => {
     req.cookies = cookies;
     next();
-  }).catch((err) => {
+  }).catch(err => {
     err.status = 403;
     next(err);
   })

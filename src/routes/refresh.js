@@ -6,7 +6,7 @@ const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
 const moment = require('moment-timezone');
 const Promise = require('bluebird');
 const express = require('express');
-let router = express.Router();
+const router = express.Router();
 
 
 /**
@@ -16,39 +16,42 @@ let router = express.Router();
  */
 
 const semester = process.env.SEM || 'WS';
+const uri = {
+  attendance: {
+    report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=TODAY`,
+    details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
+  },
+  schedule: {
+    timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
+    exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
+  },
+  marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
+};
+
+const fetchAttendanceDetails = (courses, cookies) => {
+  return Promise.all(courses.map(course => {
+    return requests.post(uri.attendance.details, cookies, course.form)
+      .then(attendance.parseDetails).then((details) => {
+        course.details = details;
+        delete course.form;
+        return course;
+      });
+  }));
+};
 
 router.post('/', (req, res, next) => {
-
-  const fetchAttendanceDetails = (courses) => {
-    return Promise.all(courses.map(course => {
-      return requests.post(uri.attendance.details, req.cookies, course.form)
-        .then(attendance.parseDetails).then((details) => {
-          course.details = details;
-          delete course.form;
-          return course;
-        });
-    }));
-  }
-
   const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY')
 
-  const uri = {
-    attendance: {
-      report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
-      details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
-    },
-    schedule: {
-      timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
-      exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
-    },
-    marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
-  };
-
   const tasks = [
-    requests.get(uri.attendance.report, req.cookies).then(attendance.parseReport).then(fetchAttendanceDetails),
-    requests.get(uri.schedule.timetable, req.cookies).then(schedule.parseDaily),
-    requests.get(uri.schedule.exam, req.cookies).then(schedule.parseExam),
-    requests.get(uri.marks, req.cookies).then(academic.parseMarks)
+    requests.get(uri.attendance.report.replace('TODAY', today), req.cookies)
+      .then(attendance.parseReport)
+      .then(courses => fetchAttendanceDetails(courses, req.cookies)),
+    requests.get(uri.schedule.timetable, req.cookies)
+      .then(schedule.parseDaily),
+    requests.get(uri.schedule.exam, req.cookies)
+      .then(schedule.parseExam),
+    requests.get(uri.marks, req.cookies)
+      .then(academic.parseMarks)
   ];
   Promise.all(tasks)
     .then(results => {

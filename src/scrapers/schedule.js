@@ -45,9 +45,9 @@ module.exports.parseDaily = (html) => {
         }
       })
       .filter((course) => !isNaN(course.class_number))
-      resolve(schedule);
+      return resolve(schedule);
     } catch (ex) {
-      reject(ex);
+      return reject(ex);
     }
   });
 }
@@ -71,7 +71,7 @@ module.exports.parseExam = (html) => {
       let key = 'CAT - I';
       table.slice(2, table.length - 1)
       for (let i = 3; i < table.length - 1; i++) {
-        let row = table[i];
+        const row = table[i];
         if (row[0] === 'CAT - I' || row[0] === 'CAT - II' || row[0] === 'Final Assessment Test') {
           key = row[0];
         } else {
@@ -89,9 +89,9 @@ module.exports.parseExam = (html) => {
           })
         }
       }
-      resolve(schedule);
+      return resolve(schedule);
     } catch (ex) {
-      reject(ex);
+      return reject(ex);
     }
   });
 }

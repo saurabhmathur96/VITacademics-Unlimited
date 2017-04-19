@@ -19,7 +19,7 @@ const authentication = require(path.join(__dirname, 'middleware', 'authenticatio
 let app = express();
 
 
-app.use(logger('dev'));
+app.use(logger('short'));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -3,7 +3,7 @@ const express = require('express');
 const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const hostel = require(path.join(__dirname, '..', 'scrapers', 'hostel'));
 const moment = require('moment');
-let router = express.Router();
+const router = express.Router();
 
 
 const supportedTypes = [

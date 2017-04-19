@@ -28,9 +28,9 @@ module.exports.parseMessages = (html) => {
       });
 
       result = _.uniqBy(result, 'message');
-      resolve(result);
+      return resolve(result);
     } catch (err) {
-      reject(err);
+      return reject(err);
     }
   })
 };
@@ -45,14 +45,14 @@ module.exports.parseMessages = (html) => {
 module.exports.parseSpotlight = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      var baseScraper = cheerio.load(html);
+      let baseScraper = cheerio.load(html);
       cheerioTableparser(baseScraper);
-      var tables = baseScraper('table');
-      var content = [];
-      var title;
-      var result = [];
-      var tableScaper = baseScraper(tables[tables.length - 1]).parsetable(true, true, false)[0];
-      tableScaper.forEach(function (data) {
+      const tables = baseScraper('table');
+      let content = [];
+      let title;
+      let result = [];
+      const tableScraper = baseScraper(tables[tables.length - 1]).parsetable(true, true, false)[0];
+      tableScraper.forEach(function (data) {
         if (baseScraper(data)['0']['attribs'] && baseScraper(data)['0']['attribs']['color'] && baseScraper(data)['0']['attribs']['color'] == '#000000') {
           if (content.length != 0) {
             result.push({
@@ -70,10 +70,10 @@ module.exports.parseSpotlight = (html) => {
           });
         }
       });
-      resolve(result);
+      return resolve(result);
     }
     catch (ex) {
-      reject(ex);
+      return reject(ex);
     }
   })
 };

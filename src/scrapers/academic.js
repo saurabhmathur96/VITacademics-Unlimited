@@ -31,7 +31,7 @@ const _gradeCharacter = {
   6: 'F',
   7: 'N',
 }
-function gradeCharacter (i) {
+function gradeCharacter(i) {
   if (i >= 0 && i <= 7) {
     return _gradeCharacter[i];
   } else {
@@ -58,48 +58,49 @@ module.exports.parseHistory = (html) => {
       // Scraping Grades
       const baseScraper = cheerio.load(html);
       const gradesScraper = cheerio.load(baseScraper('table table').eq(1).html());
-      gradesScraper('tr').each(function (i, elem) {
-        if (i > 0) {
-          const attrs = baseScraper(this).children('td');
-          const exam_held = moment(attrs.eq(6).text(), 'MMM-YYYY').format('YYYY-MM');
-          const grade = attrs.eq(5).text();
-          const credits = parseInt(attrs.eq(4).text());
-          data.grades.push({
-            'course_code': attrs.eq(1).text(),
-            'course_title': attrs.eq(2).text(),
-            'course_type': attrs.eq(3).text(),
-            'credits': credits,
-            'grade': grade,
-            'exam_held': exam_held,
-            'result_date': moment(attrs.eq(7).text(), 'DD-MMM-YYYY').isValid() ? moment(attrs.eq(7).text(), 'DD-MMM-YYYY').format('YYYY-MM-DD') : null,
-            'option': attrs.eq(8).text()
-          });
+      gradesScraper('tr').each((i, elem) => {
+        if (i <= 0) {
+          return;
+        }
+        const attrs = baseScraper(elem).children('td');
+        const exam_held = moment(attrs.eq(6).text(), 'MMM-YYYY').format('YYYY-MM');
+        const grade = attrs.eq(5).text();
+        const credits = parseInt(attrs.eq(4).text());
+        data.grades.push({
+          'course_code': attrs.eq(1).text(),
+          'course_title': attrs.eq(2).text(),
+          'course_type': attrs.eq(3).text(),
+          'credits': credits,
+          'grade': grade,
+          'exam_held': exam_held,
+          'result_date': moment(attrs.eq(7).text(), 'DD-MMM-YYYY').isValid() ? moment(attrs.eq(7).text(), 'DD-MMM-YYYY').format('YYYY-MM-DD') : null,
+          'option': attrs.eq(8).text()
+        });
 
-          // Computing Semester-Wise GPA
-          if (gradeValue(grade) === true) {
-            if (data.semester_wise[exam_held]) {
-              data.semester_wise[exam_held].credits = data.semester_wise[exam_held].credits + credits;
-            }
-            else {
-              data.semester_wise[exam_held] = {
-                exam_held: exam_held,
-                credits: credits,
-                gpa: 0.0
-              };
-            }
+        // Computing Semester-Wise GPA
+        if (gradeValue(grade) === true) {
+          if (data.semester_wise[exam_held]) {
+            data.semester_wise[exam_held].credits += credits;
           }
-          else if (gradeValue(grade)) {
-            if (data.semester_wise[exam_held]) {
-              data.semester_wise[exam_held].gpa = Math.round((data.semester_wise[exam_held].gpa * data.semester_wise[exam_held].credits + gradeValue(grade) * credits) / (data.semester_wise[exam_held].credits + credits) * 1e2) / 1e2;
-              data.semester_wise[exam_held].credits = data.semester_wise[exam_held].credits + credits;
-            }
-            else {
-              data.semester_wise[exam_held] = {
-                exam_held: exam_held,
-                credits: credits,
-                gpa: gradeValue(grade)
-              };
-            }
+          else {
+            data.semester_wise[exam_held] = {
+              exam_held: exam_held,
+              credits: credits,
+              gpa: 0.0
+            };
+          }
+        }
+        else if (gradeValue(grade)) {
+          if (data.semester_wise[exam_held]) {
+            data.semester_wise[exam_held].gpa = Math.round((data.semester_wise[exam_held].gpa * data.semester_wise[exam_held].credits + gradeValue(grade) * credits) / (data.semester_wise[exam_held].credits + credits) * 1e2) / 1e2;
+            data.semester_wise[exam_held].credits += credits;
+          }
+          else {
+            data.semester_wise[exam_held] = {
+              exam_held: exam_held,
+              credits: credits,
+              gpa: gradeValue(grade)
+            };
           }
         }
       });
@@ -116,14 +117,13 @@ module.exports.parseHistory = (html) => {
       // Scraping the grade summary information
       const gradeSummaryTable = baseScraper('table table').eq(3).children('tr').eq(1);
 
-      const forEachGradeCount = function (i, elem) {
+      gradeSummaryTable.children('td').each(i => {
         data.grade_count.push({
           count: parseInt(gradeSummaryTable.children('td').eq(i).text()),
           value: gradeValue(gradeCharacter(i)) || 0,
           grade: gradeCharacter(i)
         });
-      };
-      gradeSummaryTable.children('td').each(forEachGradeCount);
+      });
       data.grades = data.grades.filter((grade) => grade.credits != null && !isNaN(grade.credits));
       resolve(data);
     }
@@ -146,16 +146,16 @@ module.exports.parseMarks = (html) => {
     try {
       let $ = cheerio.load(html, { normalizeWhitespace: true });
 
-      let marks = $("table").eq(1)
+      const marks = $("table").eq(1)
         .find("tr[bgcolor='#EDEADE']")
         .map((i, element) => {
 
-          let course_marks = $(element).next()
+          const course_marks = $(element).next()
             .find("table")
             .find("tr[bgcolor='#CCCCCC']")
             .map((j, e) => {
 
-              let td = $(e).find("td");
+              const td = $(e).find("td");
               return {
                 title: td.eq(1).text().trim(),
                 max_marks: parseFloat(td.eq(2).text()),
@@ -168,7 +168,7 @@ module.exports.parseMarks = (html) => {
 
             }).get();
 
-          let td = $(element).find("td");
+          const td = $(element).find("td");
           return {
             class_number: parseInt(td.eq(1).text()),
             course_code: td.eq(2).text(),
@@ -178,11 +178,11 @@ module.exports.parseMarks = (html) => {
           }
 
         }).get();
-      resolve(marks);
+      return resolve(marks);
 
     }
     catch (ex) {
-      reject(ex);
+      return reject(ex);
     }
 
   });

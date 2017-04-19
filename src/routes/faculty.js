@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const fs = require('fs');
-let router = express.Router();
+const router = express.Router();
 
 let facultyDetails = null;
 const filePath = path.join(__dirname, '..', '..', 'data', 'faculty_info.json');

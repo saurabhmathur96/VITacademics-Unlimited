@@ -29,7 +29,7 @@ module.exports.parseReport = (html) => {
         }
 
       });
-      let scraper = cheerio.load(html);
+      const scraper = cheerio.load(html);
       const semcode = scraper("input[type=hidden][name='semcode']").map((i, e) => e.attribs.value);
       const classnbr = scraper("input[type=hidden][name='classnbr']").map((i, e) => e.attribs.value);
       const from_date = scraper("input[type=hidden][name='from_date']").map((i, e) => e.attribs.value);
@@ -47,9 +47,9 @@ module.exports.parseReport = (html) => {
           crstp: crstp[i]
         }
       }
-      resolve(attendance);
+      return resolve(attendance);
     } catch (ex) {
-      reject(ex);
+      return reject(ex);
     }
 
   });
@@ -65,7 +65,7 @@ module.exports.parseDetails = (html) => {
   return new Promise((resolve, reject) => {
     try {
       const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0].slice(5);
-      const details = table.map((row) => {
+      const details = table.map(row => {
         return {
           'date': row[1],
           'slot': row[2],
@@ -74,9 +74,9 @@ module.exports.parseDetails = (html) => {
           'reason': row[5]
         }
       });
-      resolve(details)
+      return resolve(details)
     } catch (err) {
-      reject(err);
+      return reject(err);
     }
   })
 }

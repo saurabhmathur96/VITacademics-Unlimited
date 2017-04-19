@@ -36,12 +36,12 @@ module.exports.parseLeaveApplications = (html) => {
           }
         });
       }
-      resolve({
+      return resolve({
         applications: applications,
         authorities: authorities
       });
     } catch (ex) {
-      reject(ex);
+      return reject(ex);
     }
   });
 
