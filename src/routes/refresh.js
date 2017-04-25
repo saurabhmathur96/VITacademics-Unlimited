@@ -55,6 +55,9 @@ router.post('/', (req, res, next) => {
   ];
   Promise.all(tasks)
     .then(results => {
+      if (results[0].length === 0) {
+        throw new Error('Unable to parse response from vtop.');
+      }
       res.json({
         'attendance': results[0],
         'timetable': results[1],
