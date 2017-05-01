@@ -28,6 +28,19 @@ schemaFiles.forEach((fileName) => {
 
 describe('Unit Tests', () => {
 
+  it('scrape cal course', (done) => {
+    let filePath = path.join('test', 'data', 'cal.html');
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = attendance.parseReport(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/CalCourse" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
+
   it('scrape attendance report', (done) => {
     let filePath = path.join('test', 'data', 'attn_report.html');
     let html = fs.readFileSync(filePath, 'utf8');
