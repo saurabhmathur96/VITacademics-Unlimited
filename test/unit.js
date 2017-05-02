@@ -9,6 +9,7 @@ var attendance = require(path.join(__dirname, '..', 'src', 'scrapers', 'attendan
 var schedule = require(path.join(__dirname, '..', 'src', 'scrapers', 'schedule'));
 var academic = require(path.join(__dirname, '..', 'src', 'scrapers', 'academic'));
 var hostel = require(path.join(__dirname, '..', 'src', 'scrapers', 'hostel'));
+var cal = require(path.join(__dirname, '..', 'src', 'scrapers', 'cal'));
 
 // Power up the jsonschema validator
 var validator = new Validator();
@@ -22,6 +23,7 @@ schemaFiles.forEach((fileName) => {
     validator.addSchema(schema);
 
   } catch (ex) {
+    console.log(ex);
     console.error(`${fileName} contains invalid JSON.`);
   }
 });
@@ -31,11 +33,24 @@ describe('Unit Tests', () => {
   it('scrape cal course', (done) => {
     let filePath = path.join('test', 'data', 'cal.html');
     let html = fs.readFileSync(filePath, 'utf8');
-    let task = attendance.parseReport(html);
+    let task = cal.parseCourses(html);
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
       let r = validator.validate(result, { "type": "array", "items": { "$ref": "/CalCourse" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
+
+  it('scrape cal assignment', (done) => {
+    let filePath = path.join('test', 'data', 'assignments.html');
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = cal.parseAssignments(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/CalAssignment" } }, { nestedErrors: true });
       expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })

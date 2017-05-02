@@ -1,0 +1,13 @@
+{
+  "id": "/CalAssignment",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": { "type": "string", "required": "true"  },
+    "date": { "type": "string", "required": "true"  },
+    "max_marks": { "type": "string", "required": "true"  },
+    "assign_status": { "type": "string", "required": "true"  },
+    "mark_status": { "type": "string", "required": "true"  },
+    "marks": { "type": "string", "required": "true"  }
+  }
+}
