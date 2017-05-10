@@ -16,6 +16,8 @@ function courseType(course_string) {
       return "LO";
     case "Theory Only":
       return "TH";
+    case "Embedded Project":
+      return "EPJ";
   }
 }
 
@@ -30,12 +32,16 @@ const uri = {
   attendance: {
     courses: `https://vtop.vit.ac.in/student/marks_da.asp?sem=${semester}`,
     assignments: 'https://vtop.vit.ac.in/student/marks_da_process.asp',
+    projects: 'https://vtop.vit.ac.in/student/marks_pjt_process.asp'
   }
 };
 
 const fetchCourseDetails = (courses, cookies) => {
   return Promise.all(courses.map(course => {
-    return requests.post(uri.attendance.assignments, cookies, {
+
+    const url_fetch = (courseType(course.type)=='EPJ') ? uri.attendance.projects : uri.attendance.assignments;
+
+    return requests.post(url_fetch, cookies, {
       "sem": semester,
       "classnbr": course.classnbr,
       "crscd": course.code,

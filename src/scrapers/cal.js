@@ -12,6 +12,8 @@ function courseType(course_string) {
       return "LO";
     case "Theory Only":
       return "TH";
+    case "Embedded Project":
+      return "EPJ";
   }
 }
 
@@ -57,7 +59,11 @@ module.exports.parseAssignments = (html) => {
     try {
       let table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0];
       const courseTypeCode = courseType(table[0]['11']);
-      const jsonObject2 = table.splice(5, table.length-1);
+
+      const start = 5;
+      const end = (courseTypeCode=="EPJ") ? 3 : table.length-6;
+
+      const jsonObject2 = table.splice(start, end);
 
       const result = jsonObject2.map(assignItem => {
 
@@ -76,11 +82,17 @@ module.exports.parseAssignments = (html) => {
         else if (courseTypeCode == 'ETH' || courseTypeCode == 'TH') {
 
           assignObject.date = assignItem['2'];
-
           assignObject.max_marks = assignItem['3'];
           assignObject.assign_status = assignItem['5'];
           assignObject.mark_status = assignItem['6'];
           assignObject.marks = assignItem['7'];
+        }
+        else if( courseTypeCode == 'EPJ'){
+          assignObject.date = null;
+          assignObject.max_marks = assignItem['2'];
+          assignObject.assign_status = assignItem['3'];
+          assignObject.mark_status = assignItem['4'];
+          assignObject.marks = assignItem['5'];
         }
 
         return assignObject;
