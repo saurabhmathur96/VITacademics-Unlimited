@@ -66,7 +66,7 @@ function fetchAttendanceDetails (courses, cookies) {
         return course;
       });
   }));
-};
+}
 
 
 module.exports = router;

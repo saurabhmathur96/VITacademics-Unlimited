@@ -1,4 +1,5 @@
 const tabletojson = require('tabletojson');
+const cheerio = require('cheerio');
 const Promise = require('bluebird');
 
 /**
@@ -62,7 +63,9 @@ module.exports.parseDaily = (html) => {
 module.exports.parseExam = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0]
+      const $ = cheerio.load(html);
+      html = $('table[cellpadding=3]').eq(0).html();
+      const table = tabletojson.convert(`<table> ${html} </table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
       const schedule = {
         'CAT - I': [],
         'CAT - II': [],

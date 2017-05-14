@@ -13,7 +13,7 @@ const tabletojson = require('tabletojson')
 module.exports.parseLeaveApplications = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      let $ = cheerio.load(html);
+      const $ = cheerio.load(html);
       const authorities = $('select[name=apply] > option')
         .toArray()
         .map(e => { return { 'id': $(e).val(), 'name': $(e).text() } })
