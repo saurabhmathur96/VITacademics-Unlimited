@@ -43,7 +43,6 @@ module.exports.post = (uri, cookies, form) => {
       formBody.push(`${k}=${form[k]}`);
     }
     options.body = formBody.join('&');
-    console.log(options.body);
   }
 
 

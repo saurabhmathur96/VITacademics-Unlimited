@@ -3,6 +3,7 @@ var path = require('path');
 var expect = require('chai').expect;
 var Promise = require('bluebird');
 var Validator = require('jsonschema').Validator;
+var logger = require('winston');
 
 var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
 var attendance = require(path.join(__dirname, '..', 'src', 'scrapers', 'attendance'));
@@ -23,8 +24,7 @@ schemaFiles.forEach((fileName) => {
     validator.addSchema(schema);
 
   } catch (ex) {
-    console.log(ex);
-    console.error(`${fileName} contains invalid JSON.`);
+    logger.error(`${fileName} contains invalid JSON.`, ex);
   }
 });
 
@@ -37,7 +37,7 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/CalCourse" } }, { nestedErrors: true });
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/CalCourseReport" } }, { nestedErrors: true });
       expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })
@@ -100,7 +100,7 @@ describe('Unit Tests', () => {
     let task = academic.parseMarks(html);
     expect(task).to.be.instanceOf(Promise);
     task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/Marks" } }, { nestedErrors: true });
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/Marks" }, "minItems": 1 }, { nestedErrors: true });
       expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })

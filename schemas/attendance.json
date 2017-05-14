@@ -15,7 +15,8 @@
     "details": {
       "type": "array",
       "items": { "$ref": "AttendanceDetail" },
-      "required": "true"
+      "required": "true",
+      "minItems": 1
     }
   }
 }

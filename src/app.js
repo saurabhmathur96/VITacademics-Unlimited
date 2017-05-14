@@ -1,11 +1,19 @@
 const express = require('express');
 const path = require('path');
-const logger = require('morgan');
+const requestLogger = require('morgan');
+const logger = require('winston');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const compression = require('compression');
 const helmet = require('helmet');
 
+if (process.env.NODE_ENV === 'production') {
+  logger.configure({
+    transports: [
+      new (logger.transports.File)({ filename: 'production.log' })
+    ]
+  });
+}
 
 
 const refresh = require(path.join(__dirname, 'routes', 'refresh'));
@@ -20,7 +28,7 @@ const authentication = require(path.join(__dirname, 'middleware', 'authenticatio
 let app = express();
 
 
-app.use(logger('short'));
+app.use(requestLogger('short'));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -39,18 +47,20 @@ app.use('/faculty', faculty);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
-  let message = err.message;
-  let error = req.app.get('env') === 'development' ? err : {};
+  const message = err.message;
+  const error = req.app.get('env') === 'development' ? err : {};
 
-  // console.error(err.stack)
+  logger.error(`An error occurred (HTTP status ${err.status || 500})`, err.stack);
+
   res.status(err.status || 500);
   res.json({
     error: error,

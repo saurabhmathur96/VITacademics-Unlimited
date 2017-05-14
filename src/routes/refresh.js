@@ -28,16 +28,6 @@ const uri = {
   marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
 };
 
-const fetchAttendanceDetails = (courses, cookies) => {
-  return Promise.all(courses.map(course => {
-    return requests.post(uri.attendance.details, cookies, course.form)
-      .then(attendance.parseDetails).then((details) => {
-        course.details = details;
-        delete course.form;
-        return course;
-      });
-  }));
-};
 
 router.post('/', (req, res, next) => {
   const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY')
@@ -67,6 +57,16 @@ router.post('/', (req, res, next) => {
     }).catch(next);
 });
 
+function fetchAttendanceDetails (courses, cookies) {
+  return Promise.all(courses.map(course => {
+    return requests.post(uri.attendance.details, cookies, course.form)
+      .then(attendance.parseDetails).then((details) => {
+        course.details = details;
+        delete course.form;
+        return course;
+      });
+  }));
+};
 
 
 module.exports = router;

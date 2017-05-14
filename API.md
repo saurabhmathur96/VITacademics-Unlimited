@@ -83,6 +83,40 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   * **Code:** 403 UNAUTHORIZED
 
 
+**CAL Assignments**
+----
+  _Scrapes CAL Assignments for courses registered this semester._
+
+* **URL**
+
+  _/student/assignments_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      courses: Array<CalCourse>
+    }
+    ````
+
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+
 
 
 **Home**

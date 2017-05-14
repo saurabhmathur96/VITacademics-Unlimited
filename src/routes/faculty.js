@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const fs = require('fs');
+const logger = require('winston');
 const router = express.Router();
 
 let facultyDetails = null;
@@ -9,7 +10,7 @@ try {
   const json = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   facultyDetails = json['faculty_info'];
 } catch (ex) {
-  console.error('Faculty info data-file not found. Please create a data-file at ${filePath}.');
+  logger.error('Faculty info data-file not found. Please create a data-file at ${filePath}.');
 }
 
 /**

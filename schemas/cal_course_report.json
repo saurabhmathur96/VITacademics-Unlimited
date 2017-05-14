@@ -1,5 +1,5 @@
 {
-  "id": "/CalCourse",
+  "id": "/CalCourseReport",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -7,12 +7,6 @@
     "course_code": { "type": "string", "required": "true"  },
     "course_title": { "type": "string", "required": "true"  },
     "course_type": { "type": "string", "required": "true"  },
-    "faculty_name": { "type": "string", "required": "true"  },
-    "assignments" : {
-      "type": "array",
-      "items": { "$ref": "CalAssignment" },
-      "required": "true",
-      "minItems": 1
-    }
+    "faculty_name": { "type": "string", "required": "true"  }
   }
 }

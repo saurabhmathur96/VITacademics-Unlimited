@@ -3,6 +3,7 @@ var path = require('path');
 var expect = require('chai').expect;
 var Validator = require('jsonschema').Validator;
 var moment = require('moment');
+var logger = require('winston');
 
 var supertest = require('supertest');
 var app = require(path.join(__dirname, '..', 'src', 'app'));
@@ -22,7 +23,7 @@ schemaFiles.forEach((fileName) => {
     validator.addSchema(schema);
 
   } catch (ex) {
-    console.error(`${fileName} contains invalid JSON.`);
+    logger.error(`${fileName} contains invalid JSON.`, ex);
   }
 });
 
@@ -31,7 +32,7 @@ schemaFiles.forEach((fileName) => {
 try {
   var credentials = JSON.parse(fs.readFileSync(path.join(__dirname, 'credentials.json'), 'utf-8'));
 } catch (ex) {
-  console.error('Credentials not found. Please create test/credentials.json with keys (reg_no, password).')
+  logger.error('Credentials not found. Please create test/credentials.json with keys (reg_no, password).', ex)
 }
 
 
@@ -224,7 +225,22 @@ describe('Integration Tests', () => {
             });
         });
     });
+
+    it('POST student/assignments', (done) => {
+
+      request.post('/student/assignments')
+        .send(credentials)
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.not.exist;
+          expect(res.body).to.have.property('courses');
+          let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/CalCourse" } }, { nestedErrors: true });
+          expect(r.valid).to.be.true;
+          done();
+        });
+    });
   }
+
 
   it('GET /faculty/all', (done) => {
     request.get('/faculty/all')

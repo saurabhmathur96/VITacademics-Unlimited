@@ -29,6 +29,7 @@
     "underscore": "^1.8.3",
     "unirest": "^0.5.1",
     "vitauth": "^2.0.0",
+    "winston": "^2.3.1",
     "zombie": "^5.0.5"
   },
   "engines": {

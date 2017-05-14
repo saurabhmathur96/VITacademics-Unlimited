@@ -48,3 +48,6 @@ test/credentials.json
 .idea/
 .vscode/
 
+# Logs
+*.log
+

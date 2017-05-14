@@ -1,20 +1,12 @@
-const cheerio = require('cheerio');
 const Promise = require('bluebird');
 const tabletojson = require('tabletojson');
 
-function courseType(course_string) {
-  switch (course_string) {
-    case "Embedded Theory":
-      return "ETH";
-    case "Embedded Lab":
-      return "ELA";
-    case "Lab Only":
-      return "LO";
-    case "Theory Only":
-      return "TH";
-    case "Embedded Project":
-      return "EPJ";
-  }
+const courseType = {
+  'Embedded Theory': 'ETH',
+  'Embedded Lab': 'ELA',
+  'Lab Only': 'LO',
+  'Theory Only': 'TH',
+  'Embedded Project': 'EPJ'
 }
 
 /**
@@ -27,16 +19,17 @@ function courseType(course_string) {
 module.exports.parseCourses = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      const jsonObject = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[1].splice(1);
-
-      const result = jsonObject.map(row => {
-
+      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false });
+      if (table.length < 2) {
+        return resolve([]);
+      }
+      const result = table[1].splice(1).map(row => {
         return {
-          classnbr: row['1'],
-          code: row['2'],
-          name: row['3'],
-          type: row['4'],
-          prof: row['5']
+          class_number: row['1'],
+          course_code: row['2'],
+          course_title: row['3'],
+          course_type: row['4'],
+          faculty_name: row['5']
         }
       });
 
@@ -53,53 +46,72 @@ module.exports.parseCourses = (html) => {
  * parse assignments from a course from cal assignments page
  * test-input: test/data/assignments.html
  */
-
 module.exports.parseAssignments = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      let table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0];
-      const courseTypeCode = courseType(table[0]['11']);
-
+      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0];
+      const courseTypeCode = courseType[table[0]['11']];
       const start = 5;
-      const end = (courseTypeCode=="EPJ") ? 3 : table.length-6;
+      const end = (courseTypeCode === 'EPJ') ? 3 : table.length - 6;
+      const spliced = table.splice(start, end);
 
-      const jsonObject2 = table.splice(start, end);
-
-      const result = jsonObject2.map(assignItem => {
-
-        let assignObject = {
-          name: assignItem['1']
-        };
-
-        if (courseTypeCode == 'ELA' || courseTypeCode == 'LO') {
-
-          assignObject.date = null;
-          assignObject.max_marks = assignItem['2'];
-          assignObject.assign_status = assignItem['4'];
-          assignObject.mark_status = assignItem['5'];
-          assignObject.marks = assignItem['6'];
-        }
-        else if (courseTypeCode == 'ETH' || courseTypeCode == 'TH') {
-
-          assignObject.date = assignItem['2'];
-          assignObject.max_marks = assignItem['3'];
-          assignObject.assign_status = assignItem['5'];
-          assignObject.mark_status = assignItem['6'];
-          assignObject.marks = assignItem['7'];
-        }
-        else if( courseTypeCode == 'EPJ'){
-          assignObject.date = null;
-          assignObject.max_marks = assignItem['2'];
-          assignObject.assign_status = assignItem['3'];
-          assignObject.mark_status = assignItem['4'];
-          assignObject.marks = assignItem['5'];
-        }
-
-        return assignObject;
-      });
-      return resolve(result);
+      if (courseTypeCode === 'ELA' || courseTypeCode === 'LO') {
+        return resolve(spliced.map(formatLabAssignment));
+      } else if (courseTypeCode === 'ETH' || courseTypeCode === 'TH') {
+        return resolve(spliced.map(formatTheoryAssignment));
+      } else if (courseTypeCode === 'EPJ') {
+        return resolve(spliced.map(formatProjectAssignment));
+      } else {
+        return resolve(spliced.map(formatUnknownAssignment));
+      }
     } catch (err) {
       return reject(err);
     }
   })
 };
+
+
+function formatLabAssignment(object) {
+  return {
+    name: object['1'],
+    date: null,
+    max_marks: object['2'],
+    assign_status: object['4'],
+    mark_status: object['5'],
+    marks: object['6'],
+  };
+}
+
+function formatTheoryAssignment(object) {
+  return {
+    name: object['1'],
+    date: object['2'],
+    max_marks: object['3'],
+    assign_status: object['5'],
+    mark_status: object['6'],
+    marks: object['7'],
+  };
+}
+
+function formatProjectAssignment(object) {
+  return {
+    name: object['1'],
+    date: null,
+    max_marks: object['2'],
+    assign_status: object['3'],
+    mark_status: object['4'],
+    marks: object['5'],
+  };
+}
+
+function formatUnknownAssignment(object) {
+  return {
+    name: object['1'],
+    date: null,
+    max_marks: null,
+    assign_status: null,
+    mark_status: null,
+    marks: null,
+  };
+
+}
