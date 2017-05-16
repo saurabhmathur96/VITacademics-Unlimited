@@ -2,7 +2,6 @@ const cheerio = require('cheerio');
 const cheerioTableparser = require('cheerio-tableparser');
 const Promise = require('bluebird');
 const tabletojson = require('tabletojson')
-const _ = require('lodash');
 
 /**
  * home.parseMessages
@@ -15,20 +14,48 @@ const _ = require('lodash');
 module.exports.parseMessages = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[1].splice(1);
-      table.pop();
+      const $ = cheerio.load(html);
+      html = $('marquee[width=450]').html();
+      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false });
 
-      let result = table.map(row => {
-        return {
-          faculty: row[0],
-          subject: row[1],
-          message: row[2],
-          time: row[3]
+      if (table.length < 1) {
+        throw new Error('Unable to scrape messages.');
+      }
+      const messages = [];
+      const allowed = ['Faculty', 'Course', 'Message', 'Sent On'];
+      for (let i=0; i<table.length; i++) {
+        const row = table[i].filter(e => allowed.indexOf(e[0]) > -1);
+        while (row.length > 3) {
+          const facultyRow = row.shift(); // take & remove first element from top
+          const courseRow = row.shift();
+          const messageRow = row.shift();
+          const sentOnRow = row.shift();
+          messages.push({
+            faculty: facultyRow[2],
+            subject: courseRow[2],
+            message: messageRow[2],
+            time: sentOnRow[2]
+          });
+        }
+      }
+      table.forEach(row => {
+
+        row = row.filter(e => allowed.indexOf(e[0]) > -1);
+        while (row.length > 3) {
+          const facultyRow = row.shift(); // take & remove first element from top
+          const courseRow = row.shift();
+          const messageRow = row.shift();
+          const sentOnRow = row.shift();
+          messages.push({
+            faculty: facultyRow[2],
+            subject: courseRow[2],
+            message: messageRow[2],
+            time: sentOnRow[2]
+          });
         }
       });
+      return resolve(messages);
 
-      result = _.uniqBy(result, 'message');
-      return resolve(result);
     } catch (err) {
       return reject(err);
     }

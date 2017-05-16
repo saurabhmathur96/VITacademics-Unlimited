@@ -11,11 +11,10 @@ const router = express.Router();
  * respond with spotlight items and faculty messages
  */
 
-const semester = process.env.SEM || 'WS';
 
 const uri = {
   spotlight: 'https://vtop.vit.ac.in/student/include_spotlight.asp',
-  messages: `https://vtop.vit.ac.in/student/class_message_view.asp?sem=${semester}`
+  messages: `https://vtop.vit.ac.in/student/stud_home.asp`
 };
 
 router.post('/', (req, res, next) => {

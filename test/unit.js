@@ -153,13 +153,12 @@ describe('Unit Tests', () => {
   });
 
   it('scrape messages', (done) => {
-    let filePath = path.join('test', 'data', 'class_message_view.html')
+    let filePath = path.join('test', 'data', 'stud_home.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = home.parseMessages(html);
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-
       let r = validator.validate(result, { "type": "array", "items": { "$ref": "/FacultyMessage" } }, { nestedErrors: true });
 
       expect(r.valid).to.be.true;
