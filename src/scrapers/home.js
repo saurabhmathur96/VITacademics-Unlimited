@@ -23,19 +23,32 @@ module.exports.parseMessages = (html) => {
       }
       const messages = [];
       const allowed = ['Faculty', 'Coordinator', 'Course', 'Course Title', 'Message', 'Sent On'];
+      const fields = {
+        'Faculty': 'faculty',
+        'Coordinator': 'faculty',
+        'Course': 'subject',
+        'Course Title': 'subject',
+        'Message': 'message',
+        'Sent On': 'time'
+      };
       for (let i=0; i<table.length; i++) {
-        const row = table[i].filter(e => allowed.indexOf(e[0]) > -1);
-        while (row.length > 3) {
-          const facultyRow = row.shift(); // take & remove first element from top
-          const courseRow = row.shift();
-          const messageRow = row.shift();
-          const sentOnRow = row.shift();
-          messages.push({
-            faculty: facultyRow[2],
-            subject: courseRow[2],
-            message: messageRow[2],
-            time: sentOnRow[2]
-          });
+        const rows = table[i].filter(e => allowed.indexOf(e[0]) > -1);
+        while (rows.length > 0) {
+          const message = {
+            faculty: null,
+            subject: null,
+            message: null,
+            time: null
+          }
+          for (let j=0; j<4; j++) {
+            const row = rows.shift();
+            const field = fields[row[0]];
+            message[field] = row[2];
+            if (field === 'time') {
+              break;
+            }
+          }
+          messages.push(message);
         }
       }
       return resolve(messages);

@@ -25,10 +25,15 @@ router.post('/', (req, res, next) => {
     requests.get(uri.spotlight, req.cookies).then(home.parseSpotlight),
     requests.get(uri.messages, req.cookies).then(home.parseMessages)
   ];
-  const format = 'DD/MM/YYYY HH:mm:ss';
+
   Promise.all(tasks)
-    .then(results => res.json({ 'spotlight': results[0], 'messages': results[1].sort(e => -moment(e.time, format).valueOf()) }))
+    .then(results => res.json({ 'spotlight': results[0], 'messages': results[1].sort(dateTimeComparator) }))
     .catch(next);
 });
 
+
+function dateTimeComparator(a, b) {
+  const format = 'DD/MM/YYYY HH:mm:ss';
+  return moment(b.time, format).valueOf() - moment(a.time, format).valueOf()
+}
 module.exports = router;
