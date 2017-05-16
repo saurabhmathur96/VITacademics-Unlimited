@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const cheerioTableparser = require('cheerio-tableparser');
 const Promise = require('bluebird');
-const tabletojson = require('tabletojson')
+const tabletojson = require('tabletojson');
 
 /**
  * home.parseMessages
@@ -22,7 +22,7 @@ module.exports.parseMessages = (html) => {
         throw new Error('Unable to scrape messages.');
       }
       const messages = [];
-      const allowed = ['Faculty', 'Course', 'Message', 'Sent On'];
+      const allowed = ['Faculty', 'Coordinator', 'Course', 'Course Title', 'Message', 'Sent On'];
       for (let i=0; i<table.length; i++) {
         const row = table[i].filter(e => allowed.indexOf(e[0]) > -1);
         while (row.length > 3) {
@@ -38,22 +38,6 @@ module.exports.parseMessages = (html) => {
           });
         }
       }
-      table.forEach(row => {
-
-        row = row.filter(e => allowed.indexOf(e[0]) > -1);
-        while (row.length > 3) {
-          const facultyRow = row.shift(); // take & remove first element from top
-          const courseRow = row.shift();
-          const messageRow = row.shift();
-          const sentOnRow = row.shift();
-          messages.push({
-            faculty: facultyRow[2],
-            subject: courseRow[2],
-            message: messageRow[2],
-            time: sentOnRow[2]
-          });
-        }
-      });
       return resolve(messages);
 
     } catch (err) {

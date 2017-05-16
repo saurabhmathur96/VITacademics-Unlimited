@@ -3,6 +3,9 @@ const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const home = require(path.join(__dirname, '..', 'scrapers', 'home'));
 const Promise = require('bluebird');
 const express = require('express');
+const _ = require('underscore');
+const moment = require('moment');
+
 const router = express.Router();
 
 /**
@@ -22,9 +25,9 @@ router.post('/', (req, res, next) => {
     requests.get(uri.spotlight, req.cookies).then(home.parseSpotlight),
     requests.get(uri.messages, req.cookies).then(home.parseMessages)
   ];
-
+  const format = 'DD/MM/YYYY HH:mm:ss';
   Promise.all(tasks)
-    .then(results => res.json({ 'spotlight': results[0], 'messages': results[1] }))
+    .then(results => res.json({ 'spotlight': results[0], 'messages': results[1].sort(e => -moment(e.time, format).valueOf()) }))
     .catch(next);
 });
 
