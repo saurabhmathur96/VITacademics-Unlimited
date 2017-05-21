@@ -31,7 +31,7 @@ module.exports.parseMessages = (html) => {
         'Message': 'message',
         'Sent On': 'time'
       };
-      for (let i=0; i<table.length; i++) {
+      for (let i = 0; i < table.length; i++) {
         const rows = table[i].filter(e => allowed.indexOf(e[0]) > -1);
         while (rows.length > 0) {
           const message = {
@@ -40,7 +40,7 @@ module.exports.parseMessages = (html) => {
             message: null,
             time: null
           }
-          for (let j=0; j<4; j++) {
+          for (let j = 0; j < 4; j++) {
             const row = rows.shift();
             const field = fields[row[0]];
             message[field] = row[2];
@@ -69,29 +69,35 @@ module.exports.parseMessages = (html) => {
 module.exports.parseSpotlight = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      let baseScraper = cheerio.load(html);
-      cheerioTableparser(baseScraper);
-      const tables = baseScraper('table');
-      let content = [];
-      let title;
-      let result = [];
-      const tableScraper = baseScraper(tables[tables.length - 1]).parsetable(true, true, false)[0];
-      tableScraper.forEach(function (data) {
-        if (baseScraper(data)['0']['attribs'] && baseScraper(data)['0']['attribs']['color'] && baseScraper(data)['0']['attribs']['color'] == '#000000') {
-          if (content.length != 0) {
-            result.push({
-              title: title,
-              data: content
-            });
+      const $ = cheerio.load(html);
+      let current = { title: '', data: [] };
+      let currentData = { link: '#', text: '' };
+      const result = [];
+      $('td').each((i, e) => {
+        const item = $(e);
+        const itemHTML = item.html().trim();
+        const itemText = item.text().trim();
+        const link = $(itemHTML).attr('href');
+        if (itemHTML.indexOf('<b><u>') !== -1) {
+          if (current.data.length > 0) {
+            result.push(current);
           }
-          content = [];
-          title = baseScraper(data).text();
-        }
-        else if (baseScraper(data)['0'].name == 'span' || baseScraper(data)['0'].name == 'a') {
-          content.push({
-            link: baseScraper(data)['0'].attribs.href,
-            text: baseScraper(data).text()
-          });
+          current = { title: itemText, data: [] };
+        } else {
+          if (link !== null && link !== undefined) {
+            current.data.push({
+              link: link,
+              text: currentData.text + itemText
+            });
+            currentData = { link: '#', text: '' };
+          } else if (itemHTML === '<hr>' || itemHTML === '<hr/>') {
+            if (currentData.text !== '') {
+              current.data.push(currentData);
+            }
+            currentData = { link: '#', text: '' };
+          } else {
+            currentData.text += itemText;
+          }
         }
       });
       return resolve(result);
