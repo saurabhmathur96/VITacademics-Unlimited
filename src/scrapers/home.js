@@ -74,10 +74,16 @@ module.exports.parseSpotlight = (html) => {
       let currentData = { link: '#', text: '' };
       const result = [];
       $('td').each((i, e) => {
-        const item = $(e);
+        let item = $(e);
         const itemHTML = item.html().trim();
         const itemText = item.text().trim();
-        const link = $(itemHTML).attr('href');
+        let link = null;
+        try {
+          link = $(itemHTML).attr('href');
+        } catch (error) {
+          // ignore
+        }
+
         if (itemHTML.indexOf('<b><u>') !== -1) {
           if (current.data.length > 0) {
             result.push(current);
