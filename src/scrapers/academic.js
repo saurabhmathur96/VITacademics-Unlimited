@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const moment = require('moment');
-const underscore = require('underscore');
+const _ = require('lodash');
 const Promise = require('bluebird');
 
 const _gradeValue = {
@@ -106,7 +106,7 @@ module.exports.parseHistory = (html) => {
       });
 
       // Convert semester-wise object to array
-      data.semester_wise = underscore.values(data.semester_wise);
+      data.semester_wise = _.values(data.semester_wise);
 
       // Scraping the credit summary
       const creditsTable = baseScraper('table table').eq(2).children('tr').eq(1);

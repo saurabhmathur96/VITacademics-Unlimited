@@ -15,12 +15,16 @@ const courseType = {
   'Embedded Project': 'EPJ'
 }
 
-const semester = process.env.SEM || 'WS';
-const uri = {
-    courses: `https://vtop.vit.ac.in/student/marks_da.asp?sem=${semester}`,
-    assignments: 'https://vtop.vit.ac.in/student/marks_da_process.asp',
-    projects: 'https://vtop.vit.ac.in/student/marks_pjt_process.asp'
-};
+
+const defaultSemester = process.env.SEM || 'WS';
+const supportedSemesters = [
+  "WS", // Winter Semester
+  "SS", // Summer Semester
+  "IS", // Inter Semester
+  "TS", // Tri Semester
+  "FS" // Fall Semester
+];
+
 
 /**
  * POST /assignments
@@ -28,16 +32,35 @@ const uri = {
  * respond with CAL Assignment details for given student
  */
 router.post('/', (req, res, next) => {
-  requests.get(uri.courses, req.cookies)
-    .then(assignments.parseCourses)
-    .then(courses => fetchCourseDetails(courses, req.cookies))
-    .then(result => res.json({ 'courses': result }))
+
+  req.checkBody('semester', '`semester` not supported.').optional().isIn(supportedSemesters);
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      let message = result.array().map((error) => error.msg).join('\n');
+      let err = new Error(message);
+      err.status = 400;
+      throw err;
+    }
+    const semester = req.body.semester || defaultSemester;
+    const uri = {
+      courses: `https://vtop.vit.ac.in/student/marks_da.asp?sem=${semester}`
+    };
+
+    return requests.get(uri.courses, req.cookies)
+      .then(assignments.parseCourses)
+      .then(courses => fetchCourseDetails(courses, semester, req.cookies))
+      .then(courses => res.json({ 'courses': courses }))
+  })
     .catch(next);
 });
 
-function fetchCourseDetails (courses, cookies) {
-  return Promise.all(courses.map(course => {
+function fetchCourseDetails(courses, semester, cookies) {
+  const uri = {
+    assignments: 'https://vtop.vit.ac.in/student/marks_da_process.asp',
+    projects: 'https://vtop.vit.ac.in/student/marks_pjt_process.asp'
+  }
 
+  return Promise.all(courses.map(course => {
     const url_fetch = (courseType[course.course_type] === 'EPJ') ? uri.projects : uri.assignments;
 
     return requests.post(url_fetch, cookies, {
@@ -47,11 +70,11 @@ function fetchCourseDetails (courses, cookies) {
       'crstp': courseType[course.course_type],
       'daprocmd': 'Process'
     })
-    .then(assignments.parseAssignments)
-    .then(details => {
-      course.assignments = details;
-      return course;
-    });
+      .then(assignments.parseAssignments)
+      .then(details => {
+        course.assignments = details;
+        return course;
+      });
   }));
 }
 

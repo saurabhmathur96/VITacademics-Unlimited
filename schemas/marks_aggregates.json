@@ -1,0 +1,12 @@
+{
+  "id": "/MarksAggregates",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "average": { "type": "number", "required": "true"  },
+    "count": { "type": "number", "required": "true"  },
+    "minimum": { "type": "number", "required": "true"  },
+    "maximum": { "type": "number", "required": "true"  },
+    "standard_deviation": { "type": "number", "required": "true"  }
+  }
+}

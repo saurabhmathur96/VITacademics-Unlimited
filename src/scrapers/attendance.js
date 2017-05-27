@@ -13,8 +13,11 @@ const Promise = require('bluebird');
 module.exports.parseReport = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0].slice(21);
-      const attendance = table.map(row => {
+      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0];
+      if (table === null || table === undefined) {
+        return resolve([]);
+      }
+      const attendance = table.slice(21).map(row => {
 
         return {
           'course_code': row[1],

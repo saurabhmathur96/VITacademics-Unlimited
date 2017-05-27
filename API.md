@@ -21,6 +21,19 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   `password`=[string]
 
+  `semester`=[string, optional]
+
+* **Constraints**
+  `semester` can have one of the following values
+
+  |Value| Meaning                                          |
+  |-----|:-------------------------------------------------|
+  |"WS" | Winter Semester                                  |
+  |"SS" | Summer Semester                                  |
+  |"IS" | Inter Semester                                   |
+  |"TS" | Tri Semester                                     |
+  |"FS" | Fall Semester                                    |
+
 * **Success Response:**
 
 
@@ -42,6 +55,8 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 * **Error Response:**
 
   * **Code:** 403 UNAUTHORIZED
+
+  * **Code:** 400 BAD REQUEST
 
 
 **Grades**
@@ -101,6 +116,19 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   `password`=[string]
 
+   `semester`=[string, optional]
+
+* **Constraints**
+  `semester` can have one the following values
+
+  |Value| Meaning                                          |
+  |-----|:-------------------------------------------------|
+  |"WS" | Winter Semester                                  |
+  |"SS" | Summer Semester                                  |
+  |"IS" | Inter Semester                                   |
+  |"TS" | Tri Semester                                     |
+  |"FS" | Fall Semester                                    |
+
 * **Success Response:**
 
 
@@ -115,6 +143,8 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 * **Error Response:**
 
   * **Code:** 403 UNAUTHORIZED
+
+  * **Code:** 400 BAD REQUEST
 
 
 

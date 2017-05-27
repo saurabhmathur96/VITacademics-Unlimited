@@ -108,7 +108,7 @@ describe('Integration Tests', () => {
         });
     });
 
-    it('POST student/hostel/[applications|outing]', (done) => {
+    xit('POST student/hostel/[applications|outing]', (done) => {
 
       request.post('/student/hostel/applications')
         .send(credentials)
@@ -167,7 +167,7 @@ describe('Integration Tests', () => {
         });
     });
 
-    it('POST student/hostel/[applications|leave]', (done) => {
+    xit('POST student/hostel/[applications|leave]', (done) => {
 
       request.post('/student/hostel/applications')
         .send(credentials)

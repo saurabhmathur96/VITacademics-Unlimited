@@ -9,6 +9,7 @@
     "conducted_on": { "type": "string", "required": "true"  },
     "status": { "type": "string", "required": "true"  },
     "scored_marks": { "required": "false"  },
-    "scored_percentage": { "required": "false" }
+    "scored_percentage": { "required": "false" },
+    "aggregates": { "type": { "$ref": "MarksAggregates" }, "required": "true"  }
   }
 }

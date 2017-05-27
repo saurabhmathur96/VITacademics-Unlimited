@@ -13,6 +13,9 @@ module.exports.parseDaily = (html) => {
   return new Promise((resolve, reject) => {
     try {
       const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0]
+      if (table === null || table === undefined) {
+        return resolve([]);
+      }
       const schedule = table.slice(2, table.length - 11)
       .filter(row => (Object.keys(row).length == 15) || (Object.keys(row).length == 10))
       .map((row) => {
@@ -66,6 +69,9 @@ module.exports.parseExam = (html) => {
       const $ = cheerio.load(html);
       html = $('table[cellpadding=3]').eq(0).html();
       const table = tabletojson.convert(`<table> ${html} </table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
+      if (table === null || table === undefined) {
+        return resolve([]);
+      }
       const schedule = {
         'CAT - I': [],
         'CAT - II': [],

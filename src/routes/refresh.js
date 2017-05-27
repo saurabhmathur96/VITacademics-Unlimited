@@ -3,11 +3,21 @@ const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
 const schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
 const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
+const notification = require(path.join(__dirname, '..', 'services', 'notification'));
 const moment = require('moment-timezone');
 const Promise = require('bluebird');
 const express = require('express');
 const router = express.Router();
 
+
+const defaultSemester = process.env.SEM || 'WS';
+const supportedSemesters = [
+  "WS", // Winter Semester
+  "SS", // Summer Semester
+  "IS", // Inter Semester
+  "TS", // Tri Semester
+  "FS" // Fall Semester
+];
 
 /**
  * POST /refresh
@@ -15,39 +25,48 @@ const router = express.Router();
  * respond with (daily, exam) schedule, attendance and marks details
  */
 
-const semester = process.env.SEM || 'WS';
-const uri = {
-  attendance: {
-    report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=TODAY`,
-    details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
-  },
-  schedule: {
-    timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
-    exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
-  },
-  marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
-};
-
-
 router.post('/', (req, res, next) => {
-  const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY')
+  req.checkBody('semester', '`semester` not supported.').optional().isIn(supportedSemesters);
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      let message = result.array().map((error) => error.msg).join('\n');
+      let err = new Error(message);
+      err.status = 400;
+      throw err;
+    }
+    const semester = req.body.semester || defaultSemester;
+    const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY');
+    const year = moment().tz('Asia/Kolkata').format('YYYY');
 
-  const tasks = [
-    requests.get(uri.attendance.report.replace('TODAY', today), req.cookies)
-      .then(attendance.parseReport)
-      .then(courses => fetchAttendanceDetails(courses, req.cookies)),
-    requests.get(uri.schedule.timetable, req.cookies)
-      .then(schedule.parseDaily),
-    requests.get(uri.schedule.exam, req.cookies)
-      .then(schedule.parseExam),
-    requests.get(uri.marks, req.cookies)
-      .then(academic.parseMarks)
-  ];
-  Promise.all(tasks)
+    const uri = {
+      attendance: {
+        report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
+        details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
+      },
+      schedule: {
+        timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
+        exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
+      },
+      marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
+    };
+
+
+    const tasks = [
+      requests.get(uri.attendance.report, req.cookies)
+        .then(attendance.parseReport)
+        .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies)),
+      requests.get(uri.schedule.timetable, req.cookies)
+        .then(schedule.parseDaily),
+      requests.get(uri.schedule.exam, req.cookies)
+        .then(schedule.parseExam),
+      requests.get(uri.marks, req.cookies)
+        .then(academic.parseMarks)
+        .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
+    ];
+
+    return Promise.all(tasks)
+  })
     .then(results => {
-      if (results[0].length === 0) {
-        throw new Error('Unable to parse response from vtop.');
-      }
       res.json({
         'attendance': results[0],
         'timetable': results[1],
@@ -57,9 +76,9 @@ router.post('/', (req, res, next) => {
     }).catch(next);
 });
 
-function fetchAttendanceDetails (courses, cookies) {
+function fetchAttendanceDetails(courses, uri, cookies) {
   return Promise.all(courses.map(course => {
-    return requests.post(uri.attendance.details, cookies, course.form)
+    return requests.post(uri, cookies, course.form)
       .then(attendance.parseDetails).then((details) => {
         course.details = details;
         delete course.form;
@@ -67,6 +86,47 @@ function fetchAttendanceDetails (courses, cookies) {
       });
   }));
 }
+
+function updateMarksCollection(marksCollection, marksReports, reg_no, semester, year) {
+
+  const marks = [];
+  for (let i = 0; i < marksReports.length; i++) {
+    for (let j = 0; j < marksReports[i].marks.length; j++) {
+      marks.push({
+        class_number: marksReports[i].class_number,
+        title: marksReports[i].marks[j].title,
+        scored_marks: marksReports[i].marks[j].scored_marks,
+        semester: semester,
+        year: year
+      });
+    }
+  }
+
+  return marksCollection.insertOrUpdate(reg_no, marks)
+    .then(() => {
+      const processReport = report =>
+        marksCollection.aggregate(report.class_number, semester, year)
+          .then(aggregates => {
+            const tasks = [];
+            const topic = `${semester}/${year}/${report.class_number}`;
+            for (let i = 0; i < report.marks.length; i++) {
+              const title = report.marks[i].title
+              report.marks[i].aggregates = aggregates[title];
+              if (report.marks[i].count === 1) {
+                tasks.push(notification.sendNotification(topic, `Marks updated for ${title}`))
+              }
+            }
+            return Promise.all([report, tasks]);
+          })
+          .then(result => result[0])
+
+      return Promise.all(marksReports.map(processReport));
+    });
+}
+
+
+
+
 
 
 module.exports = router;
