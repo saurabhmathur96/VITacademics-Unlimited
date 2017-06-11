@@ -12,11 +12,16 @@ const Promise = require('bluebird');
 module.exports.parseDaily = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0]
+      const $ = cheerio.load(html);
+      html = $('table[cellspacing=0]').eq(1).html()
+      if (html === null || html === undefined) {
+        return resolve([]);
+      }
+      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
       if (table === null || table === undefined) {
         return resolve([]);
       }
-      const schedule = table.slice(2, table.length - 11)
+      const schedule = table.slice(1)// table.slice(2, table.length - 11)
       .filter(row => (Object.keys(row).length == 15) || (Object.keys(row).length == 10))
       .map((row) => {
         if (Object.keys(row).length == 15) {
@@ -78,8 +83,7 @@ module.exports.parseExam = (html) => {
         'Final Assessment Test': []
       };
       let key = 'CAT - I';
-      table.slice(2, table.length - 1)
-      for (let i = 3; i < table.length - 1; i++) {
+      for (let i = 1; i < table.length - 1; i++) {
         const row = table[i];
         if (row[0] === 'CAT - I' || row[0] === 'CAT - II' || row[0] === 'Final Assessment Test') {
           key = row[0];

@@ -3,7 +3,6 @@ const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const home = require(path.join(__dirname, '..', 'scrapers', 'home'));
 const Promise = require('bluebird');
 const express = require('express');
-const _ = require('underscore');
 const moment = require('moment');
 
 const router = express.Router();

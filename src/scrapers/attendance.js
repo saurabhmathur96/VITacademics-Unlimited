@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const momentTimezone = require('moment-timezone');
 const tabletojson = require('tabletojson')
 const Promise = require('bluebird');
+const _ = require('lodash');
 
 /**
  * attendance.parseReport
@@ -17,7 +18,10 @@ module.exports.parseReport = (html) => {
       if (table === null || table === undefined) {
         return resolve([]);
       }
-      const attendance = table.slice(21).map(row => {
+      // Select all rows of table
+      let t = table.map(e => _.values(e)).filter(e => e.length == 11);
+      // Skip header
+      const attendance = t.splice(1).map(row => {
 
         return {
           'course_code': row[1],
@@ -32,14 +36,16 @@ module.exports.parseReport = (html) => {
         }
 
       });
-      const scraper = cheerio.load(html);
-      const semcode = scraper("input[type=hidden][name='semcode']").map((i, e) => e.attribs.value);
-      const classnbr = scraper("input[type=hidden][name='classnbr']").map((i, e) => e.attribs.value);
-      const from_date = scraper("input[type=hidden][name='from_date']").map((i, e) => e.attribs.value);
-      const to_date = scraper("input[type=hidden][name='to_date']").map((i, e) => e.attribs.value);
-      const crscd = scraper("input[type=hidden][name='crscd']").map((i, e) => e.attribs.value);
-      const crstp = scraper("input[type=hidden][name='crstp']").map((i, e) => e.attribs.value);
+      // Find form elements required to fetch attendance details
+      const $ = cheerio.load(html);
+      const semcode = $("input[type=hidden][name='semcode']").map((i, e) => e.attribs.value);
+      const classnbr = $("input[type=hidden][name='classnbr']").map((i, e) => e.attribs.value);
+      const from_date = $("input[type=hidden][name='from_date']").map((i, e) => e.attribs.value);
+      const to_date = $("input[type=hidden][name='to_date']").map((i, e) => e.attribs.value);
+      const crscd = $("input[type=hidden][name='crscd']").map((i, e) => e.attribs.value);
+      const crstp = $("input[type=hidden][name='crstp']").map((i, e) => e.attribs.value);
 
+      // Attach form elements to respective courses
       for (let i=0; i<attendance.length; i++) {
         attendance[i].form = {
           semcode: semcode[i],
