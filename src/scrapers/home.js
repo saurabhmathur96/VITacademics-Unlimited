@@ -18,7 +18,7 @@ module.exports.parseMessages = (html) => {
       const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false });
 
       if (table.length < 1) {
-        throw new Error('Unable to scrape messages.');
+        return resolve([]);
       }
       const messages = [];
       const allowed = ['Faculty', 'Coordinator', 'Course', 'Course Title', 'Message', 'Sent On'];
