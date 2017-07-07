@@ -48,7 +48,9 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
         "CAT - II": Array<ExamSchedule>,
         "Final Assessment Test": Array<ExamSchedule>
       },
-      marks: Array<Marks>
+      marks: Array<Marks>,
+      semester: string,
+      default_semester: string
     }
     ````
 

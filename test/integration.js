@@ -71,6 +71,9 @@ describe('Integration Tests', () => {
           expect(r.valid).to.be.true;
           expect(res.body.marks.length).to.be.above(0);
 
+          expect(res.body).to.have.property('semester');
+
+          expect(res.body).to.have.property('default_semester');
 
           done();
         });

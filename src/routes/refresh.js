@@ -71,7 +71,9 @@ router.post('/', (req, res, next) => {
         'attendance': results[0],
         'timetable': results[1],
         'exam_schedule': results[2],
-        'marks': results[3]
+        'marks': results[3],
+        'semester': req.body.semester || defaultSemester,
+        'default_semester': defaultSemester
       })
     }).catch(next);
 });
