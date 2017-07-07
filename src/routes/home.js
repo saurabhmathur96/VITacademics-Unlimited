@@ -26,7 +26,7 @@ router.post('/', (req, res, next) => {
   ];
 
   Promise.all(tasks)
-    .then(results => res.json({ 'spotlight': results[0], 'messages': results[1].sort(dateTimeComparator) }))
+    .then(results => res.json({ 'spotlight': results[0], 'messages': results[1].sort(dateTimeComparator), 'cookies': req.cookies.serialize() }))
     .catch(next);
 });
 
