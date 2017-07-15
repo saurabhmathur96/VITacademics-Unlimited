@@ -39,7 +39,7 @@ module.exports = (req, res, next) => {
       throw err;
     } else {
       const semester = req.body.semester || defaultSemester;
-      const portal = (semester === 'FS') ? 'vtopbeta' : 'vtop';
+      const portal = (semester === 'FS' && req.url === '/refresh') ? 'vtopbeta' : 'vtop';
       req.body.reg_no = req.body.reg_no.toUpperCase();
 
       // Add portal name to cache key. This keeps the cookies separate
@@ -61,7 +61,9 @@ module.exports = (req, res, next) => {
     req.cookies = cookies;
     next();
   }).catch(err => {
-    err.status = 403;
+    if (!err.status) {
+      err.status = 403;
+    }
     next(err);
   })
 
