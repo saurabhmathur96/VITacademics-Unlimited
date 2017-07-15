@@ -2,6 +2,14 @@ const tabletojson = require('tabletojson');
 const cheerio = require('cheerio');
 const Promise = require('bluebird');
 
+const courseTypes = {
+  "TH": "Theory Only",
+  "ETH": "Embedded Theory",
+  "ELA": "Embedded Lab",
+  "EPJ": "Embedded Project",
+  "SS": "Soft Skill"
+}
+
 
 /**
  * timetable.parseDaily
@@ -88,7 +96,7 @@ module.exports.parseDailyBeta = (html) => {
             'class_number': row['Class Nbr'].trim(),
             'course_code': row['Course Code'].trim(),
             'course_name': row['Course Title'].trim(),
-            'course_type': row['Course Type'].trim(),
+            'course_type': courseTypes[row['Course Type'].trim()],
             'ltpjc': `${row['L']}${row['T']}${row['P']}${row['J']}${row['C']}`,
             'course_option': row['Course Option'].trim(),
             'course_mode': 'NA',
