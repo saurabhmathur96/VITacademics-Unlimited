@@ -2,6 +2,7 @@ const tabletojson = require('tabletojson');
 const cheerio = require('cheerio');
 const Promise = require('bluebird');
 
+
 /**
  * timetable.parseDaily
  *
@@ -58,6 +59,49 @@ module.exports.parseDaily = (html) => {
     } catch (ex) {
       return reject(ex);
     }
+  });
+}
+
+
+
+/**
+ * timetable.parseDailyBeta
+ *
+ * parse current semester's daily timetable from vtopbeta
+ * test-input: test/data/processViewTimeTable.html
+ */
+
+module.exports.parseDailyBeta = (html) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const $ = cheerio.load(html);
+      html = $('#studentDetailsList').html()
+      if (html === null || html === undefined) {
+        return resolve([]);
+      }
+      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
+      if (table === null || table === undefined) {
+        return resolve([]);
+      }
+      const schedule = table.map((row) => {
+          return {
+            'class_number': row['Class Nbr'].trim(),
+            'course_code': row['Course Code'].trim(),
+            'course_name': row['Course Title'].trim(),
+            'course_type': row['Course Type'].trim(),
+            'ltpjc': `${row['L']}${row['T']}${row['P']}${row['J']}${row['C']}`,
+            'course_option': row['Course Option'].trim(),
+            'course_mode': 'NA',
+            'slot': row['Slot'].trim(),
+            'venue': row['Venue'].trim(),
+            'faculty_name': row['Faculty Name'].trim().replace(/\s+/g, ' '),
+          }
+      })
+      return resolve(schedule);
+    } catch (ex) {
+      return reject(ex);
+    }
+
   });
 }
 

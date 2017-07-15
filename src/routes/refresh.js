@@ -26,7 +26,6 @@ const supportedSemesters = [
  */
 
 router.post('/', (req, res, next) => {
-  req.checkBody('semester', '`semester` not supported.').optional().isIn(supportedSemesters);
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
       let message = result.array().map((error) => error.msg).join('\n');
@@ -38,44 +37,58 @@ router.post('/', (req, res, next) => {
     const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY');
     const year = moment().tz('Asia/Kolkata').format('YYYY');
 
-    const uri = {
-      attendance: {
-        report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
-        details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
-      },
-      schedule: {
-        timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
-        exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
-      },
-      marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
-    };
+    if (semester === 'FS') {
+      // Use vtopbeta for data
+      const uri = {
+        schedule: {
+          timetable: 'https://vtopbeta.vit.ac.in/vtop/processViewTimeTable'
+        }
+      }
+      return requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': 'VL2017181' })
+        .then(schedule.parseDailyBeta)
+        .then((timetable) => [[], timetable, { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }, []]);
+    } else {
+      // Use vtop for data
+      const uri = {
+        attendance: {
+          report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
+          details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
+        },
+        schedule: {
+          timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
+          exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
+        },
+        marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
+      };
 
 
-    const tasks = [
-      requests.get(uri.attendance.report, req.cookies)
-        .then(attendance.parseReport)
-        .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies)),
-      requests.get(uri.schedule.timetable, req.cookies)
-        .then(schedule.parseDaily),
-      requests.get(uri.schedule.exam, req.cookies)
-        .then(schedule.parseExam),
-      requests.get(uri.marks, req.cookies)
-        .then(academic.parseMarks)
-        .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
-    ];
+      const tasks = [
+        requests.get(uri.attendance.report, req.cookies)
+          .then(attendance.parseReport)
+          .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies)),
+        requests.get(uri.schedule.timetable, req.cookies)
+          .then(schedule.parseDaily),
+        requests.get(uri.schedule.exam, req.cookies)
+          .then(schedule.parseExam),
+        requests.get(uri.marks, req.cookies)
+          .then(academic.parseMarks)
+          .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
+      ];
 
-    return Promise.all(tasks)
+      return Promise.all(tasks)
+    }
   })
-    .then(results => {
-      res.json({
-        'attendance': results[0],
-        'timetable': results[1],
-        'exam_schedule': results[2],
-        'marks': results[3],
-        'semester': req.body.semester || defaultSemester,
-        'default_semester': defaultSemester
-      })
-    }).catch(next);
+  .then(results => {
+    // Finally, send results as json.
+    res.json({
+      'attendance': results[0],
+      'timetable': results[1],
+      'exam_schedule': results[2],
+      'marks': results[3],
+      'semester': req.body.semester || defaultSemester,
+      'default_semester': defaultSemester
+    })
+  }).catch(next);
 });
 
 function fetchAttendanceDetails(courses, uri, cookies) {

@@ -21,10 +21,11 @@ module.exports.parseMessages = (html) => {
         return resolve([]);
       }
       const messages = [];
-      const allowed = ['Faculty', 'Coordinator', 'Course', 'Course Title', 'Message', 'Sent On'];
+      const allowed = ['Faculty', 'Advisor', 'Coordinator', 'Course', 'Course Title', 'Message', 'Sent On'];
       const fields = {
         'Faculty': 'faculty',
         'Coordinator': 'faculty',
+        'Advisor': 'faculty',
         'Course': 'subject',
         'Course Title': 'subject',
         'Message': 'message',
@@ -35,7 +36,7 @@ module.exports.parseMessages = (html) => {
         while (rows.length > 0) {
           const message = {
             faculty: null,
-            subject: null,
+            subject: '',
             message: null,
             time: null
           }

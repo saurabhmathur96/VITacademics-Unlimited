@@ -4,6 +4,7 @@ const Promise = require('bluebird');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+
 /**
  * Gets Login Cookie via Headless Browser
  */

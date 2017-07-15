@@ -79,6 +79,29 @@ describe('Integration Tests', () => {
         });
     });
 
+    it('POST /student/refresh semester=FS', (done) => {
+      request.post('/student/refresh')
+        .send({ reg_no: credentials.reg_no, password: credentials.password, semester: 'FS' })
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.not.exist;
+          let r;
+
+          expect(res.body).to.have.property('timetable');
+          r = validator.validate(res.body.timetable, { "type": "array", "items": { "$ref": "/DailySchedule" } }, { nestedErrors: true });
+          expect(r.valid).to.be.true;
+          expect(res.body.timetable.length).to.be.above(0);
+
+
+
+          expect(res.body).to.have.property('semester');
+
+          expect(res.body).to.have.property('default_semester');
+
+          done();
+        });
+    });
+
     it('POST /student/home', (done) => {
       request.post('/student/home')
         .send(credentials)
@@ -230,7 +253,7 @@ describe('Integration Tests', () => {
         });
     });
 
-    it('POST student/assignments', (done) => {
+    xit('POST student/assignments', (done) => {
 
       request.post('/student/assignments')
         .send(credentials)

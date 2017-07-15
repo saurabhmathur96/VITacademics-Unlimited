@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 const refresh = require(path.join(__dirname, 'routes', 'refresh'));
-const assignments = require(path.join(__dirname, 'routes', 'assignments'));
+// const assignments = require(path.join(__dirname, 'routes', 'assignments'));
 const grades = require(path.join(__dirname, 'routes', 'grades'));
 const faculty = require(path.join(__dirname, 'routes', 'faculty'));
 const home = require(path.join(__dirname, 'routes', 'home'));
@@ -51,7 +51,7 @@ database.connect('mongodb://localhost/student')
 
   // Routes
   app.use('/student/refresh', refresh);
-  app.use('/student/assignments', assignments);
+  // app.use('/student/assignments', assignments);
   app.use('/student/grades', grades);
   app.use('/student/home', home);
   app.use('/student/hostel', hostel);
@@ -77,6 +77,7 @@ database.connect('mongodb://localhost/student')
     if (status === 500) {
       logger.error(`An error occurred (HTTP status 500)`, err.stack);
     }
+    logger.error(`An error occurred (HTTP status 500)`, err.stack)
     res.status(status);
     res.json({
       error: error,

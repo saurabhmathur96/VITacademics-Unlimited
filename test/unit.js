@@ -109,7 +109,20 @@ describe('Unit Tests', () => {
   it('scrape timetable', (done) => {
     let filePath = path.join('test', 'data', 'course_regular.html')
     let html = fs.readFileSync(filePath, 'utf8');
-    let task = schedule.parseDaily(html, 'vellore');
+    let task = schedule.parseDaily(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/DailySchedule" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
+
+  it('scrape timetable beta', (done) => {
+    let filePath = path.join('test', 'data', 'processViewTimeTable.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = schedule.parseDailyBeta(html);
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {

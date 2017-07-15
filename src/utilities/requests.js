@@ -16,9 +16,6 @@ module.exports.get = (uri, cookies) => {
       else
         throw new Error("VTOP not working")
     })
-  // .then(function(text) {
-  //   console.log('Document:', text);
-  // }); // To check if it working
 }
 
 
@@ -57,7 +54,4 @@ module.exports.post = (uri, cookies, form) => {
     }
 
   });
-  // .then(function(text) {
-  //   console.log('Document:', text);
-  // }); // For checking if its running
 }
