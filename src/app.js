@@ -74,10 +74,9 @@ database.connect('mongodb://localhost/student')
     const message = err.message;
     const error = req.app.get('env') === 'development' ? err : {};
     const status = err.status || 500;
-    if (status === 500) {
-      logger.error(`An error occurred (HTTP status 500)`, err.stack);
+    if (Math.floor(status / 100) === 5) {
+      logger.error(`An error occurred (HTTP status ${status})`, err.stack);
     }
-    logger.error(`An error occurred (HTTP status 500)`, err.stack)
     res.status(status);
     res.json({
       error: error,
