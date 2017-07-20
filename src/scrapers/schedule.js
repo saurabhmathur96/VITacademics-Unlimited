@@ -4,6 +4,7 @@ const Promise = require('bluebird');
 
 const courseTypes = {
   "TH": "Theory Only",
+  "LO": "Lab Only",
   "ETH": "Embedded Theory",
   "ELA": "Embedded Lab",
   "EPJ": "Embedded Project",
