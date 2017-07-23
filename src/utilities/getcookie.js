@@ -1,6 +1,7 @@
 const Zombie = require('zombie');
 const parser = require('./CaptchaParser');
 const Promise = require('bluebird');
+const logger = require('winston');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -16,7 +17,12 @@ module.exports = (username, password) => {
   });
 
   return new Promise((resolve, reject) => {
-    browser.visit('https://vtop.vit.ac.in/student/stud_login.asp', function () {
+    browser.visit('https://vtop.vit.ac.in/student/stud_login.asp', (err) => {
+
+      if (err && err.name !== 'TypeError') {
+        logger.error(err);
+        return reject(new Error('VTOP Servers seem to be down.'));
+      }
 
       const now = new Date();
       browser
@@ -44,7 +50,11 @@ module.exports = (username, password) => {
                 resolve(browser.cookies);
               }
             });
-        }).catch(err => reject(err))
+        }).catch(e => {
+          logger.error(e);
+          return reject(new Error('VTOP Servers seem to be down.'));
+        })
+
 
     });
   });

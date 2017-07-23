@@ -1,4 +1,6 @@
 const Zombie = require('zombie');
+const logger = require('winston');
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 module.exports = (username, password) => {
   const browser = new Zombie();
@@ -8,19 +10,30 @@ module.exports = (username, password) => {
   });
 
   return new Promise((resolve, reject) => {
-    browser.visit('https://vtopbeta.vit.ac.in/vtop/', () => {
-      const captcha = browser.querySelector('label').textContent;
-      browser.fill('uname', username)
-        .fill('passwd', password)
-        .fill('captchaCheck', captcha)
-        .pressButton('.btn.btn-primary.pull-right', () => {
-          const message = browser.querySelector('p.box-title.text-danger');
-          if (!message) {
-            resolve(browser.cookies);
-          } else {
-            reject(new Error(message.textContent));
-          }
-      });
+    browser.visit('https://vtopbeta.vit.ac.in/vtop/', (err) => {
+      if (err && err.name !== 'TypeError') {
+        logger.error(err);
+        return reject(new Error('VTOP-Beta Servers seem to be down.'));
+      }
+      try {
+        const captcha = browser.querySelector('label').textContent;
+        browser.fill('uname', username)
+          .fill('passwd', password)
+          .fill('captchaCheck', captcha)
+          .pressButton('.btn.btn-primary.pull-right', () => {
+            const message = browser.querySelector('p.box-title.text-danger');
+            if (!message) {
+              resolve(browser.cookies);
+            } else {
+              reject(new Error(message.textContent));
+            }
+
+          });
+      } catch (parsingErr) {
+        logger.error(parsingErr);
+        reject(new Error('VTOP-Beta Servers seem to be down.'));
+
+      }
     });
 
   });
