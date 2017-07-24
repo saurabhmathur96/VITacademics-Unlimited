@@ -1,5 +1,6 @@
 const Zombie = require('zombie');
 const logger = require('winston');
+const Promise = require('bluebird');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 module.exports = (username, password) => {

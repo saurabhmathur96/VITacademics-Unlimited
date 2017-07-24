@@ -36,7 +36,7 @@ router.post('/', (req, res, next) => {
   req.checkBody('semester', '`semester` not supported.').optional().isIn(supportedSemesters);
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
-      let message = result.array().map((error) => error.msg).join('\n');
+      const message = result.array().map((error) => error.msg).join('\n');
       let err = new Error(message);
       err.status = 400;
       throw err;

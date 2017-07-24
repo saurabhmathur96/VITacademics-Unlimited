@@ -34,8 +34,8 @@ module.exports = (req, res, next) => {
 
   req.getValidationResult().then(result => {
     if (!result.isEmpty()) {
-      let message = result.array().map((error) => error.msg).join('\n');
-      let err = new Error(message);
+      const message = result.array().map((error) => error.msg).join('\n');
+      const err = new Error(message);
       throw err;
     } else {
       const semester = req.body.semester || defaultSemester;
@@ -50,7 +50,7 @@ module.exports = (req, res, next) => {
       }
 
       // Sign in to Vtop beta for Fall Semester
-      let signIn = ((portal === 'vtopbeta') ? signInVtopBeta: signInVtop);
+      const signIn = ((portal === 'vtopbeta') ? signInVtopBeta: signInVtop);
       return signIn(req.body.reg_no, req.body.password)
         .then(cookies => {
           cache.put(key, cookies, 2 * 60 * 1000); // timeout of 2 minutes
