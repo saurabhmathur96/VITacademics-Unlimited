@@ -54,8 +54,8 @@ router.post('/outing', (req, res, next) => {
   req.checkBody('authority', '`authority` cannot be empty.').notEmpty();
   req.checkBody('place', '`place` cannot be empty.').notEmpty();
   req.checkBody('reason', '`reason` cannot be empty.').notEmpty();
-  req.checkBody('from', '`entry_date` must be ISO8601 compliant.').isISO8601();
-  req.checkBody('to', '`exit_date` must be ISO8601 compliant.').isISO8601();
+  req.checkBody('from', '`from` must be ISO8601 compliant.').isISO8601();
+  req.checkBody('to', '`to` must be ISO8601 compliant.').isISO8601();
 
   req.sanitize('authority').trim();
   req.sanitize('place').trim();
@@ -138,8 +138,8 @@ router.post('/leave', (req, res, next) => {
   req.checkBody('place', '`place` cannot be empty.').notEmpty();
   req.checkBody('reason', '`reason` cannot be empty.').notEmpty();
   req.checkBody('type', '`type` not supported.').isIn(supportedTypes)
-  req.checkBody('from', '`entry_date` must be ISO8601 compliant.').isISO8601();
-  req.checkBody('to', '`exit_date` must be ISO8601 compliant.').isISO8601();
+  req.checkBody('from', '`from` must be ISO8601 compliant.').isISO8601();
+  req.checkBody('to', '`to` must be ISO8601 compliant.').isISO8601();
 
   req.sanitize('authority').trim();
   req.sanitize('place').trim();
@@ -193,7 +193,13 @@ router.post('/leave', (req, res, next) => {
 
 });
 
-
+/**
+ * POST /cancel
+ *
+ * cancel a leave/outing request, respond with updated leave/outing applications list.
+ *
+ * application_id=[string]
+ */
 router.post('/cancel', (req, res, next) => {
   req.checkBody('application_id', '`application_id` should be an integer.').isInt();
   req.getValidationResult().then((result) => {

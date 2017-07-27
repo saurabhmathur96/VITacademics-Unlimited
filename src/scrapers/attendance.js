@@ -1,5 +1,4 @@
 const cheerio = require('cheerio');
-const momentTimezone = require('moment-timezone');
 const tabletojson = require('tabletojson')
 const Promise = require('bluebird');
 const _ = require('lodash');
@@ -28,11 +27,9 @@ module.exports.parseReport = (html) => {
           'course_title': row[2],
           'course_type': row[3],
           'slot': row[4],
-          'registration_date': momentTimezone.tz(row[5], 'DD/MM/YYYY HH:mm:ss', 'Asia/Kolkata').utc().toJSON(),
           'attended_classes': row[6],
           'total_classes': row[7],
-          'attendance_percentage': row[8],
-          'status': row[9]
+          'attendance_percentage': row[8]
         }
 
       });
@@ -46,7 +43,7 @@ module.exports.parseReport = (html) => {
       const crstp = $("input[type=hidden][name='crstp']").map((i, e) => e.attribs.value);
 
       // Attach form elements to respective courses
-      for (let i=0; i<attendance.length; i++) {
+      for (let i = 0; i < attendance.length; i++) {
         attendance[i].form = {
           semcode: semcode[i],
           classnbr: classnbr[i],
@@ -60,8 +57,48 @@ module.exports.parseReport = (html) => {
     } catch (ex) {
       return reject(ex);
     }
-
   });
+}
+
+/**
+ * attendance.parseReportBeta
+ *
+ * parse general attendance report of all registered courses from vtopbeta
+ * test-input: test/data/processViewStudentAttendance.html
+ */
+module.exports.parseReportBeta = (html) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const $ = cheerio.load(html);
+      const rows = $('table').find('tr');
+
+      const report = rows.map((i, row) => {
+        const td = $(row).find('td');
+        if (td.length != 17) {
+          return null;
+        }
+
+        const fragments = td.eq(16).find('a').attr('onclick').split("'");
+        return {
+          'course_code': td.eq(2).text().trim(),
+          'course_title': td.eq(3).text().trim(),
+          'course_type': td.eq(4).text().trim(),
+          'slot': td.eq(11).text().trim(),
+          'attended_classes': '0',
+          'total_classes': '0',
+          'attendance_percentage': '0',
+          'form': {
+            'classId': fragments[1],
+            'slotName': fragments[3]
+          }
+        };
+      }).get().filter(e => e !== null);
+
+      return resolve(report);
+    } catch (err) {
+      return reject(err);
+    }
+  })
 }
 
 /**
@@ -78,12 +115,39 @@ module.exports.parseDetails = (html) => {
         return {
           'date': row[1],
           'slot': row[2],
-          'status': row[3],
-          'units': row[4],
-          'reason': row[5]
+          'status': row[3]
         }
       });
       return resolve(details)
+    } catch (err) {
+      return reject(err);
+    }
+  })
+}
+
+/**
+ * attendance.parseDetailsBeta
+ *
+ * parse a date-wise report of a particular course from vtopbeta
+ * test-input: test/data/processViewAttendanceDetail.html
+ */
+module.exports.parseDetailsBeta = (html) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const $ = cheerio.load(html);
+      const rows = $('table').find('tr');
+      const details = rows.map((i, row) => {
+        const td = $(row).find('td');
+        if (td.length != 5) {
+          return null;
+        }
+        return {
+          'date': td.eq(1).text().trim(),
+          'slot': td.eq(2).text().trim(),
+          'status': td.eq(4).text().trim()
+        }
+      }).get().filter(e => e !== null);
+      return resolve(details);
     } catch (err) {
       return reject(err);
     }

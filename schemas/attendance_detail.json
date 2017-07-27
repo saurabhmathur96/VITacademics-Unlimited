@@ -5,8 +5,6 @@
     "properties": {
       "date": { "type": "string", "required": "true" },
       "slot": { "type": "string", "required": "true"  },
-      "status": { "type": "string", "required": "true"  },
-      "units": { "type": "string", "required": "true"  },
-      "reason": { "type": "string", "required": "true"  }
+      "status": { "type": "string", "required": "true"  }
     }
 }

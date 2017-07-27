@@ -12,18 +12,6 @@
     "total_classes": { "type": "string", "required": "true"  },
     "attendance_percentage": { "type": "string", "required": "true"  },
     "status": { "type": "string", "required": "true"  },
-    "form": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "semcode": { "type": "string", "required": "true"  },
-        "classnbr": { "type": "string", "required": "true"  },
-        "from_date": { "type": "string", "required": "true"  },
-        "to_date": { "type": "string", "required": "true"  },
-        "crscd": { "type": "string", "required": "true"  },
-        "crstp": { "type": "string", "required": "true"  }
-
-      }
-    }
+    "form": { "type": "object", "required": "true" }
   }
 }

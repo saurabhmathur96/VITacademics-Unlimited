@@ -1,0 +1,152 @@
+<div class="container">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>Attendance</h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Attendance</li>
+    </ol>
+  </section>
+
+  <!-- Content here -->
+  <section class="content">
+    <!--  <div class="row">-->
+    <div class="col-sm-12 col-md-11 col-md-offset-0">
+      <div class="box box-solid box-primary">
+        <div class="box-header with-border text-center">
+          <h3 class="box-title" style="text-align:center;margin-top:10px;">STUDENT ATTENDANCE DETAILS</h3>
+          <h3 style="font-weight: bold; text-align: right; float: right;" class="box-title">
+            <button type="button" class="btn btn-md btn-primary btn-block" id="btn" onclick="javascript:processBackAttendanceDetails(&#39;VL2017181&#39;);">Back</button>
+          </h3>
+        </div>
+        <!-- /.box-header -->
+
+        <div class="table-responsive">
+          <table class="table" style="background-color: #fff; border: 1px solid #ddd; font-size: 12px; padding: 4px; text-align: center;">
+            <thead>
+              <tr Style="background-color: #656565; color: #fff;">
+                <th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px;">Sl.No</th>
+                <th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px;">Attendance Date</th>
+                <th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px;">Attendance Slot</th>
+                <th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px;">Day And Timing</th>
+
+                <th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px;">Attendance Status</th>
+              </tr>
+            </thead>
+
+            <tr>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">1</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">19-Jul-2017</td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">F2</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">WED,16:00-16:50</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <span>Present</span>
+
+
+
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">2</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">21-Jul-2017</td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">TF2</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">FRI,17:00-17:50</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <span>Present</span>
+
+
+
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">3</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">24-Jul-2017</td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">F2</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">MON,15:00-15:50</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <span>Present</span>
+
+
+
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">4</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">26-Jul-2017</td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">F2</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <p style="margin: 0px;">WED,16:00-16:50</p>
+              </td>
+              <td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+                <span>Present</span>
+
+
+
+              </td>
+            </tr>
+          </table>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <noscript>
+    <h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
+  </noscript>
+  <script type="text/javascript">
+    /*<![CDATA[*/
+    function processBackAttendanceDetails(semesterSubId) {
+
+      params = "lSemesterSubId="
+        + semesterSubId;
+
+      $
+        .ajax({
+          url: "processBackAttendanceDetails",
+          type: "POST",
+          data: params,
+          success: function (response) {
+            $("#page-wrapper").html(response);
+          },
+          error: function (jqXHR, textStatus,
+            errorMessage) {
+            $.unblockUI();
+            $("#upload-file-message")
+              .text(
+              errorMessage
+              + "Error while Submitting");
+          }
+        });
+
+    }
+
+					/*]]>*/
+  </script>
+
+</div>

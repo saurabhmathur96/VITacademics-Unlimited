@@ -68,10 +68,37 @@ describe('Unit Tests', () => {
       done();
     }).catch(err => { throw err; })
   });
+
+  it('scrape attendance report beta', (done) => {
+    let filePath = path.join('test', 'data', 'processViewStudentAttendance.html');
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = attendance.parseReportBeta(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AttendanceReport" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
+
   it('scrape attendance details', (done) => {
     let filePath = path.join('test', 'data', 'attn_report_details.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = attendance.parseDetails(html);
+    expect(task).to.be.instanceof(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AttendanceDetail" } }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
+
+  it('scrape attendance details beta', (done) => {
+    let filePath = path.join('test', 'data', 'processViewAttendanceDetail.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = attendance.parseDetailsBeta(html);
     expect(task).to.be.instanceof(Promise);
 
     task.then(result => {

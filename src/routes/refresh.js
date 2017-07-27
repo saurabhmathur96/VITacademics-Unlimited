@@ -11,13 +11,6 @@ const router = express.Router();
 
 
 const defaultSemester = process.env.SEM || 'WS';
-const supportedSemesters = [
-  "WS", // Winter Semester
-  "SS", // Summer Semester
-  "IS", // Inter Semester
-  "TS", // Tri Semester
-  "FS" // Fall Semester
-];
 
 /**
  * POST /refresh
@@ -42,11 +35,21 @@ router.post('/', (req, res, next) => {
       const uri = {
         schedule: {
           timetable: 'https://vtopbeta.vit.ac.in/vtop/processViewTimeTable'
+        },
+        attendance: {
+          report: 'https://vtopbeta.vit.ac.in/vtop/processViewStudentAttendance',
+          details: 'https://vtopbeta.vit.ac.in/vtop/processViewAttendanceDetail'
         }
       }
-      return requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': 'VL2017181' })
-        .then(schedule.parseDailyBeta)
-        .then((timetable) => [[], timetable, { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }, []]);
+      const tasks = [
+        requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': 'VL2017181' })
+          .then(attendance.parseReportBeta)
+          .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetailsBeta)),
+        requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': 'VL2017181' })
+          .then(schedule.parseDailyBeta)
+      ]
+      return Promise.all(tasks)
+        .then((results) => [results[0], results[1], { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }, []]);
     } else {
       // Use vtop for data
       const uri = {
@@ -65,7 +68,7 @@ router.post('/', (req, res, next) => {
       const tasks = [
         requests.get(uri.attendance.report, req.cookies)
           .then(attendance.parseReport)
-          .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies)),
+          .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetails)),
         requests.get(uri.schedule.timetable, req.cookies)
           .then(schedule.parseDaily),
         requests.get(uri.schedule.exam, req.cookies)
@@ -78,29 +81,42 @@ router.post('/', (req, res, next) => {
       return Promise.all(tasks)
     }
   })
-  .then(results => {
-    // Finally, send results as json.
-    res.json({
-      'attendance': results[0],
-      'timetable': results[1],
-      'exam_schedule': results[2],
-      'marks': results[3],
-      'semester': req.body.semester || defaultSemester,
-      'default_semester': defaultSemester
-    })
-  }).catch(next);
+    .then(results => {
+      // Finally, send results as json.
+      res.json({
+        'attendance': results[0],
+        'timetable': results[1],
+        'exam_schedule': results[2],
+        'marks': results[3],
+        'semester': req.body.semester || defaultSemester,
+        'default_semester': defaultSemester
+      })
+    }).catch(next);
 });
 
-function fetchAttendanceDetails(courses, uri, cookies) {
+function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
   return Promise.all(courses.map(course => {
     return requests.post(uri, cookies, course.form)
-      .then(attendance.parseDetails).then((details) => {
+      .then(parseDetails).then((details) => {
+
+        if (details.length > 0 && course.attendance_percentage === '0') {
+          const units = (course.slot[0] === 'L' ? course.slot.split('+').length : 1);
+          const total_classes = units * total_classes;
+          const attended_classes = total_classes - details.reduce((sum, detail) => sum + units * (detail.status === 'Absent'), 0);
+          const attendance_percentage = (attended_classes * 100 / total_classes).toFixed();
+
+          course.total_classes = total_classes.toString();
+          course.attended_classes = attended_classes.toString();
+          course.attendance_percentage = attendance_percentage.toString();
+        }
+
         course.details = details;
         delete course.form;
         return course;
       });
   }));
 }
+
 
 function updateMarksCollection(marksCollection, marksReports, reg_no, semester, year) {
 

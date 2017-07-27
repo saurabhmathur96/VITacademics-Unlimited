@@ -46,3 +46,32 @@ module.exports.parseLeaveApplications = (html) => {
   });
 
 }
+
+
+module.exports.parseLateApplications = (html) => {
+  const $ = cheerio.load(html);
+  const table = $('table[class=tblFormat1]').eq(1);
+  const applications = table.find('tr').map((i, row) => {
+    const td = $(row).find("td");
+    if (td.length === 0) {
+      return null;
+    }
+    const application = {
+      "from": td.eq(1).text().trim(),
+      "to": td.eq(2).text().trim(),
+      "time": td.eq(3).text().trim().replace(/\s+/g, ' '),
+      "venue": td.eq(4).text().trim(),
+      "reason": td.eq(5).text().trim(),
+      "faculty": td.eq(6).text().trim(),
+      "approved": (td.eq(7).text().trim() === 'Approved'),
+      "cancel_id": null
+    }
+    if (!application.approved) {
+      const onclick = td.eq(8).find("input").attr("onclick");
+      application.cancel_id = onclick.split("'")[1] || null;
+    }
+    return application;
+  }).get()
+    .filter(e => e !== null);
+  return applications;
+}

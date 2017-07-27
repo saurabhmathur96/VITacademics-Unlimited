@@ -23,6 +23,7 @@ const grades = require(path.join(__dirname, 'routes', 'grades'));
 const faculty = require(path.join(__dirname, 'routes', 'faculty'));
 const home = require(path.join(__dirname, 'routes', 'home'));
 const hostel = require(path.join(__dirname, 'routes', 'hostel'));
+const late = require(path.join(__dirname, 'routes', 'late'));
 
 const authentication = require(path.join(__dirname, 'middleware', 'authentication'));
 
@@ -55,6 +56,7 @@ database.connect('mongodb://localhost/student')
   app.use('/student/grades', grades);
   app.use('/student/home', home);
   app.use('/student/hostel', hostel);
+  // app.use('/student/late', late);
 
   app.use('/faculty', faculty);
 
