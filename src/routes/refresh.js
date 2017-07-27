@@ -101,7 +101,7 @@ function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
 
         if (details.length > 0 && course.attendance_percentage === '0') {
           const units = (course.slot[0] === 'L' ? course.slot.split('+').length : 1);
-          const total_classes = units * total_classes;
+          const total_classes = units * details.length;
           const attended_classes = total_classes - details.reduce((sum, detail) => sum + units * (detail.status === 'Absent'), 0);
           const attendance_percentage = (attended_classes * 100 / total_classes).toFixed();
 
