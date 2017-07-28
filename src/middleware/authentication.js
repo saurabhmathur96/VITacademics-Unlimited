@@ -44,16 +44,16 @@ module.exports = (req, res, next) => {
 
       // Add portal name to cache key. This keeps the cookies separate
       const key = crypto.createHash('md5').update(portal + req.body.reg_no + req.body.password).digest('hex');
-      const value = cache.get(key);
-      if (value !== null) {
-        return Promise.resolve(value);
-      }
+      // const value = cache.get(key);
+      // if (value !== null) {
+      //   return Promise.resolve(value);
+      // }
 
       // Sign in to Vtop beta for Fall Semester
       const signIn = ((portal === 'vtopbeta') ? signInVtopBeta: signInVtop);
       return signIn(req.body.reg_no, req.body.password)
         .then(cookies => {
-          cache.put(key, cookies, 2 * 60 * 1000); // timeout of 2 minutes
+          // cache.put(key, cookies, 2 * 60 * 1000); // timeout of 2 minutes
           return Promise.resolve(cookies);
         });
     }

@@ -11,10 +11,26 @@ module.exports.get = (uri, cookies) => {
 
   return browser.fetch(uri)
     .then(function (response) {
-      if (response.status === 200)
-        return response.text();
+
+      let status = response.status;
+      let text = response.text();
+
+      browser.cookies = new browser.cookies.constructor();
+      delete browser.cookies;
+      if(browser.window)
+        browser.window.close();
+
+      browser.tabs.closeAll();
+      delete browser.tabs;
+      delete browser.window;
+      delete browser;
+
+      if (status === 200){
+        return text;
+      }
       else
-        throw new Error("VTOP not working")
+        throw new Error("VTOP not working");
+
     })
 }
 
@@ -34,6 +50,7 @@ module.exports.post = (uri, cookies, form) => {
       "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
     }
   };
+  
   if (form !== null || form !== undefined) {
     let formBody = [];
     for (var k in form) {
@@ -46,8 +63,22 @@ module.exports.post = (uri, cookies, form) => {
 
 
   return browser.fetch(uri, options).then(function (response) {
-    if (response.status === 200) {
-      return response.text();
+
+    let status = response.status;
+    let text = response.text();
+
+    browser.cookies = new browser.cookies.constructor();
+    delete browser.cookies;
+    if(browser.window)
+      browser.window.close();
+
+    browser.tabs.closeAll();
+    delete browser.tabs;
+    delete browser.window;
+    delete browser;
+
+    if (status === 200) {
+      return text;
     }
     else {
       throw new Error(`Error making post request to vtop (status=${response.status})`);
