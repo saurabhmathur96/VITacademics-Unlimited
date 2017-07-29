@@ -1,49 +1,20 @@
-const Zombie = require('zombie');
-const logger = require('winston');
-const Promise = require('bluebird');
+const cheerio = require('cheerio');
+const requests = require('./requests');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 module.exports = (username, password) => {
-  const browser = new Zombie();
-
-  browser.on('response', function (request, response) {
-    browser.response = response;
-  });
-
-  return new Promise((resolve, reject) => {
-    browser.visit('https://vtopbeta.vit.ac.in/vtop/', (err) => {
-      if (err && err.name !== 'TypeError') {
-        logger.error(err);
-        return reject(new Error('VTOP-Beta Servers seem to be down.'));
-      }
-      try {
-        const captcha = browser.querySelector('label').textContent;
-        browser.fill('uname', username)
-          .fill('passwd', password)
-          .fill('captchaCheck', captcha)
-          .pressButton('.btn.btn-primary.pull-right', () => {
-            const message = browser.querySelector('p.box-title.text-danger');
-            if (!message) {
-              resolve(browser.cookies);
-            } else {
-              reject(new Error(message.textContent));
-            }
-            
-            browser.cookies = new browser.cookies.constructor();
-            delete browser.cookies;
-            
-            browser.window.close();
-
-            delete browser.tabs;
-            delete browser.window;
-            delete browser;
-          });
-      } catch (parsingErr) {
-        logger.error(parsingErr);
-        reject(new Error('VTOP-Beta Servers seem to be down.'));
-
-      }
-    });
-
-  });
+  return requests.getCookies('https://vtopbeta.vit.ac.in/vtop/', null)
+  .then(result => {
+    const $ = cheerio.load(result.body);
+    result.captcha = $('label').text().trim();
+    return result;
+  })
+  .then(result => requests.postCookies('https://vtopbeta.vit.ac.in/vtop/processLogin', result.cookies,  { 'uname': username, 'passwd': password, 'captchaCheck': result.captcha }))
+  .then(result => {
+    const $ = cheerio.load(result.body);
+    if ($('p.box-title.text-danger').text().trim()) {
+      throw new Error('Username or Password is incorrect.');
+    }
+    return result.cookies;
+  })
 };

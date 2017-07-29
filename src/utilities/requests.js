@@ -1,37 +1,45 @@
-const Zombie = require('zombie');
+const unirest = require('unirest');
+const Promise = require('bluebird');
+const _ = require('lodash');
+const logger = require('winston');
 
 
 /**
- * Gets HTML markup doing get request
+ * Gets HTML markup and cookies doing get request
+ */
+module.exports.getCookies = (uri, cookies) => {
+  cookies = cookies || [];
+  return new Promise((resolve, reject) => {
+    let request = unirest.get(uri)
+    if (cookies) {
+      const cookieJar = unirest.jar();
+      cookies.forEach(cookie => cookieJar.add(unirest.cookie(cookie), uri));
+      request = request.jar(cookieJar)
+    }
+
+    request
+      .headers({ 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' })
+      .timeout(26000)
+      .end(response => {
+        if (response.error) {
+          logger.log(response.error)
+          return reject(new Error('VTOP servers seem to be down'))
+        }
+        if (response.headers['set-cookie']) {
+          cookies = cookies.concat(response.headers['set-cookie'].join(';').split(/;[ ]?/))
+        }
+
+        return resolve({ 'body': response.body, 'cookies': _.uniq(cookies) });
+      });
+  });
+}
+
+/**
+ * Gets only HTML markup from get request
  */
 module.exports.get = (uri, cookies) => {
-  const browser = new Zombie();
-
-  browser.cookies = cookies;
-
-  return browser.fetch(uri)
-    .then(function (response) {
-
-      let status = response.status;
-      let text = response.text();
-
-      browser.cookies = new browser.cookies.constructor();
-      delete browser.cookies;
-      if(browser.window)
-        browser.window.close();
-
-      browser.tabs.closeAll();
-      delete browser.tabs;
-      delete browser.window;
-      delete browser;
-
-      if (status === 200){
-        return text;
-      }
-      else
-        throw new Error("VTOP not working");
-
-    })
+  return module.exports.getCookies(uri, cookies)
+  .then(result => result.body)
 }
 
 
@@ -39,50 +47,38 @@ module.exports.get = (uri, cookies) => {
  * Gets HTML markup doing post request
  * Untested
  */
-module.exports.post = (uri, cookies, form) => {
-  const browser = new Zombie();
-
-  browser.cookies = cookies;
-
-  let options = {
-    method: 'post',
-    headers: {
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-    }
-  };
-  
-  if (form !== null || form !== undefined) {
-    let formBody = [];
-    for (var k in form) {
-      formBody.push(`${k}=${form[k]}`);
-    }
-    options.body = formBody.join('&');
-  }
-
-
-
-
-  return browser.fetch(uri, options).then(function (response) {
-
-    let status = response.status;
-    let text = response.text();
-
-    browser.cookies = new browser.cookies.constructor();
-    delete browser.cookies;
-    if(browser.window)
-      browser.window.close();
-
-    browser.tabs.closeAll();
-    delete browser.tabs;
-    delete browser.window;
-    delete browser;
-
-    if (status === 200) {
-      return text;
-    }
-    else {
-      throw new Error(`Error making post request to vtop (status=${response.status})`);
+module.exports.postCookies = (uri, cookies, form) => {
+  cookies = cookies || [];
+  return new Promise((resolve, reject) => {
+    let request = unirest.post(uri)
+    if (cookies) {
+      const cookieJar = unirest.jar();
+      cookies.forEach(cookie => cookieJar.add(unirest.cookie(cookie), uri));
+      request = request.jar(cookieJar)
     }
 
+    request
+      .headers({ 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' })
+      .form(form)
+      .timeout(26000)
+      .end(response => {
+        if (response.error) {
+          logger.log(response.error)
+          return reject(new Error('VTOP servers seem to be down'))
+        }
+        if (response.headers['set-cookie']) {
+          cookies = cookies.concat(response.headers['set-cookie'].join(';').split(/;[ ]?/))
+        }
+
+        return resolve({ 'body': response.body, 'cookies': _.uniq(cookies) });
+      });
   });
+}
+
+/**
+ * Gets only HTML markup from post request
+ */
+module.exports.post = (uri, cookies, form) => {
+  return module.exports.postCookies(uri, cookies, form)
+  .then(result => result.body)
 }

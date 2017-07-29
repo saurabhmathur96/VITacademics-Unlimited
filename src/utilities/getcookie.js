@@ -1,70 +1,56 @@
-const Zombie = require('zombie');
 const parser = require('./CaptchaParser');
 const Promise = require('bluebird');
-const logger = require('winston');
+const cheerio = require('cheerio');
+const requests = require('./requests');
+const unirest = require('unirest');
+const _ = require('lodash');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 
 /**
- * Gets Login Cookie via Headless Browser
+ * Gets Login Cookie
  */
 module.exports = (username, password) => {
-  const browser = new Zombie();
-
-  browser.on('response', function (request, response) {
-    browser.response = response;
-  });
-
-  return new Promise((resolve, reject) => {
-    browser.visit('https://vtop.vit.ac.in/student/stud_login.asp', (err) => {
-
-      if (err && err.name !== 'TypeError') {
-        logger.error(err);
-        return reject(new Error('VTOP Servers seem to be down.'));
+  return requests.getCookies('https://vtop.vit.ac.in/student/stud_login.asp', null)
+    .then(result => getCaptcha(result.cookies))
+    .then(result => requests.postCookies('https://vtop.vit.ac.in/student/stud_login_submit.asp', result.cookies, { 'regno': username, 'passwd': password, 'vrfcd': result.captcha }))
+    .then(result => {
+      try {
+        const $ = cheerio.load(result.body);
+        if ($('table').eq(1).find('td').eq(0).text().trim().split(/\s+/)[0] !== 'Welcome') {
+          throw new Error('Username or Password is incorrect.');
+        }
+      } catch (ex) {
+        throw new Error('Username or Password is incorrect.');
       }
+      return result
+    })
+    .then(result => requests.getCookies('https://vtop.vit.ac.in/student/stud_home.asp', result.cookies))
+    .then(result => result.cookies)
+}
 
-      const now = new Date();
-      browser
-        .fetch('https://vtop.vit.ac.in/student/captcha.asp?x=' + now.toUTCString())
-        .then((response) => {
-          if (response.status === 200)
-            return response.arrayBuffer();
-          else
-            reject(new Error(`Authentication Failed. Connection Error. (Status ${response.status})`))
-        })
-        .then(arrayBuffer => new Buffer(arrayBuffer))
-        .then((buffer) => {
-          const pixelMap = parser.getPixelMapFromBuffer(buffer);
-          const captcha = parser.getCaptcha(pixelMap);
+function getCaptcha(cookies) {
+  return new Promise((resolve, reject) => {
+    const cookieJar = unirest.jar();
+    cookies.forEach(cookie => cookieJar.add(unirest.cookie(cookie), 'https://vtop.vit.ac.in/student/stud_login_submit.asp'));
 
-          browser.fill('regno', username)
-            .fill('passwd', password)
-            .fill('vrfcd', captcha)
-            .pressButton('Login', () => {
-              const regCookie = browser.getCookie('logstudregno');
-              if (username != regCookie) {
-                reject(new Error('Authentication Failed. Wrong Credentials.'));
-              } else {
+    unirest.get('https://vtop.vit.ac.in/student/captcha.asp')
+      .jar(cookieJar)
+      .encoding(null)
+      .timeout(26000)
+      .end(response => {
+        if (response.error) return reject(new Error('Error parsing captcha.'))
+        const pixelMap = parser.getPixelMapFromBuffer(response.body);
+        const captcha = parser.getCaptcha(pixelMap);
+        // cookies = Object.keys(response.cookies).map(key => `${key}=${response.cookies[key]}`);
 
-                resolve(browser.cookies);
-              }
-              
-              browser.cookies = new browser.cookies.constructor();
-              delete browser.cookies;
-
-              browser.window.close();
-
-              delete browser.tabs;
-              delete browser.window;
-              delete browser;
-            });
-        }).catch(e => {
-          logger.error(e);
-          return reject(new Error('VTOP Servers seem to be down.'));
-        })
+        if (response.headers['set-cookie']) {
+          cookies = cookies.concat(response.headers['set-cookie'].join(';').split(/;[ ]?/))
+        }
 
 
-    });
-  });
+        return resolve({ 'captcha': captcha, 'cookies': _.uniq(cookies) });
+      });
+  })
 }
