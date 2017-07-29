@@ -178,7 +178,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     {
       spotlight: Array<SpotlightItem>,
       messages: Array<FacultyMessage>,
-      cookies: string
+      cookies: Array<string>
     }
     ````
 

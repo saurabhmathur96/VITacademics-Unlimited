@@ -114,7 +114,7 @@ describe('Integration Tests', () => {
             "properties": {
               messages: { "type": "array", required: true, "items": { "$ref": "/FacultyMessage" } },
               spotlight: { "type": "array", required: true, "items": { "$ref": "/SpotlightItem" } },
-              cookies: { "type": "string", required: true }
+              cookies: { "type": "array", required: true, "items": { "type": "string" } }
             }
           }
           let r = validator.validate(res.body, schema, { nestedErrors: true });
