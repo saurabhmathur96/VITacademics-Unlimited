@@ -49,6 +49,15 @@ module.exports = (username, password) => {
 
                 resolve(browser.cookies);
               }
+              
+              browser.cookies = new browser.cookies.constructor();
+              delete browser.cookies;
+
+              browser.window.close();
+
+              delete browser.tabs;
+              delete browser.window;
+              delete browser;
             });
         }).catch(e => {
           logger.error(e);

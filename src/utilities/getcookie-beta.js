@@ -28,7 +28,15 @@ module.exports = (username, password) => {
             } else {
               reject(new Error(message.textContent));
             }
+            
+            browser.cookies = new browser.cookies.constructor();
+            delete browser.cookies;
+            
+            browser.window.close();
 
+            delete browser.tabs;
+            delete browser.window;
+            delete browser;
           });
       } catch (parsingErr) {
         logger.error(parsingErr);
