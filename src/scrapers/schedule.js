@@ -88,11 +88,15 @@ module.exports.parseDailyBeta = (html) => {
       if (html === null || html === undefined) {
         return resolve([]);
       }
-      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
+      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0];
+
       if (table === null || table === undefined) {
         return resolve([]);
       }
       const schedule = table.map((row) => {
+          if(row['Class Nbr'] === undefined)
+            return;
+
           return {
             'class_number': row['Class Nbr'].trim(),
             'course_code': row['Course Code'].trim(),
@@ -105,7 +109,7 @@ module.exports.parseDailyBeta = (html) => {
             'venue': row['Venue'].trim(),
             'faculty_name': row['Faculty Name'].trim().replace(/\s+/g, ' '),
           }
-      })
+      }).filter( n => n);
       return resolve(schedule);
     } catch (ex) {
       return reject(ex);
