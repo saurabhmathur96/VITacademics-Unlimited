@@ -393,6 +393,195 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 
 
+**Late Hours Permission Application**
+----
+  _Makes request to vtop to apply for a late hours permission._
+
+* **URL**
+
+  _/student/late/apply
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+  `school`=[string]
+
+  `faculty_id`=[string]
+
+  `place`=[string]
+
+  `reason`=[string]
+
+  `from_date`=[string,ISO 8601 UTC] ex. 2017-04-09T06:48:37.745Z
+
+  `to_date`=[string,ISO 8601 UTC] ex. 2017-04-09T06:48:37.745Z
+
+  `from_time`=[string]
+
+  `to_time`=[string]
+
+* **Constraints**
+
+  `to` should be after `from`.
+
+  `faculty_id` should be from the list of schools from `/faculty/late`.
+
+  `from_time` can have the following values
+
+  |Value     |
+  |----------|
+  |"08:00 PM"|
+  |"09:00 PM"|
+  |"10:00 PM"|
+  |"11:00 PM"|
+  |"12:00 AM"|
+  |"01:00 AM"|
+  |"02:00 AM"|
+  |"03:00 AM"|
+  |"04:00 AM"|
+
+  `to_time` can have the following values
+
+  |Value     |
+  |----------|
+  |"09:00 PM"|
+  |"10:00 PM"|
+  |"11:00 PM"|
+  |"12:00 AM"|
+  |"01:00 AM"|
+  |"02:00 AM"|
+  |"03:00 AM"|
+  |"04:00 AM"|
+  |"05:00 AM"|
+
+  `school` can have the following values
+
+  |Value     |
+  |----------|
+  |"ASC"     |
+  |"ARC"     |
+  |"CO2"     |
+  |"CBST"    |
+  |"CBCMT"   |
+  |"CCG"     |
+  |"CDMM"    |
+  |"CIMR"    |
+  |"CNBT"    |
+  |"CNR"     |
+  |"IIIP"    |
+  |"O/o-COE" |
+  |"SAS"     |
+  |"VSPARC"  |
+  |"SBST"    |
+  |"SCALE"   |
+  |"SCOPE"   |
+  |"SELECT"  |
+  |"SENSE"   |
+  |"SITE"    |
+  |"SMEC"    |
+  |"SSL"     |
+  |"TIFAC"   |
+  |"VITBS"   |
+
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      applications: Array<LateHoursApplication>
+    }
+    ````
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+  * **Code:** 400 BAD REQUEST
+
+
+
+**Late Hours Permission Application Details**
+----
+  _Responds with details and status of late hours permission requests._
+
+* **URL**
+
+  _/student/late/applications_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      applications: Array<LateHoursApplication>
+    }
+    ````
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+
+
+**Late Hours Permission Application Cancellation**
+----
+  _Makes request to vtop to cancel to a late hours permission application._
+
+* **URL**
+
+  _/student/late/cancel_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+  `cancel_id`=[string]
+
+* **Constraints**
+
+  `string` should be from an existing applied leave/outing (see `LateHoursAplication`).
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      applications: Array<LateHoursApplication>
+    }
+    ````
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+
 
 **All Faculty**
 ----
@@ -418,5 +607,33 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     ```
     {
       faculty: Array<Faculty>
+    }
+    ````
+
+
+**Faculty who can approve late hours permissions**
+----
+  _Responds with a list of school with ids of faculty who can approve late hours permission._
+
+* **URL**
+
+  _/faculty/late_
+
+* **Method:**
+
+  `GET`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      schools: Array<LateHoursSchool>
     }
     ````

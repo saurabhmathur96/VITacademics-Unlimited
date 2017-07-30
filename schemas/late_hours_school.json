@@ -1,0 +1,15 @@
+{
+  "id": "/LateHoursSchool",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "code": { "type": "string", "required": "true"  },
+    "name": { "type": "string", "required": "true"  },
+    "faculty": {
+      "type": "array",
+      "items": { "$ref": "LateHoursFaculty" },
+      "required": "true",
+      "minItems": 1
+    }
+  }
+}

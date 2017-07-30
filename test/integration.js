@@ -253,6 +253,80 @@ describe('Integration Tests', () => {
         });
     });
 
+    it('POST student/late/appplications', (done) => {
+
+      request.post('/student/late/applications')
+        .send(credentials)
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.not.exist;
+          let schema = {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applications": { "type": "array", "items": { "$ref": "/LateHoursApplication" } }
+            }
+          };
+          let r = validator.validate(res.body, schema, { nestedErrors: true });
+          expect(r.valid).to.be.true
+          done();
+        });
+    });
+
+    xit('POST student/late/apply', (done) => {
+
+      const from = moment().hours(38).add(60 * 60 * 1000 * 24);
+      const to = moment().hours(41).add(60 * 60 * 1000 * 24 * 3);
+
+      request.post('/student/late/apply')
+        .send({
+          reg_no: credentials.reg_no,
+          password: credentials.password,
+          faculty_id: '11061',
+          school: 'SITE',
+          place: 'test',
+          reason: 'test',
+          from_date: from.toISOString(),
+          to_date: to.toISOString(),
+          from_time: '08:00 PM',
+          to_time: '12:00 AM'
+        })
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.not.exist;
+          let schema = {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applications": { "type": "array", "items": { "$ref": "/LateHoursApplication" } }
+            }
+          };
+          let r = validator.validate(res.body, schema, { nestedErrors: true });
+          expect(r.valid).to.be.true
+
+          var index = res.body.applications.map((e) => e.from).indexOf(from.format('DD-MMM-YYYY').toUpperCase());
+          if (index === -1) {
+            throw new Error('Outing application not found !');
+          }
+
+          expect(res.body.applications[index].cancel_id).to.be.not.null;
+          request.post('/student/late/cancel')
+            .send({
+              reg_no: credentials.reg_no,
+              password: credentials.password,
+              cancel_id: res.body.applications[index].cancel_id
+            })
+            .expect(200)
+            .end((error, response) => {
+              expect(error).to.not.exist;
+              r = validator.validate(response.body, schema, { nestedErrors: true });
+              expect(r.valid).to.be.true;
+
+              done();
+            });
+        });
+    });
+
     xit('POST student/assignments', (done) => {
 
       request.post('/student/assignments')
@@ -276,6 +350,18 @@ describe('Integration Tests', () => {
         expect(err).to.not.exist;
         expect(res.body).to.have.property('faculty');
         let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/Faculty" } }, { nestedErrors: true });
+        expect(r.valid).to.be.true;
+        done();
+      });
+  });
+
+  it('GET /faculty/late', (done) => {
+    request.get('/faculty/late')
+      .expect(200)
+      .end((err, res) => {
+        expect(err).to.not.exist;
+        expect(res.body).to.have.property('schools');
+        let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/LateHoursSchool" } }, { nestedErrors: true });
         expect(r.valid).to.be.true;
         done();
       });

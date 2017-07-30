@@ -1,0 +1,85 @@
+{
+  "late_schools": [
+    {
+      "code": "ASC",
+      "name": "Academics Staff College(ASC)",
+      "faculty": [
+        {
+          "id": "11743",
+          "name": "JALA JAYAPRAKASH"
+        }
+      ]
+    },
+    {
+      "code": "ARC",
+      "name": "Automotive Research Centre(ARC)",
+      "faculty": [
+        {
+          "id": "11198",
+          "name": "ANIL P.M."
+        }
+      ]
+    },
+    {
+      "code": "CBST",
+      "name": "Centre for Bio-Separation and Technology(CBST)",
+      "faculty": [
+        {
+          "id": "11933",
+          "name": "AYESHA NOOR"
+        },
+        {
+          "id": "10621",
+          "name": "JAYAPRAKASH N S"
+        }
+      ]
+    },
+    {
+      "code": "CBCMT",
+      "name": "Centre for Biomaterials, Cellular and Molecular Theranostics(CBCMT)",
+      "faculty": [
+        {
+          "id": "13690",
+          "name": "AMIT KUMAR JAISWAL"
+        },
+        {
+          "id": "13332",
+          "name": "ANAND VEERABADRA PRASAD GURUMOORTHY"
+        },
+        {
+          "id": "10398",
+          "name": "ARUNAI NAMBIRAJ N"
+        }
+      ]
+    },{
+      "code": "O/o-COE",
+      "name": "O/o Controller Of Examinations(O/o-COE)",
+      "faculty": [
+        {
+          "id": "COE01",
+          "name": "COE"
+        }
+      ]
+    },
+    {
+      "code": "SAS",
+      "name": "School of Advanced Sciences(SAS)",
+      "faculty": [
+        {
+          "id": "13707",
+          "name": "ABDUL HAMEED"
+        }
+      ]
+    },
+    {
+      "code": "SITE",
+      "name": "School of Information Technology and Engineering(SITE)",
+      "faculty": [
+        {
+          "id": "11061",
+          "name": "JAYALAKSHMI P"
+        }
+      ]
+    }
+  ]
+}

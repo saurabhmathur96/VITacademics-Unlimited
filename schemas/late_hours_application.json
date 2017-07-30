@@ -1,0 +1,15 @@
+{
+  "id": "/LateHoursApplication",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "from": { "type": "string", "required": "true"  },
+    "to": { "type": "string", "required": "true"  },
+    "time": { "type": "string", "required": "true"  },
+    "venue": { "type": "string", "required": "true"  },
+    "reason": { "type": "string", "required": "true"  },
+    "faculty": { "type": "string", "required": "true"  },
+    "approved": { "type": "boolean", "required": "true"  },
+    "cancel_id": { "type": ["string", "null"], "required": "true"  }
+  }
+}

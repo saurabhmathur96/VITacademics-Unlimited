@@ -1,0 +1,9 @@
+{
+  "id": "/LateHoursFaculty",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "required": "true"  },
+    "name": { "type": "string", "required": "true"  }
+  }
+}
