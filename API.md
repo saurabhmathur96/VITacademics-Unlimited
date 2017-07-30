@@ -399,7 +399,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 * **URL**
 
-  _/student/late/apply
+  _/student/late/apply_
 
 * **Method:**
 
