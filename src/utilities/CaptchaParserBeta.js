@@ -61,7 +61,7 @@ function detectCharacter(image, shift, error) {
       for (let x = 0; x < width; x++) { // iterate along width
         if ((bitmap[y][x] == 255) && (x + shift < 150) && (x + shift >= 0)) {
           total += 1;
-          if (image.get(y + offset, x + shift) < 30) {
+          if (image.get(y + offset, x + shift) <= 10) {
             matches += 1;
           }
         }
