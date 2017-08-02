@@ -104,25 +104,26 @@ module.exports.getCaptcha = (url) => {
         return reject(new Error('Error in parsing captcha.'));
       }
       const bw = makeBW(pixels);
-      let characterRange = 10;
-      let result = null;
+      let characterRange = 0;
       let width = 0;
       let captcha = "";
-      for (let iteration = 0; iteration < 6; iteration++) {
+     for (let iteration = 0; iteration < 6; iteration++) {
+        let result = null;
         let error = 1;
         while (result === null && error > 0.79) {
-          for (let x = 0; x < 20; x++) {
-            result = detectCharacter(bw, width + x, error);
-            if (result !== null) {
-              characterRange = result.width;
-              width += characterRange + x;
-              captcha += result.character;
+            for (let x = 0; x < 20; x++) {
+                result = detectCharacter(bw, width + x, error);
+                if (result !== null) {
+                    characterRange = result.width;
+                    width += characterRange + x;
+                    captcha += result.character;
+                    break;
+                }
             }
-          }
-          error -= 0.05;
+            error -= 0.05;
         }
         if (result === null) {
-          break;
+            break;
         }
       }
       return resolve(captcha);
