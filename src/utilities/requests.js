@@ -22,7 +22,7 @@ module.exports.getCookies = (uri, cookies) => {
       .timeout(26000)
       .end(response => {
         if (response.error) {
-          logger.log(response.error)
+          logger.error(response.error)
           return reject(new Error('VTOP servers seem to be down'))
         }
         if (response.headers['set-cookie']) {
@@ -63,7 +63,7 @@ module.exports.postCookies = (uri, cookies, form) => {
       .timeout(26000)
       .end(response => {
         if (response.error) {
-          logger.log(response.error)
+          logger.error(response.error)
           return reject(new Error('VTOP servers seem to be down'))
         }
         if (response.headers['set-cookie']) {

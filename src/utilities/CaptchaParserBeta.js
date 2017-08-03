@@ -100,7 +100,7 @@ module.exports.getCaptcha = (url) => {
   return new Promise((resolve, reject) => {
     getPixels(url, (err, pixels) => {
       if (err) {
-        logger.log(err);
+        logger.error(err);
         return reject(new Error('Error in parsing captcha.'));
       }
       const bw = makeBW(pixels);
