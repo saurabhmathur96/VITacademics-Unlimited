@@ -5,7 +5,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Refresh**
 ----
-  _Scrapes attendance, timetable, exam schedule and marks._
+  _Scrapes attendance, timetable, exam schedule and marks. [Vellore and Chennai]_
 
 * **URL**
 
@@ -23,6 +23,8 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   `semester`=[string, optional]
 
+  `campus`=[string, optional, default="vellore"]
+
 * **Constraints**
   `semester` can have one of the following values
 
@@ -33,6 +35,8 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   |"IS" | Inter Semester                                   |
   |"TS" | Tri Semester                                     |
   |"FS" | Fall Semester                                    |
+
+  `campus` can either be "vellore" or "chennai".
 
 * **Success Response:**
 
@@ -63,7 +67,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Grades**
 ----
-  _Scrapes academics history._
+  _Scrapes academics history. [Vellore and Chennai]_
 
 * **URL**
 
@@ -78,6 +82,14 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   `reg_no`=[string]
 
   `password`=[string]
+
+  `campus`=[string, optional, default="vellore"]
+
+
+* **Constraints**
+
+  `campus` can either be "vellore" or "chennai".
+
 
 * **Success Response:**
 
@@ -102,7 +114,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **CAL Assignments**
 ----
-  _Scrapes CAL Assignments for courses registered this semester._
+  _Scrapes CAL Assignments for courses registered this semester. [Deprecated]_
 
 * **URL**
 
@@ -153,7 +165,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Home**
 ----
-  _Scrapes faculty messages and spotlight items._
+  _Scrapes faculty messages and spotlight items. [Vellore and Chennai]_
 
 * **URL**
 
@@ -168,6 +180,11 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   `reg_no`=[string]
 
   `password`=[string]
+
+
+* **Constraints**
+
+  `campus` can either be "vellore" or "chennai".
 
 * **Success Response:**
 
@@ -190,7 +207,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Hostel Application Details**
 ----
-  _Responds with details and status of leave/outing requests along with available approving authorities._
+  _Responds with details and status of leave/outing requests along with available approving authorities. [Vellore Only]_
 
 * **URL**
 
@@ -226,7 +243,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Hostel Outing Application**
 ----
-  _Makes request to vtop to apply for an outing._
+  _Makes request to vtop to apply for an outing. [Vellore Only]_
 
 * **URL**
 
@@ -284,7 +301,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Hostel Leave Application**
 ----
-  _Makes request to vtop to apply for a leave._
+  _Makes request to vtop to apply for a leave. [Vellore Only]_
 
 * **URL**
 
@@ -353,7 +370,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Hostel Application Cancellation**
 ----
-  _Makes request to vtop to cancel to a leave/outing._
+  _Makes request to vtop to cancel to a leave/outing. [Vellore Only]_
 
 * **URL**
 
@@ -395,7 +412,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Late Hours Permission Application**
 ----
-  _Makes request to vtop to apply for a late hours permission._
+  _Makes request to vtop to apply for a late hours permission. [Vellore Only]_
 
 * **URL**
 
@@ -511,7 +528,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Late Hours Permission Application Details**
 ----
-  _Responds with details and status of late hours permission requests._
+  _Responds with details and status of late hours permission requests. [Vellore Only]_
 
 * **URL**
 
@@ -545,7 +562,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Late Hours Permission Application Cancellation**
 ----
-  _Makes request to vtop to cancel to a late hours permission application._
+  _Makes request to vtop to cancel to a late hours permission application. [Vellore Only]_
 
 * **URL**
 
@@ -585,7 +602,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **All Faculty**
 ----
-  _Responds with details of all ~2k faculty._
+  _Responds with details of all ~2k faculty. [Unauthenticated]_
 
 * **URL**
 
@@ -613,7 +630,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Faculty who can approve late hours permissions**
 ----
-  _Responds with a list of school with ids of faculty who can approve late hours permission._
+  _Responds with a list of school with ids of faculty who can approve late hours permission. [Unauthenticated]_
 
 * **URL**
 
