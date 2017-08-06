@@ -14,12 +14,14 @@ const router = express.Router();
  */
 
 
-const uri = {
-  spotlight: 'https://vtop.vit.ac.in/student/include_spotlight.asp',
-  messages: `https://vtop.vit.ac.in/student/stud_home.asp`
-};
 
 router.post('/', (req, res, next) => {
+  const campus = req.body.campus;
+  const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
+  const uri = {
+    spotlight: `${baseUri}/include_spotlight.asp`,
+    messages: `${baseUri}/stud_home.asp`
+  };
   const tasks = [
     requests.get(uri.spotlight, req.cookies).then(home.parseSpotlight),
     requests.get(uri.messages, req.cookies).then(home.parseMessages)

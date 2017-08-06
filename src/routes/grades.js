@@ -10,8 +10,11 @@ const router = express.Router();
  * respond with academic history
  */
 
-const uri = 'https://vtop.vit.ac.in/student/student_history.asp';
+
 router.post('/', (req, res, next) => {
+  const campus = req.body.campus;
+  const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
+  const uri = `${baseUri}/student_history.asp`;
   const task = requests.get(uri, req.cookies);
   task.then(academic.parseHistory)
     .then(result => res.json(result))

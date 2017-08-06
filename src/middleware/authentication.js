@@ -23,11 +23,16 @@ const supportedSemesters = [
   "TS", // Tri Semester
   "FS" // Fall Semester
 ];
+const supportedCampuses = [
+  "vellore",
+  "chennai"
+]
 
 module.exports = (req, res, next) => {
   req.checkBody('reg_no', '`reg_no` cannot be empty.').notEmpty();
   req.checkBody('password', '`password` cannot be empty.').notEmpty();
   req.checkBody('semester', '`semester` not supported.').optional().isIn(supportedSemesters);
+  req.checkBody('campus', '`campus` not supported.').optional().isIn(supportedCampuses);
 
   req.sanitize('reg_no').trim();
   req.sanitize('password').trim();
@@ -38,9 +43,15 @@ module.exports = (req, res, next) => {
       const err = new Error(message);
       throw err;
     } else {
-      const semester = req.body.semester || defaultSemester;
-      const portal = (semester === 'FS' && req.url === '/refresh') ? 'vtopbeta' : 'vtop';
+      req.body.semester = req.body.semester || defaultSemester;
+      const semester = req.body.semester;
+
+      req.body.campus = req.body.campus || 'vellore';
+      const campus = req.body.campus;
+
+      const portal = (semester === 'FS' && req.url === '/refresh' && campus === 'vellore') ? 'vtopbeta' : 'vtop';
       req.body.reg_no = req.body.reg_no.toUpperCase();
+
 
       // Add portal name to cache key. This keeps the cookies separate
       const key = crypto.createHash('md5').update(portal + req.body.reg_no + req.body.password).digest('hex');
@@ -51,7 +62,7 @@ module.exports = (req, res, next) => {
 
       // Sign in to Vtop beta for Fall Semester
       const signIn = ((portal === 'vtopbeta') ? signInVtopBeta: signInVtop);
-      return signIn(req.body.reg_no, req.body.password)
+      return signIn(req.body.reg_no, req.body.password, campus)
         .then(cookies => {
           // cache.put(key, cookies, 2 * 60 * 1000); // timeout of 2 minutes
           return Promise.resolve(cookies);

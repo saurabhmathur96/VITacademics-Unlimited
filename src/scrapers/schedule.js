@@ -32,38 +32,38 @@ module.exports.parseDaily = (html) => {
         return resolve([]);
       }
       const schedule = table.slice(1)// table.slice(2, table.length - 11)
-      .filter(row => (Object.keys(row).length == 15) || (Object.keys(row).length == 10))
-      .map((row) => {
-        if (Object.keys(row).length == 15) {
-          return {
-            'class_number': row[2],
-            'course_code': row[3],
-            'course_name': row[4],
-            'course_type': row[5],
-            'ltpjc': row[6],
-            'course_mode': row[7],
-            'course_option': row[8],
-            'slot': row[9],
-            'venue': row[10],
-            'faculty_name': row[11],
-          }
-        } else {
-          return {
-            'class_number': row[0],
-            'course_code': row[1],
-            'course_name': row[2],
-            'course_type': row[3],
-            'ltpjc': row[4],
-            'course_mode': row[5],
-            'course_option': row[6],
-            'slot': row[7],
-            'venue': row[8],
-            'faculty_name': row[9],
-          }
+        .filter(row => (Object.keys(row).length == 15) || (Object.keys(row).length == 10))
+        .map((row) => {
+          if (Object.keys(row).length == 15) {
+            return {
+              'class_number': row[2],
+              'course_code': row[3],
+              'course_name': row[4],
+              'course_type': row[5],
+              'ltpjc': row[6],
+              'course_mode': row[7],
+              'course_option': row[8],
+              'slot': row[9],
+              'venue': row[10],
+              'faculty_name': row[11],
+            }
+          } else {
+            return {
+              'class_number': row[0],
+              'course_code': row[1],
+              'course_name': row[2],
+              'course_type': row[3],
+              'ltpjc': row[4],
+              'course_mode': row[5],
+              'course_option': row[6],
+              'slot': row[7],
+              'venue': row[8],
+              'faculty_name': row[9],
+            }
 
-        }
-      })
-      .filter((course) => !isNaN(course.class_number))
+          }
+        })
+        .filter((course) => !isNaN(course.class_number))
       return resolve(schedule);
     } catch (ex) {
       return reject(ex);
@@ -94,22 +94,23 @@ module.exports.parseDailyBeta = (html) => {
         return resolve([]);
       }
       const schedule = table.map((row) => {
-          if(row['Class Nbr'] === undefined)
-            return;
+        if (row['Class Nbr'] === undefined) {
+          return null;
+        }
 
-          return {
-            'class_number': row['Class Nbr'].trim(),
-            'course_code': row['Course Code'].trim(),
-            'course_name': row['Course Title'].trim(),
-            'course_type': courseTypes[row['Course Type'].trim()],
-            'ltpjc': `${row['L']}${row['T']}${row['P']}${row['J']}${row['C']}`,
-            'course_option': row['Course Option'].trim(),
-            'course_mode': 'NA',
-            'slot': row['Slot'].trim(),
-            'venue': row['Venue'].trim(),
-            'faculty_name': row['Faculty Name'].trim().replace(/\s+/g, ' '),
-          }
-      }).filter( n => n);
+        return {
+          'class_number': row['Class Nbr'].trim(),
+          'course_code': row['Course Code'].trim(),
+          'course_name': row['Course Title'].trim(),
+          'course_type': courseTypes[row['Course Type'].trim()],
+          'ltpjc': `${row['L']}${row['T']}${row['P']}${row['J']}${row['C']}`,
+          'course_option': row['Course Option'].trim(),
+          'course_mode': 'NA',
+          'slot': row['Slot'].trim(),
+          'venue': row['Venue'].trim(),
+          'faculty_name': row['Faculty Name'].trim().replace(/\s+/g, ' '),
+        }
+      }).filter(n => n);
       return resolve(schedule);
     } catch (ex) {
       return reject(ex);
@@ -129,16 +130,16 @@ module.exports.parseExam = (html) => {
   return new Promise((resolve, reject) => {
     try {
       const $ = cheerio.load(html);
-      html = $('table[cellpadding=3]').eq(0).html();
+      html = $('table[width=897]').eq(0).html();
       const table = tabletojson.convert(`<table> ${html} </table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
-      if (table === null || table === undefined) {
-        return resolve([]);
-      }
       const schedule = {
         'CAT - I': [],
         'CAT - II': [],
         'Final Assessment Test': []
       };
+      if (table === null || table === undefined) {
+        return resolve(schedule);
+      }
       let key = 'CAT - I';
       for (let i = 1; i < table.length - 1; i++) {
         const row = table[i];

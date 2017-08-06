@@ -50,12 +50,26 @@ database.connect('mongodb://localhost/student')
     next();
   });
 
+  function onlyVellore (req, res, next) {
+    if (req.body.campus !== 'vellore') {
+      const err = new Error(`This feature is not supported for the requested \`campus\`.`);
+      err.status = 400;
+      return next(err);
+    } else {
+      return next();
+    }
+  }
+
   // Routes
   app.use('/student/refresh', refresh);
   // app.use('/student/assignments', assignments);
   app.use('/student/grades', grades);
   app.use('/student/home', home);
+
+  app.use('/student/hostel', onlyVellore);
   app.use('/student/hostel', hostel);
+
+  app.use('/student/late', onlyVellore);
   app.use('/student/late', late);
 
   app.use('/faculty', faculty);

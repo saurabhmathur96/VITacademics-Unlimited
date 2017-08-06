@@ -5,7 +5,7 @@ const logger = require('winston');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-function getCookieBeta(username, password) {
+function getCookieBeta(username, password, campus) {
   return requests.getCookies('https://vtopbeta.vit.ac.in/vtop/', null)
   .then(result => {
     const $ = cheerio.load(result.body);

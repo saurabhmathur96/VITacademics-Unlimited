@@ -11,10 +11,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 /**
  * Gets Login Cookie
  */
-module.exports = (username, password) => {
-  return requests.getCookies('https://vtop.vit.ac.in/student/stud_login.asp', null)
-    .then(result => getCaptcha(result.cookies))
-    .then(result => requests.postCookies('https://vtop.vit.ac.in/student/stud_login_submit.asp', result.cookies, { 'regno': username, 'passwd': password, 'vrfcd': result.captcha }))
+module.exports = (username, password, campus) => {
+  const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student': 'https://vtop.vit.ac.in/student');
+
+  return requests.getCookies(`${baseUri}/stud_login.asp`, null)
+    .then(result => getCaptcha(result.cookies, campus))
+    .then(result => requests.postCookies(`${baseUri}/stud_login_submit.asp`, result.cookies, { 'regno': username, 'passwd': password, 'vrfcd': result.captcha }))
     .then(result => {
       try {
         const $ = cheerio.load(result.body);
@@ -26,16 +28,18 @@ module.exports = (username, password) => {
       }
       return result
     })
-    .then(result => requests.getCookies('https://vtop.vit.ac.in/student/stud_home.asp', result.cookies))
+    .then(result => requests.getCookies(`${baseUri}/stud_home.asp`, result.cookies))
     .then(result => result.cookies)
 }
 
-function getCaptcha(cookies) {
+function getCaptcha(cookies, campus) {
+  const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student': 'https://vtop.vit.ac.in/student');
+
   return new Promise((resolve, reject) => {
     const cookieJar = unirest.jar();
-    cookies.forEach(cookie => cookieJar.add(unirest.cookie(cookie), 'https://vtop.vit.ac.in/student/stud_login_submit.asp'));
+    cookies.forEach(cookie => cookieJar.add(unirest.cookie(cookie), `${baseUri}/stud_login_submit.asp`));
 
-    unirest.get('https://vtop.vit.ac.in/student/captcha.asp')
+    unirest.get(`${baseUri}/captcha.asp`)
       .jar(cookieJar)
       .encoding(null)
       .timeout(26000)

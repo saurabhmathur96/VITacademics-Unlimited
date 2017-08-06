@@ -19,80 +19,76 @@ const defaultSemester = process.env.SEM || 'WS';
  */
 
 router.post('/', (req, res, next) => {
-  req.getValidationResult().then((result) => {
-    if (!result.isEmpty()) {
-      const message = result.array().map((error) => error.msg).join('\n');
-      let err = new Error(message);
-      err.status = 400;
-      throw err;
-    }
-    const semester = req.body.semester || defaultSemester;
-    const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY');
-    const year = moment().tz('Asia/Kolkata').format('YYYY');
+  let fetchData = null;
+  const semester = req.body.semester;
+  const campus = req.body.campus;
+  const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY');
+  const year = moment().tz('Asia/Kolkata').format('YYYY');
 
-    if (semester === 'FS') {
-      // Use vtopbeta for data
-      const uri = {
-        schedule: {
-          timetable: 'https://vtopbeta.vit.ac.in/vtop/processViewTimeTable'
-        },
-        attendance: {
-          report: 'https://vtopbeta.vit.ac.in/vtop/processViewStudentAttendance',
-          details: 'https://vtopbeta.vit.ac.in/vtop/processViewAttendanceDetail'
-        }
+  if (semester === 'FS' && campus === 'vellore') {
+    // Use vtopbeta for data
+    const uri = {
+      schedule: {
+        timetable: 'https://vtopbeta.vit.ac.in/vtop/processViewTimeTable'
+      },
+      attendance: {
+        report: 'https://vtopbeta.vit.ac.in/vtop/processViewStudentAttendance',
+        details: 'https://vtopbeta.vit.ac.in/vtop/processViewAttendanceDetail'
       }
-      const tasks = [
-        requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': 'VL2017181' })
-          .then(attendance.parseReportBeta)
-          .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetailsBeta)),
-        requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': 'VL2017181' })
-          .then(schedule.parseDailyBeta)
-      ]
-      return Promise.all(tasks)
-        .then((results) => [results[0], results[1], { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }, []]);
-    } else {
-      // Use vtop for data
-      const uri = {
-        attendance: {
-          report: `https://vtop.vit.ac.in/student/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
-          details: `https://vtop.vit.ac.in/student/attn_report_details.asp`,
-        },
-        schedule: {
-          timetable: `https://vtop.vit.ac.in/student/course_regular.asp?sem=${semester}`,
-          exam: `https://vtop.vit.ac.in/student/exam_schedule.asp?sem=${semester}`,
-        },
-        marks: `https://vtop.vit.ac.in/student/marks.asp?sem=${semester}`
-      };
-
-
-      const tasks = [
-        requests.get(uri.attendance.report, req.cookies)
-          .then(attendance.parseReport)
-          .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetails)),
-        requests.get(uri.schedule.timetable, req.cookies)
-          .then(schedule.parseDaily),
-        requests.get(uri.schedule.exam, req.cookies)
-          .then(schedule.parseExam),
-        requests.get(uri.marks, req.cookies)
-          .then(academic.parseMarks)
-          .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
-      ];
-
-      return Promise.all(tasks)
     }
-  })
-    .then(results => {
-      // Finally, send results as json.
-      res.json({
-        'attendance': results[0],
-        'timetable': results[1],
-        'exam_schedule': results[2],
-        'marks': results[3],
-        'semester': req.body.semester || defaultSemester,
-        'default_semester': defaultSemester
-      })
-    }).catch(next);
+    const tasks = [
+      requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': 'VL2017181' })
+        .then(attendance.parseReportBeta)
+        .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetailsBeta)),
+      requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': 'VL2017181' })
+        .then(schedule.parseDailyBeta)
+    ]
+    fetchData = Promise.all(tasks).then((results) => [results[0], results[1], { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }, []]);
+  } else {
+    // Use vtop for data
+    const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
+    const uri = {
+      attendance: {
+        report: `${baseUri}/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
+        details: `${baseUri}/attn_report_details.asp`,
+      },
+      schedule: {
+        timetable: `${baseUri}/course_regular.asp?sem=${semester}`,
+        exam: `${baseUri}/exam_schedule.asp?sem=${semester}`,
+      },
+      marks: `${baseUri}/marks.asp?sem=${semester}`
+    };
+
+
+    const tasks = [
+      requests.get(uri.attendance.report, req.cookies)
+        .then(attendance.parseReport)
+        .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetails)),
+      requests.get(uri.schedule.timetable, req.cookies)
+        .then(schedule.parseDaily),
+      requests.get(uri.schedule.exam, req.cookies)
+        .then(schedule.parseExam),
+      requests.get(uri.marks, req.cookies)
+        .then(academic.parseMarks)
+        .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
+    ];
+
+    fetchData = Promise.all(tasks)
+  }
+  fetchData.then(results => {
+    // Finally, send results as json.
+    res.json({
+      'attendance': results[0],
+      'timetable': results[1],
+      'exam_schedule': results[2],
+      'marks': results[3],
+      'semester': req.body.semester,
+      'default_semester': defaultSemester
+    })
+  }).catch(next);
 });
+
+
 
 function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
   return Promise.all(courses.map(course => {
