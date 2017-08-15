@@ -74,26 +74,25 @@ module.exports.parseReportBeta = (html) => {
 
       const report = rows.map((i, row) => {
         const td = $(row).find('td');
-        if (td.length != 17) {
+        if (td.length != 10) {
           return null;
         }
 
-        const fragments = td.eq(16).find('a').attr('onclick').split("'");
+        const fragments = td.eq(9).find('a').attr('onclick').split("'");
         return {
-          'course_code': td.eq(2).text().trim(),
-          'course_title': td.eq(3).text().trim(),
-          'course_type': td.eq(4).text().trim(),
-          'slot': td.eq(11).text().trim(),
-          'attended_classes': '0',
-          'total_classes': '0',
-          'attendance_percentage': '0',
+          'course_code': td.eq(1).text().trim(),
+          'course_title': td.eq(2).text().trim(),
+          'course_type': td.eq(3).text().trim(),
+          'slot': td.eq(4).text().trim(),
+          'attended_classes': td.eq(6).text().trim(),
+          'total_classes': td.eq(7).text().trim(),
+          'attendance_percentage': td.eq(8).text().trim(),
           'form': {
             'classId': fragments[1],
             'slotName': fragments[3]
           }
         };
       }).get().filter(e => e !== null);
-
       return resolve(report);
     } catch (err) {
       return reject(err);
