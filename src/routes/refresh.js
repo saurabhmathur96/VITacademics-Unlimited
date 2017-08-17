@@ -94,6 +94,7 @@ router.post('/', (req, res, next) => {
 function generateExamSchedule(dailySchedule) {
   return {
     'CAT - I': dailySchedule.map(e => {
+      if (e.course_type !== "Theory Only" && e.course_type !== "Embedded Theory") return null;
       const cat1Schedule = slotToSchedule(e.slot);
       if (cat1Schedule === null) return null;
 
