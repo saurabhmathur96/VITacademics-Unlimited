@@ -299,8 +299,8 @@ function slotToSchedule(slot) {
     case "G1":
     case "G1+TG1":
       return {
-        "exam_date": "25-Aug-2017",
-        "week_day": "FRI",
+        "exam_date": "26-Aug-2017",
+        "week_day": "SAT",
         "session": "FN",
         "time": "09:30 AM - 11:00 AM"
       }
@@ -308,8 +308,8 @@ function slotToSchedule(slot) {
     case "G2":
     case "G2+TG2":
       return {
-        "exam_date": "25-Aug-2017",
-        "week_day": "FRI",
+        "exam_date": "26-Aug-2017",
+        "week_day": "SAT",
         "session": "AN",
         "time": "02:30 PM - 03:30 PM"
       }
