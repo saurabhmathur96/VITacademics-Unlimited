@@ -43,7 +43,8 @@ router.post('/', (req, res, next) => {
       requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': 'VL2017181' })
         .then(schedule.parseDailyBeta)
     ]
-    fetchData = Promise.all(tasks).then((results) => [results[0], results[1], { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }, []]);
+    // { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }
+    fetchData = Promise.all(tasks).then((results) => [results[0], results[1], generateExamSchedule(results[1]), []]);
   } else {
     // Use vtop for data
     const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
@@ -89,6 +90,233 @@ router.post('/', (req, res, next) => {
 });
 
 
+
+function generateExamSchedule(dailySchedule) {
+  return {
+    'CAT - I': dailySchedule.map(e => {
+      const cat1Schedule = slotToSchedule(e.slot);
+      if (cat1Schedule === null) return null;
+
+      return {
+        "course_code": e.course_code,
+        "course_name": e.course_name,
+        "course_type": e.course_type,
+        "slot": e.slot,
+        "exam_date": cat1Schedule.exam_date,
+        "week_day": cat1Schedule.week_day,
+        "session": cat1Schedule.session,
+        "time": cat1Schedule.time,
+        "venue": "",
+        "table_number": ""
+      }
+    }).filter(e => e).sort((a, b) => parseInt(a.exam_date.split('-')[0]) - parseInt(b.exam_date.split('-')[0])  ),
+    'CAT - II': [],
+    'Final Assessment Test': []
+  }
+}
+
+function slotToSchedule(slot) {
+  switch (slot) {
+    case "A1":
+    case "A1+TA1":
+    case "A1+TA1+TAA1":
+      return {
+        "exam_date": "19-Aug-2017",
+        "week_day": "SAT",
+        "session": "FN",
+        "time": "09:30 AM - 11:00 AM"
+      }
+
+    case "A2":
+    case "A2+TA2":
+    case "A2+TA2+TAA2":
+      return {
+        "exam_date": "19-Aug-2017",
+        "week_day": "SAT",
+        "session": "AN",
+        "time": "02:30 PM - 03:30 PM"
+      }
+
+    case "TA1":
+    case "TA2":
+    case "TB2":
+    case "TC1":
+    case "TC2":
+      return {
+        "exam_date": "19-Aug-2017",
+        "week_day": "SAT",
+        "session": "EN",
+        "time": "05:00 PM - 06:30 PM"
+      }
+
+    case "B1":
+    case "B1+TB1":
+      return {
+        "exam_date": "20-Aug-2017",
+        "week_day": "SUN",
+        "session": "FN",
+        "time": "09:30 AM - 11:00 AM"
+      }
+
+    case "B2":
+    case "B2+TB2":
+    case "B2+TB2+TBB2":
+      return {
+        "exam_date": "20-Aug-2017",
+        "week_day": "SUN",
+        "session": "AN",
+        "time": "02:30 PM - 03:30 PM"
+      }
+
+    case "TD1":
+    case "TE2":
+      return {
+        "exam_date": "20-Aug-2017",
+        "week_day": "SUN",
+        "session": "EN",
+        "time": "05:00 PM - 06:30 PM"
+      }
+
+    case "C1":
+    case "C1+TC1":
+    case "C1+TC1+TCC1":
+      return {
+        "exam_date": "21-Aug-2017",
+        "week_day": "MON",
+        "session": "FN",
+        "time": "09:30 AM - 11:00 AM"
+      }
+
+    case "C2":
+    case "C2+TC2":
+    case "C2+TC2+TCC2":
+      return {
+        "exam_date": "21-Aug-2017",
+        "week_day": "MON",
+        "session": "AN",
+        "time": "02:30 PM - 03:30 PM"
+      }
+
+    case "TD2":
+    case "TF1":
+    case "TF2":
+      return {
+        "exam_date": "21-Aug-2017",
+        "week_day": "MON",
+        "session": "EN",
+        "time": "05:00 PM - 06:30 PM"
+      }
+
+    case "D1":
+    case "D1+TD1":
+      return {
+        "exam_date": "22-Aug-2017",
+        "week_day": "TUE",
+        "session": "FN",
+        "time": "09:30 AM - 11:00 AM"
+      }
+
+    case "D2":
+    case "D2+TD2":
+    case "D2+TD2+TDD2":
+      return {
+        "exam_date": "22-Aug-2017",
+        "week_day": "TUE",
+        "session": "AN",
+        "time": "02:30 PM - 03:30 PM"
+      }
+
+    case "TG1":
+      return {
+        "exam_date": "22-Aug-2017",
+        "week_day": "TUE",
+        "session": "EN",
+        "time": "05:00 PM - 06:30 PM"
+      }
+
+
+    case "E1":
+    case "E1+TE1":
+      return {
+        "exam_date": "23-Aug-2017",
+        "week_day": "WED",
+        "session": "FN",
+        "time": "09:30 AM - 11:00 AM"
+      }
+
+    case "E2":
+    case "E2+TE2":
+      return {
+        "exam_date": "23-Aug-2017",
+        "week_day": "WED",
+        "session": "AN",
+        "time": "02:30 PM - 03:30 PM"
+      }
+
+    case "H1":
+    case "H1+H2":
+    case "H1+H2+H3":
+    case "H1+H3":
+    case "H1+H3+H4+H5":
+    case "H2+H4":
+    case "H2+H4+H5":
+      return {
+        "exam_date": "23-Aug-2017",
+        "week_day": "WED",
+        "session": "EN",
+        "time": "05:00 PM - 06:30 PM"
+      }
+
+    case "F1":
+    case "F1+TF1":
+      return {
+        "exam_date": "24-Aug-2017",
+        "week_day": "THU",
+        "session": "FN",
+        "time": "09:30 AM - 11:00 AM"
+      }
+
+    case "F2":
+    case "F2+TF2":
+      return {
+        "exam_date": "24-Aug-2017",
+        "week_day": "THU",
+        "session": "AN",
+        "time": "02:30 PM - 03:30 PM"
+      }
+
+    case "K1+K2":
+    case "K1+K2+K3":
+    case "K3+K4+K5":
+      return {
+        "exam_date": "24-Aug-2017",
+        "week_day": "THU",
+        "session": "EN",
+        "time": "05:00 PM - 06:30 PM"
+      }
+
+    case "G1":
+    case "G1+TG1":
+      return {
+        "exam_date": "25-Aug-2017",
+        "week_day": "FRI",
+        "session": "FN",
+        "time": "09:30 AM - 11:00 AM"
+      }
+
+    case "G2":
+    case "G2+TG2":
+      return {
+        "exam_date": "25-Aug-2017",
+        "week_day": "FRI",
+        "session": "AN",
+        "time": "02:30 PM - 03:30 PM"
+      }
+
+    default:
+      return null;
+  }
+}
 
 function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
   return Promise.all(courses.map(course => {

@@ -41,7 +41,7 @@ module.exports.getCaptcha = (url) => {
       for (let y = 1; y < 44; y++) {
         for (let x = 1; x < 179; x++) {
           const condition1 = (pixels.get(x, y - 1) === 255) && (pixels.get(x, y) === 0) && (pixels.get(x, y + 1) === 255);
-          const condition2 = (pixels.get(x - 1, y) === 255) && (pixels.get(x, y) == 0) && (pixels[x + 1, y] === 255);
+          const condition2 = (pixels.get(x - 1, y) === 255) && (pixels.get(x, y) == 0) && (pixels.get(x + 1, y) === 255);
           const condition3 = (pixels.get(x, y) !== 255) && (pixels.get(x, y) !== 0);
           if (condition1 || condition2 || condition3) {
             pixels.set(x, y, 255);
