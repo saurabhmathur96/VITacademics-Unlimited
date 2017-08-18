@@ -177,6 +177,24 @@ describe('Unit Tests', () => {
     }).catch(err => { throw err; })
   });
 
+  it('scrape exam schedule beta', (done) => {
+    let filePath = path.join('test', 'data', 'doSearchExamScheduleForStudent.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = schedule.parseExamBeta(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let exams = ['CAT - I', 'CAT - II', 'Final Assessment Test'];
+      for (let i = 0; i < exams.length; i++) {
+        expect(result).to.have.property(exams[i]);
+        let r = validator.validate(result[exams[i]], { "type": "array", "items": { "$ref": "/ExamSchedule" } }, { nestedErrors: true });
+        expect(r.valid).to.be.true;
+      }
+
+      done();
+    }).catch(err => { throw err; })
+  });
+
   it('scrape spotlight', (done) => {
     let filePath = path.join('test', 'data', 'include_spotlight.html');
     let html = fs.readFileSync(filePath, 'utf8');
