@@ -1,3 +1,6 @@
+/**
+ * @module utilities/CaptchaParserBeta
+ */
 const fs = require("fs");
 const getPixels = require("get-pixels");
 const ndarray = require('ndarray');
@@ -11,7 +14,11 @@ var bitmaps = JSON.parse(fs.readFileSync(filePath, "UTF-8"))
 
 
 
-
+/**
+ * Converts an RGB image to a grayscale image
+ * @function makeBW
+ * @param {ndarray} pixels
+ */
 function makeBW(pixels) {
   // Grayscale, L = R * 299/1000 + G * 587/1000 + B * 114/1000
   const height = pixels.shape[0],
@@ -29,7 +36,11 @@ function makeBW(pixels) {
   return bw;
 }
 
-
+/**
+ * Parse a cookie from a url vtopbeta.
+ * @function getCookie
+ * @param {String} url
+ */
 module.exports.getCaptcha = (url) => {
   return new Promise((resolve, reject) => {
     getPixels(url, (err, pixels) => {

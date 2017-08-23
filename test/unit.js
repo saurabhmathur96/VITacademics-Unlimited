@@ -246,4 +246,19 @@ describe('Unit Tests', () => {
       done();
     }).catch(err => { throw err; })
   });
+
+  it('scrape late hours applications', (done) => {
+    let filePath = path.join('test', 'data', 'Hostel_LAB_Permission.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = hostel.parseLateApplications(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let schema = { "type": "array", "items": { "$ref": "/LateHoursApplication", "minItems": 1 } };
+      let r = validator.validate(result, schema, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+
+      done();
+    }).catch(err => { throw err; })
+  });
 });

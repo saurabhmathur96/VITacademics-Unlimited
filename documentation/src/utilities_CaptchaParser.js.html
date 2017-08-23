@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utilities/CaptchaParser.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utilities/CaptchaParser.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module utilities/CaptchaParser
  */
 const keys = {
@@ -549,8 +577,8 @@ const matchImg  = function (rx, ry, pix, mask) {
     let flag = 1;
     let breakflag = 0;
     let count = 0;
-    for (let x = 0; x < mask.length; ++x) {
-        for (let y = 0; y < mask[0].length; ++y) {
+    for (let x = 0; x &lt; mask.length; ++x) {
+        for (let y = 0; y &lt; mask[0].length; ++y) {
             try {
                 if (mask[x][y] == '1') {
                     if (pix[rx + x][ry + y] == '1') {
@@ -580,8 +608,8 @@ const matchImg  = function (rx, ry, pix, mask) {
 };
 
 const skip = function (start, end, y) {
-    for (let i = 0; i < start.length; ++i) {
-        if (y >= start[i] && y <= end[i]) {
+    for (let i = 0; i &lt; start.length; ++i) {
+        if (y >= start[i] &amp;&amp; y &lt;= end[i]) {
             return 1;
         }
     }
@@ -589,12 +617,12 @@ const skip = function (start, end, y) {
 };
 
 const sort = function (sorter, captcha) {
-    for (let i = 0; i < sorter.length; ++i) {
+    for (let i = 0; i &lt; sorter.length; ++i) {
         let less = sorter[i];
         let swap = 0;
         let ls = i;
-        for (let k = i; k < sorter.length; k++) {
-            if (sorter[k] < less) {
+        for (let k = i; k &lt; sorter.length; k++) {
+            if (sorter[k] &lt; less) {
                 less = sorter[k];
                 ls = k;
                 swap = 1;
@@ -614,13 +642,13 @@ const sort = function (sorter, captcha) {
 /**
  * @function getPixelMapFromBuffer
  * @param {Buffer} bitmapBuffer
- * @returns {Array<Array<Number>>}
+ * @returns {Array&lt;Array&lt;Number>>}
  */
 module.exports.getPixelMapFromBuffer = function(bitmapBuffer) {
     let pixelMap = [];
     let subArray = [];
     let row = 0;
-    for (let i = bitmapBuffer.length - (25 * 132), r = 0; i < bitmapBuffer.length; ++i, ++r) {
+    for (let i = bitmapBuffer.length - (25 * 132), r = 0; i &lt; bitmapBuffer.length; ++i, ++r) {
         if (Math.floor(r / 132) !== row) {
             row = Math.floor(r / 132);
             pixelMap.push(subArray);
@@ -635,17 +663,17 @@ module.exports.getPixelMapFromBuffer = function(bitmapBuffer) {
 
 /**
  * @function getCaptcha
- * @param {Array<Array<Number>>} img
+ * @param {Array&lt;Array&lt;Number>>} img
  * @returns {String}
  */
 module.exports.getCaptcha = function(img) {
     let temp = 0;
     let x, y;
-    for (x = 0; x < 25; ++x) {
-        for (y = 0; y < 132; ++y) {
+    for (x = 0; x &lt; 25; ++x) {
+        for (y = 0; y &lt; 132; ++y) {
             temp = img[x][y];
-            if (x !== 0 && x !== 24) {
-                if (img[x + 1][y] === 0 && temp === 1 && img[x - 1][y] === 0) {
+            if (x !== 0 &amp;&amp; x !== 24) {
+                if (img[x + 1][y] === 0 &amp;&amp; temp === 1 &amp;&amp; img[x - 1][y] === 0) {
                     img[x][y] = 0;
                 }
             }
@@ -658,11 +686,11 @@ module.exports.getCaptcha = function(img) {
     let skipend = [];
     let sorter = [];
     let captcha = [];
-    for (let l = 0; l < 36; ++l) {
+    for (let l = 0; l &lt; 36; ++l) {
         const mask = keys[order[l]];
         // let f = 0;
-        for (x = xoff; x < 25; ++x) {
-            for (y = yoff; y < 132; ++y) {
+        for (x = xoff; x &lt; 25; ++x) {
+            for (y = yoff; y &lt; 132; ++y) {
                 if (skip(skipstart, skipend, y)) {
                     continue;
                 }
@@ -683,9 +711,32 @@ module.exports.getCaptcha = function(img) {
     }
     sort(sorter, captcha);
     let res = "";
-    for (let i = 0; i < captcha.length; ++i) {
+    for (let i = 0; i &lt; captcha.length; ++i) {
         res = res + captcha[i];
     }
 
     return res;
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-middleware_authentication.html">middleware/authentication</a></li><li><a href="module-scrapers_academic.html">scrapers/academic</a></li><li><a href="module-scrapers_attendance.html">scrapers/attendance</a></li><li><a href="module-scrapers_home.html">scrapers/home</a></li><li><a href="module-scrapers_hotel.html">scrapers/hotel</a></li><li><a href="module-scrapers_schedule.html">scrapers/schedule</a></li><li><a href="module-services_database.html">services/database</a></li><li><a href="module-utilities_CaptchaParser.html">utilities/CaptchaParser</a></li><li><a href="module-utilities_CaptchaParserBeta.html">utilities/CaptchaParserBeta</a></li><li><a href="module-utilities_getcookie.html">utilities/getcookie</a></li><li><a href="module-utilities_getcookie-beta.html">utilities/getcookie-beta</a></li><li><a href="module-utilities_requests.html">utilities/requests</a></li></ul><h3>Classes</h3><ul><li><a href="module-services_database-MarksCollection.html">MarksCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#parseAssignments">parseAssignments</a></li><li><a href="global.html#parseCourses">parseCourses</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Wed Aug 23 2017 22:45:39 GMT+0530 (IST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

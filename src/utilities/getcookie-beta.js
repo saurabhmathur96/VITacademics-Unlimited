@@ -1,3 +1,6 @@
+/**
+ * @module utilities/getcookie-beta
+ */
 const cheerio = require('cheerio');
 const requests = require('./requests');
 const CaptchaParserBeta = require('./CaptchaParserBeta');
@@ -5,6 +8,13 @@ const logger = require('winston');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+/**
+ * Gets Login Cookie from vtopbeta.
+ * @function getCookie
+ * @param {String} username
+ * @param {String} password
+ * @param {String} [campus]
+ */
 function getCookieBeta(username, password, campus) {
   return requests.getCookies('https://vtopbeta.vit.ac.in/vtop/', null)
   .then(result => {
@@ -28,8 +38,9 @@ function getCookieBeta(username, password, campus) {
     }
     return result.cookies;
   })
-};
-module.exports = getCookieBeta
+}
+
+module.exports = getCookieBeta;
 
 
 

@@ -1,0 +1,411 @@
+
+
+
+<html>
+<head>
+<title>V-TOP Student Login</title>
+
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<link href="style5.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="datetimepicker_css.js"></script>
+
+<script language="javascript">
+
+    var mTimeArray = ["08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM", "04:00 AM", "05:00 AM"];
+    var mvalues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var mnames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    function checkDates() {
+
+        var one_day = 1000 * 60 * 60 * 24;
+        var difference_ms;
+        var today = new Date();
+        var retValue = false;
+
+        if (!Array.prototype.indexOf) {
+            Array.prototype.indexOf = function (obj, start) {
+                for (var i = (start || 0), j = this.length; i < j; i++) {
+                    if (this[i] === obj) { return i; }
+                }
+                return -1;
+            }
+        }
+
+
+        md1 = document.getElementById("frmd").value;
+        md2 = document.getElementById("tod").value;
+        sd1 = md1.split("-");
+        sd2 = md2.split("-");
+        mpos1 = mnames.indexOf(sd1[1]);
+        mpos2 = mnames.indexOf(sd2[1]);
+
+        nd1 = new Date(sd1[2], mpos1, sd1[0]);
+        nd2 = new Date(sd2[2], mpos2, sd2[0]);
+
+        var date1_ms = nd1.getTime();
+        var date2_ms = nd2.getTime();
+        var date3_ms = today.getTime();
+
+        difference_ms = date1_ms - date3_ms;
+
+        ddays=Math.round(difference_ms / one_day);
+
+        if (ddays < -1) {
+            alert('From Date cannot be lower than today');}
+        else {
+
+            difference_ms = date2_ms - date1_ms;
+            ddays = Math.round(difference_ms / one_day);
+
+            if (ddays >= 0 && ddays <= 15) {
+                retValue = true;  }
+            else {
+                alert("From Date and To Date Difference should be only 15 Days");}
+        }
+        return retValue;
+    }
+
+
+    function limitMessage(pmvar) {
+        mvar = document.getElementById(pmvar).value;
+        if (mvar.length == 500) {
+            return false;
+        }
+        document.getElementById('rchars').value = (500 - mvar.length);
+        return true;
+    }
+
+    function exitRoute(pmBtnID) {
+
+        mDoc = document.getElementById('frmPerm');
+
+        if (pmBtnID == 'PD') {
+            document.getElementById("pvActionIndicator").value = pmBtnID;
+            mDoc.submit(); }
+
+        else if (pmBtnID == 'SBM') {
+
+            isSubmit=true;
+            mRsn=document.getElementById("txtRsn").value;
+            mVne=document.getElementById("txtVenue").value;
+
+            if(mRsn.length==0) {
+
+                alert("Please type Reason");
+                isSubmit = false; }
+            else if (mVne.length ==0) {
+
+                alert("Please type venue");
+                isSubmit = false; }
+            else {isSubmit = checkDates(); }
+
+            if (isSubmit) {
+                document.getElementById("pvActionIndicator").value = pmBtnID;
+                mDoc.action = "Hostel_LAB_DBH.asp";
+                mDoc.submit(); }
+        }
+
+    }
+
+    function ReqCancel(pmID) {
+
+        document.getElementById("pvPermitID").value =pmID ;
+        document.getElementById("pvActionIndicator").value = 'CNCL';
+        mDoc = document.getElementById('frmPerm');
+        mDoc.action = "Hostel_LAB_DBH.asp";
+        mDoc.submit();
+    }
+
+
+     function fillFromTime() {
+         var ListOne = document.getElementById("frmtm");
+
+         for (var i = 0; i < 9; i++) {
+             var listOptions = document.createElement("option");
+             listOptions.text = mTimeArray[i];
+             listOptions.value = mTimeArray[i];
+             ListOne.add(listOptions, i);
+         }
+
+         fillToTimes();
+     }
+
+     function fillToTimes() {
+         var ListOne = document.getElementById("frmtm");
+         var ListTwo = document.getElementById("totm");
+
+         fnum = 1;
+
+         for (s = 0; s <= ListOne.options.length - 1; s++) {
+             if (ListOne[s].value == ListOne[ListOne.selectedIndex].value) {
+                 fnum = s;
+                 break;
+             }
+         }
+
+         fnum++;
+         var lnum = 9 - fnum;
+         ListTwo.options.length = 0;
+
+         for (var i = 0; i <= lnum; i++) {
+             var listOptions = document.createElement("option");
+             listOptions.text = mTimeArray[fnum];
+             listOptions.value = mTimeArray[fnum];
+             ListTwo.add(listOptions, i);
+             fnum++;
+         }
+     }
+
+     function openAddUnit() {
+         document.getElementById("AddUnit").style.display = "block";
+     }
+</script>
+
+
+
+
+</head>
+
+
+<body onload="fillFromTime()">
+<table width="79%" border="0" cellpadding="0" cellspacing="0" height="350">
+  <tr>
+	<td valign="top" width="1%" bgcolor="#FFFFFF">
+		&nbsp;
+	</td>
+	<td valign="top" width="78%" bgcolor="#FFFFFF" align="center" >
+
+
+
+
+        <form name="frmPerm" id="frmPerm" action="Hostel_LAB_Permission.asp" method="post">
+
+            <input type="hidden" id="pvActionIndicator" name="pvActionIndicator" value="" />
+            <input type="hidden" id="pvPermitID" name="pvPermitID" value="" />
+            <input class="submit" type="button" value=" REQUEST A PERMISSION " onclick="openAddUnit()" /> <br /><br />
+
+             <div id="AddUnit"  style="display:none;"  >
+                 <br /><br />
+
+                        <table width="100%" class="tblFormat1" cellpadding="0" cellspacing="0"><caption>APPLICATION FORM</caption>
+                            <tr class="differ">
+                                <th width="15%" >Reg.No.</th>
+                                <td>14BIT0180</td>
+                                <th width="15%" >Name</th>
+                                <td>SAURABH MATHUR</td></tr>
+
+                            <tr class="highLight">
+                                <th>School</th>
+                                <td colspan="3">
+                                        <select class="textbox"  id="cvSchool" name="cvSchool" onchange="return exitRoute('PD');">
+                                        <option value="" selected><----------------Select----------------></option>
+                                                <option value="ASC"  >
+                                                                            Academics Staff College&nbsp;(ASC)</option>
+                                                <option value="ARC"  >
+                                                                            Automotive Research Centre&nbsp;(ARC)</option>
+                                                <option value="CO2"  >
+                                                                            CO2 Research Centre&nbsp;(CO2)</option>
+                                                <option value="CBST"  >
+                                                                            Centre for Bio-Separation and Technology&nbsp;(CBST)</option>
+                                                <option value="CBCMT"  >
+                                                                            Centre for Biomaterials, Cellular and Molecular Theranostics&nbsp;(CBCMT)</option>
+                                                <option value="CCG"  >
+                                                                            Centre for Crystal Growth&nbsp;(CCG)</option>
+                                                <option value="CDMM"  >
+                                                                            Centre for Disaster Mitigation and Management&nbsp;(CDMM)</option>
+                                                <option value="CIMR"  >
+                                                                            Centre for Innovative Manufacturing Research&nbsp;(CIMR)</option>
+                                                <option value="CNBT"  >
+                                                                            Centre for Nanobiotechnology&nbsp;(CNBT)</option>
+                                                <option value="CNR"  >
+                                                                            Centre for Nanotechnology Research&nbsp;(CNR)</option>
+                                                <option value="IIIP"  >
+                                                                            Institute for Industry and International Programme&nbsp;(IIIP)</option>
+                                                <option value="O/o-COE"  >
+                                                                            O/o Controller Of Examinations&nbsp;(O/o-COE)</option>
+                                                <option value="SAS"  >
+                                                                            School of Advanced Sciences&nbsp;(SAS)</option>
+                                                <option value="VSPARC"  >
+                                                                            School of Architecture&nbsp;(VSPARC)</option>
+                                                <option value="SBST"  >
+                                                                            School of Bio Sciences and Technology&nbsp;(SBST)</option>
+                                                <option value="SCALE"  >
+                                                                            School of Civil and Chemical Engineering&nbsp;(SCALE)</option>
+                                                <option value="SCOPE"  >
+                                                                            School of Computer Engineering&nbsp;(SCOPE)</option>
+                                                <option value="SELECT"  >
+                                                                            School of Electrical Engineering&nbsp;(SELECT)</option>
+                                                <option value="SENSE"  >
+                                                                            School of Electronics Engineering&nbsp;(SENSE)</option>
+                                                <option value="SITE"  >
+                                                                            School of Information Technology and Engineering&nbsp;(SITE)</option>
+                                                <option value="SMEC"  >
+                                                                            School of Mechanical Engineering&nbsp;(SMEC)</option>
+                                                <option value="SSL"  >
+                                                                            School of Social Sciences & Languages&nbsp;(SSL)</option>
+                                                <option value="TIFAC"  >
+                                                                            Technology Information Forecasting and Assessment Council&nbsp;(TIFAC)</option>
+                                                <option value="VITBS"  >
+                                                                            VIT Business School&nbsp;(VITBS)</option> </select></td></tr>
+
+                            <tr class="highLight">
+                                <th>Faculty</th>
+                                <td colspan="3">Not Selectable</td></tr>
+
+                            <tr class="highLight">
+                                <th>From Date</th>
+                                <td>
+                                    <input  name="frmdate" id="frmd" class="textbox" value="" maxlength="15" size="15" readonly tabindex="9" />
+			                        <a href="javascript:NewCssCal('frmd','ddmmmyyyy','arrow')"><img border="0" src="images/calendar.gif" width="16" height="16" alt="Pick a date"></a></td>
+                                <th width="15%">To Date</th>
+                                <td>
+                                    <input  name="todate" id="tod" class="textbox" value="" maxlength="15" size="15" readonly tabindex="9" />
+			                        <a href="javascript:NewCssCal('tod','ddmmmyyyy','arrow')"><img border="0" src="images/calendar.gif" width="16" height="16" alt="Pick a date"></a></td></tr>
+
+                            <tr class="highLight">
+                                <th>From Time </th>
+                                <td>
+                                    <select class="textbox"  id="frmtm" name="frmtm" onchange="fillToTimes();"></select></td>
+                                <th>To Time </th>
+
+                                <td>
+                                    <select class="textbox"  id="totm" name="totm"></select></td></tr>
+
+                            <tr class="highLight">
+                                <th>Venue:</th>
+                                <td><input class="textbox" type="text" value="" size="25" maxlength="25" id="txtVenue" name="txtVenue" /></td>
+                                <th>Request Type</th>
+                                <td>
+                                    <select class="textbox" name="cvLeaveType" id="cvLeaveType">
+                                                <option value="LB">LAB PERMISSION</option>
+                                    </select></td></tr>
+
+                            <tr class="highLight">
+                                <th>Reason in Detail:</th>
+                                <td colspan="3"><textarea  rows="3" cols="60" id="txtRsn" name="txtRsn" onkeydown="limitMessage('txtRsn');"></textarea>
+                                                    (500 Chars)Left:<input class="textbox" type="text" disabled="disabled" value="500" id="rchars" size="3" /></td></tr>
+
+                            <tr class="footer">
+                                <td align="center" colspan="4"><input  class="submit" type="button" value=" Apply " onclick="return exitRoute('SBM');" /></td></tr>
+                        </table>
+                        <!--<br /><b><font style="color:Red;"></font></b> -->
+             </div>
+
+            <hr style="padding:0px 0px 5px 0px;margin:0px 0px 5px 0px;" />
+
+
+
+                    <table class="tblFormat1" width="100%" cellpadding="0" cellspacing="0"><caption>Previous Five Requests</caption>
+
+                        <tr class="highLight">
+                            <th width="3%">Sno.</th>
+                            <th width="7%">From Date</th>
+                            <th width="7%">To Date</th>
+                            <th width="9%">Time</th>
+                            <th width="10%">Venue</th>
+                            <th>Reason</th>
+                            <th width="20%">Faculty</th>
+                            <th width="7%">Status</th>
+                            <th width="7%">Duration</th></tr>
+
+                                <tr class="highLight">
+                                    <td>1</td>
+                                    <td>08-SEP-2016</td>
+                                    <td>16-SEP-2016</td>
+                                    <td>08:00 PM-<br />
+                                        05:00 AM</td>
+                                    <td>Control Room</td>
+                                    <td>Gravitas web team</td>
+                                    <td>SUDHAKAR N</td>
+                                    <td>Approved
+                                        </td>
+                                    <td>
+                                        <center>Completed</center>
+                                    </td></tr>
+
+                                <tr class="highLight">
+                                    <td>2</td>
+                                    <td>31-AUG-2016</td>
+                                    <td>07-SEP-2016</td>
+                                    <td>08:00 PM-<br />
+                                        03:00 AM</td>
+                                    <td>Control Room</td>
+                                    <td>Gravitas Web portals</td>
+                                    <td>SUDHAKAR N</td>
+                                    <td>Approved
+                                        </td>
+                                    <td>
+                                        <center>Completed</center>
+                                    </td></tr>
+
+                                <tr class="highLight">
+                                    <td>3</td>
+                                    <td>11-AUG-2016</td>
+                                    <td>23-AUG-2016</td>
+                                    <td>09:00 PM-<br />
+                                        04:00 AM</td>
+                                    <td>Control Room</td>
+                                    <td>graVITas Web Team</td>
+                                    <td>KARTHIKEYAN S</td>
+                                    <td>Approved
+                                        </td>
+                                    <td>
+                                        <center>Completed</center>
+                                    </td></tr>
+
+                                <tr class="highLight">
+                                    <td>4</td>
+                                    <td>04-AUG-2016</td>
+                                    <td>10-AUG-2016</td>
+                                    <td>08:00 PM-<br />
+                                        05:00 AM</td>
+                                    <td>Control Room</td>
+                                    <td>Gravitas portals</td>
+                                    <td>SUDHAKAR N</td>
+                                    <td>Approved
+                                        </td>
+                                    <td>
+                                        <center>Completed</center>
+                                    </td></tr>
+
+                                <tr class="highLight">
+                                    <td>5</td>
+                                    <td>20-JUL-2016</td>
+                                    <td>03-AUG-2016</td>
+                                    <td>08:00 PM-<br />
+                                        05:00 AM</td>
+                                    <td>Control Room</td>
+                                    <td>gravitas Portals</td>
+                                    <td>SUDHAKAR N</td>
+                                    <td>Approved
+                                        </td>
+                                    <td>
+                                        <center>Completed</center>
+                                    </td></tr>
+
+                                <tr class="highLight">
+                                    <td>6</td>
+                                    <td>31-MAR-2016</td>
+                                    <td>15-APR-2016</td>
+                                    <td>08:00 PM-<br />
+                                        03:00 AM</td>
+                                    <td>SJT</td>
+                                    <td>graVITas portals</td>
+                                    <td>KARTHIKEYAN S</td>
+                                    <td>Approved
+                                        </td>
+                                    <td>
+                                        <center>Completed</center>
+                                    </td></tr>
+                    </table>
+         </form>
+
+	<br><br>
+	</td>
+  </tr>
+</table>
+
+
+</body>
+</html>

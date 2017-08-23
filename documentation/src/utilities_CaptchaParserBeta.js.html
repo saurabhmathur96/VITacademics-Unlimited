@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utilities/CaptchaParserBeta.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utilities/CaptchaParserBeta.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module utilities/CaptchaParserBeta
+ */
+const fs = require("fs");
+const getPixels = require("get-pixels");
+const ndarray = require('ndarray');
+const Promise = require('bluebird');
+const logger = require('winston');
+const path = require("path");
+
+
+let filePath = path.join(__dirname, '..', '..', 'data', 'bitmaps.json');
+var bitmaps = JSON.parse(fs.readFileSync(filePath, "UTF-8"))
+
+
+
+/**
+ * Converts an RGB image to a grayscale image
+ * @function makeBW
+ * @param {ndarray} pixels
+ */
+function makeBW(pixels) {
+  // Grayscale, L = R * 299/1000 + G * 587/1000 + B * 114/1000
+  const height = pixels.shape[0],
+    width = pixels.shape[1];
+  var bw = ndarray(new Uint8Array(height * width), [height, width]);
+  for (let x = 0; x &lt; pixels.shape[0]; x++) {
+    for (let y = 0; y &lt; pixels.shape[1]; y++) {
+      const pixel = pixels.get(x, y, 0) * 0.299 + // Red
+        pixels.get(x, y, 1) * 0.587 + // Green
+        pixels.get(x, y, 2) * 0.114; // Blue
+      // Ignoring the alpha value at index 3 since all are 255.
+      bw.set(x, y, pixel);
+    }
+  }
+  return bw;
+}
+
+/**
+ * Parse a cookie from a url vtopbeta.
+ * @function getCookie
+ * @param {String} url
+ */
+module.exports.getCaptcha = (url) => {
+  return new Promise((resolve, reject) => {
+    getPixels(url, (err, pixels) => {
+      if (err) {
+        logger.error(err);
+        return reject(new Error('Error in parsing captcha.'));
+      }
+      pixels = makeBW(pixels);
+      for (let y = 1; y &lt; 44; y++) {
+        for (let x = 1; x &lt; 179; x++) {
+          const condition1 = (pixels.get(x, y - 1) === 255) &amp;&amp; (pixels.get(x, y) === 0) &amp;&amp; (pixels.get(x, y + 1) === 255);
+          const condition2 = (pixels.get(x - 1, y) === 255) &amp;&amp; (pixels.get(x, y) == 0) &amp;&amp; (pixels.get(x + 1, y) === 255);
+          const condition3 = (pixels.get(x, y) !== 255) &amp;&amp; (pixels.get(x, y) !== 0);
+          if (condition1 || condition2 || condition3) {
+            pixels.set(x, y, 255);
+          }
+        }
+      }
+      let captcha = "";
+      for (let s = 30; s &lt; 181; s += 30) {
+        let matches = [];
+        const chars = '123456789ABCDEFGHIJKLMNPQRSTUVWXYZ';
+        for (let c = 0; c &lt; chars.length; c++) {
+          const current = chars[c];
+          let match = 0;
+          let black = 0;
+          const bitmap = bitmaps[current];
+          for (let x = 0; x &lt; 32; x++) {
+            for (let y = 0; y &lt; 30; y++) {
+              const x1 = y + s - 30
+              const y1 = x + 12
+              if ((pixels.get(x1, y1) === bitmap[x][y]) &amp;&amp; (bitmap[x][y] == 0)) {
+                match += 1;
+              }
+              if (bitmap[x][y] == 0) {
+                black += 1;
+              }
+            }
+          }
+          if (match / black >= 0.80) {
+            const percent = match / black;
+            matches.push([percent, current]);
+          }
+        }
+        captcha += matches.reduce(function(a, b)  {
+          return a[0] > b[0] ? a : b
+        }, [0, 0])[1];
+      }
+      return resolve(captcha);
+    })
+  });
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-middleware_authentication.html">middleware/authentication</a></li><li><a href="module-scrapers_academic.html">scrapers/academic</a></li><li><a href="module-scrapers_attendance.html">scrapers/attendance</a></li><li><a href="module-scrapers_home.html">scrapers/home</a></li><li><a href="module-scrapers_hotel.html">scrapers/hotel</a></li><li><a href="module-scrapers_schedule.html">scrapers/schedule</a></li><li><a href="module-services_database.html">services/database</a></li><li><a href="module-utilities_CaptchaParser.html">utilities/CaptchaParser</a></li><li><a href="module-utilities_CaptchaParserBeta.html">utilities/CaptchaParserBeta</a></li><li><a href="module-utilities_getcookie.html">utilities/getcookie</a></li><li><a href="module-utilities_getcookie-beta.html">utilities/getcookie-beta</a></li><li><a href="module-utilities_requests.html">utilities/requests</a></li></ul><h3>Classes</h3><ul><li><a href="module-services_database-MarksCollection.html">MarksCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#parseAssignments">parseAssignments</a></li><li><a href="global.html#parseCourses">parseCourses</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Wed Aug 23 2017 22:45:39 GMT+0530 (IST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

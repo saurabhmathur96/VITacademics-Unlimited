@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scrapers/schedule.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scrapers/schedule.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module scrapers/schedule
  */
 const tabletojson = require('tabletojson');
@@ -21,7 +49,7 @@ const courseTypes = {
  * test-input: test/data/course_regular.html
  * @function parseDaily
  * @param {String} html
- * @returns {Promise<DailySchedule>}
+ * @returns {Promise&lt;DailySchedule>}
  */
 
 module.exports.parseDaily = (html) => {
@@ -32,7 +60,7 @@ module.exports.parseDaily = (html) => {
       if (html === null || html === undefined) {
         return resolve([]);
       }
-      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
+      const table = tabletojson.convert(`&lt;table>${html}&lt;/table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
       if (table === null || table === undefined) {
         return resolve([]);
       }
@@ -83,7 +111,7 @@ module.exports.parseDaily = (html) => {
  * test-input: test/data/processViewTimeTable.html
  * @function parseDailyBeta
  * @param {String} html
- * @returns {Promise<DailySchedule>}
+ * @returns {Promise&lt;DailySchedule>}
  */
 
 module.exports.parseDailyBeta = (html) => {
@@ -94,7 +122,7 @@ module.exports.parseDailyBeta = (html) => {
       if (html === null || html === undefined) {
         return resolve([]);
       }
-      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0];
+      const table = tabletojson.convert(`&lt;table>${html}&lt;/table>`, { ignoreEmptyRows: true, allowHTML: false })[0];
 
       if (table === null || table === undefined) {
         return resolve([]);
@@ -130,7 +158,7 @@ module.exports.parseDailyBeta = (html) => {
  * test-input: test/data/exam_schedule.html
  * @function parseExam
  * @param {String} html
- * @returns {Promise<ExamSchedule>}
+ * @returns {Promise&lt;ExamSchedule>}
  */
 
 module.exports.parseExam = (html) => {
@@ -138,7 +166,7 @@ module.exports.parseExam = (html) => {
     try {
       const $ = cheerio.load(html);
       html = $('table[width=897]').eq(0).html();
-      const table = tabletojson.convert(`<table> ${html} </table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
+      const table = tabletojson.convert(`&lt;table> ${html} &lt;/table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
       const schedule = {
         'CAT - I': [],
         'CAT - II': [],
@@ -148,7 +176,7 @@ module.exports.parseExam = (html) => {
         return resolve(schedule);
       }
       let key = 'CAT - I';
-      for (let i = 1; i < table.length - 1; i++) {
+      for (let i = 1; i &lt; table.length - 1; i++) {
         const row = table[i];
         if (row[0] === 'CAT - I' || row[0] === 'CAT - II' || row[0] === 'Final Assessment Test') {
           key = row[0];
@@ -180,7 +208,7 @@ module.exports.parseExam = (html) => {
  * test-input: test/data/doSearchExamScheduleForStudent.html
  * @function parseExam
  * @param {String} html
- * @returns {Promise<ExamSchedule>}
+ * @returns {Promise&lt;ExamSchedule>}
  */
 
 module.exports.parseExamBeta = (html) => {
@@ -188,7 +216,7 @@ module.exports.parseExamBeta = (html) => {
     try {
       const $ = cheerio.load(html);
       html = $('table').eq(0).html();
-      const table = tabletojson.convert(`<table> ${html} </table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
+      const table = tabletojson.convert(`&lt;table> ${html} &lt;/table>`, { ignoreEmptyRows: true, allowHTML: false })[0]
       const schedule = {
         'CAT - I': [],
         'CAT - II': [],
@@ -203,7 +231,7 @@ module.exports.parseExamBeta = (html) => {
         return resolve(schedule);
       }
       let key = 'CAT - I';
-      for (let i = 1; i < table.length; i++) {
+      for (let i = 1; i &lt; table.length; i++) {
         const row = table[i];
         const title = keyMap[row[0]];
         if (title === 'CAT - I' || title === 'CAT - II' || title === 'Final Assessment Test') {
@@ -230,3 +258,26 @@ module.exports.parseExamBeta = (html) => {
     }
   });
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-middleware_authentication.html">middleware/authentication</a></li><li><a href="module-scrapers_academic.html">scrapers/academic</a></li><li><a href="module-scrapers_attendance.html">scrapers/attendance</a></li><li><a href="module-scrapers_home.html">scrapers/home</a></li><li><a href="module-scrapers_hotel.html">scrapers/hotel</a></li><li><a href="module-scrapers_schedule.html">scrapers/schedule</a></li><li><a href="module-services_database.html">services/database</a></li><li><a href="module-utilities_CaptchaParser.html">utilities/CaptchaParser</a></li><li><a href="module-utilities_CaptchaParserBeta.html">utilities/CaptchaParserBeta</a></li><li><a href="module-utilities_getcookie.html">utilities/getcookie</a></li><li><a href="module-utilities_getcookie-beta.html">utilities/getcookie-beta</a></li><li><a href="module-utilities_requests.html">utilities/requests</a></li></ul><h3>Classes</h3><ul><li><a href="module-services_database-MarksCollection.html">MarksCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#parseAssignments">parseAssignments</a></li><li><a href="global.html#parseCourses">parseCourses</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Wed Aug 23 2017 22:45:39 GMT+0530 (IST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
