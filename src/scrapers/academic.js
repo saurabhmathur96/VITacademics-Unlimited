@@ -72,7 +72,7 @@ module.exports.parseHistory = (html) => {
         const credits = parseInt(attrs.eq(4).text());
         data.grades.push({
           'course_code': attrs.eq(1).text(),
-          'course_title': attrs.eq(2).text(),
+          'course_title': attrs.eq(2).text().trim(),
           'course_type': attrs.eq(3).text(),
           'credits': credits,
           'grade': grade,
