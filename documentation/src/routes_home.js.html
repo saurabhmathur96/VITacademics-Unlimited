@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Global</title>
+    <title>JSDoc: Source: routes/home.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,277 +17,62 @@
 
 <div id="main">
 
-    <h1 class="page-title">Global</h1>
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="parseAssignments"><span class="type-signature"></span>parseAssignments<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    parseAssignments
-
-parse assignments from a course from cal assignments page
-test-input: test/data/assignments.html
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scrapers_cal.js.html">scrapers/cal.js</a>, <a href="scrapers_cal.js.html#line50">line 50</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="parseCourses"><span class="type-signature"></span>parseCourses<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    parseCourses
-parse courses from cal assignments page
-test-input: test/data/cal.html
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scrapers_cal.js.html">scrapers/cal.js</a>, <a href="scrapers_cal.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">Source: routes/home.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module routes/home
+ */
+const path = require('path');
+const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
+const home = require(path.join(__dirname, '..', 'scrapers', 'home'));
+const Promise = require('bluebird');
+const express = require('express');
+const moment = require('moment');
+
+const router = express.Router();
+
+/**
+ * POST /home
+ *
+ * respond with spotlight items and faculty messages
+ * @function postHome
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
+ */
+router.post('/', (req, res, next) => {
+  const campus = req.body.campus;
+  const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
+  const uri = {
+    spotlight: `${baseUri}/include_spotlight.asp`,
+    messages: `${baseUri}/stud_home.asp`
+  };
+  const tasks = [
+    requests.get(uri.spotlight, req.cookies).then(home.parseSpotlight),
+    requests.get(uri.messages, req.cookies).then(home.parseMessages)
+  ];
+
+  Promise.all(tasks)
+    .then(results => res.json({ 'spotlight': results[0], 'messages': results[1].sort(dateTimeComparator), 'cookies': req.cookies }))
+    .catch(next);
+});
+
+
+function dateTimeComparator(a, b) {
+  const format = 'DD/MM/YYYY HH:mm:ss';
+  return moment(b.time, format).valueOf() - moment(a.time, format).valueOf()
+}
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
 
 
 

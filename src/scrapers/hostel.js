@@ -63,7 +63,8 @@ module.exports.parseLateApplications = (html) => {
   return new Promise((resolve, reject) => {
     try {
       const $ = cheerio.load(html);
-      const table = $('table[class=tblFormat1]').eq(1);
+      const tables = $('table[class=tblFormat1]');
+      const table = tables.eq(1)
       const applications = table.find('tr').map((i, row) => {
         const td = $(row).find("td");
         if (td.length === 0) {

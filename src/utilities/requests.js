@@ -42,6 +42,7 @@ module.exports.getCookies = (uri, cookies) => {
 
 /**
  * Gets only HTML markup from get request
+ * @function get
  * @param {String} uri
  * @param {Array<String>} cookies
  */

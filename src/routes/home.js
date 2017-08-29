@@ -1,3 +1,6 @@
+/**
+ * @module routes/home
+ */
 const path = require('path');
 const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const home = require(path.join(__dirname, '..', 'scrapers', 'home'));
@@ -12,9 +15,6 @@ const router = express.Router();
  *
  * respond with spotlight items and faculty messages
  */
-
-
-
 router.post('/', (req, res, next) => {
   const campus = req.body.campus;
   const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');

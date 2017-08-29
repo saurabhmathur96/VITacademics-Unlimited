@@ -28,13 +28,15 @@ module.exports = (username, password, campus) => {
     .then(result => {
       try {
         const $ = cheerio.load(result.body);
-        if ($('table').eq(1).find('td').eq(0).text().trim().split(/\s+/)[0] !== 'Welcome') {
+        const welcomeMessage = $('table').eq(1).find('td').eq(0).text().trim();
+        const parts = welcomeMessage.split(/\s+/);
+        if (parts[0] !== 'Welcome') {
           throw new Error('Username or Password is incorrect.');
         }
       } catch (ex) {
         throw new Error('Username or Password is incorrect.');
       }
-      return result
+      return result;
     })
     .then(result => requests.getCookies(`${baseUri}/stud_home.asp`, result.cookies))
     .then(result => result.cookies)

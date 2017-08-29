@@ -253,7 +253,7 @@ describe('Integration Tests', () => {
         });
     });
 
-    it('POST student/late/appplications', (done) => {
+    xit('POST student/late/appplications', (done) => {
 
       request.post('/student/late/applications')
         .send(credentials)
@@ -306,7 +306,7 @@ describe('Integration Tests', () => {
 
           var index = res.body.applications.map((e) => e.from).indexOf(from.format('DD-MMM-YYYY').toUpperCase());
           if (index === -1) {
-            throw new Error('Outing application not found !');
+            throw new Error('Late application not found !');
           }
 
           expect(res.body.applications[index].cancel_id).to.be.not.null;

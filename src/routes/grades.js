@@ -1,3 +1,6 @@
+/**
+ * @module routes/grades
+ */
 const path = require('path');
 const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));

@@ -1,3 +1,7 @@
+/**
+ * @module routes/assignments
+ * @deprecated
+ */
 const path = require('path');
 const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const assignments = require(path.join(__dirname, '..', 'scrapers', 'cal'));

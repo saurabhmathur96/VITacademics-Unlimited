@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: routes/refresh.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: routes/refresh.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module routes/refresh
  */
 const path = require('path');
@@ -28,7 +56,7 @@ router.post('/', (req, res, next) => {
   const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY');
   const year = moment().tz('Asia/Kolkata').format('YYYY');
 
-  if (semester === 'FS' && campus === 'vellore') {
+  if (semester === 'FS' &amp;&amp; campus === 'vellore') {
     // Use vtopbeta for data
     const uri = {
       schedule: {
@@ -56,7 +84,7 @@ router.post('/', (req, res, next) => {
     const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
     const uri = {
       attendance: {
-        report: `${baseUri}/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
+        report: `${baseUri}/attn_report.asp?sem=${semester}&amp;fmdt=01-Jan-2016&amp;todt=${today}`,
         details: `${baseUri}/attn_report_details.asp`,
       },
       schedule: {
@@ -103,7 +131,7 @@ function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
     return requests.post(uri, cookies, course.form)
       .then(parseDetails).then((details) => {
 
-        if (details.length > 0 && course.attendance_percentage === '0') {
+        if (details.length > 0 &amp;&amp; course.attendance_percentage === '0') {
           const units = (course.slot[0] === 'L' ? course.slot.split('+').length : 1);
           const total_classes = units * details.length;
           const attended_classes = total_classes - details.reduce((sum, detail) => sum + units * (detail.status === 'Absent'), 0);
@@ -125,8 +153,8 @@ function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
 function updateMarksCollection(marksCollection, marksReports, reg_no, semester, year) {
 
   const marks = [];
-  for (let i = 0; i < marksReports.length; i++) {
-    for (let j = 0; j < marksReports[i].marks.length; j++) {
+  for (let i = 0; i &lt; marksReports.length; i++) {
+    for (let j = 0; j &lt; marksReports[i].marks.length; j++) {
       marks.push({
         class_number: marksReports[i].class_number,
         title: marksReports[i].marks[j].title,
@@ -144,7 +172,7 @@ function updateMarksCollection(marksCollection, marksReports, reg_no, semester, 
           .then(aggregates => {
             const tasks = [];
             const topic = `${semester}/${year}/${report.class_number}`;
-            for (let i = 0; i < report.marks.length; i++) {
+            for (let i = 0; i &lt; report.marks.length; i++) {
               const title = report.marks[i].title
               report.marks[i].aggregates = aggregates[title];
               if (report.marks[i].count === 1) {
@@ -165,3 +193,26 @@ function updateMarksCollection(marksCollection, marksReports, reg_no, semester, 
 
 
 module.exports = router;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-middleware_authentication.html">middleware/authentication</a></li><li><a href="module-routes_assignments.html">routes/assignments</a></li><li><a href="module-routes_faculty.html">routes/faculty</a></li><li><a href="module-routes_grades.html">routes/grades</a></li><li><a href="module-routes_home.html">routes/home</a></li><li><a href="module-routes_hostel.html">routes/hostel</a></li><li><a href="module-routes_late.html">routes/late</a></li><li><a href="module-routes_refresh.html">routes/refresh</a></li><li><a href="module-scrapers_academic.html">scrapers/academic</a></li><li><a href="module-scrapers_attendance.html">scrapers/attendance</a></li><li><a href="module-scrapers_home.html">scrapers/home</a></li><li><a href="module-scrapers_hotel.html">scrapers/hotel</a></li><li><a href="module-scrapers_schedule.html">scrapers/schedule</a></li><li><a href="module-services_database.html">services/database</a></li><li><a href="module-utilities_CaptchaParser.html">utilities/CaptchaParser</a></li><li><a href="module-utilities_CaptchaParserBeta.html">utilities/CaptchaParserBeta</a></li><li><a href="module-utilities_getcookie.html">utilities/getcookie</a></li><li><a href="module-utilities_getcookie-beta.html">utilities/getcookie-beta</a></li><li><a href="module-utilities_requests.html">utilities/requests</a></li></ul><h3>Classes</h3><ul><li><a href="module-services_database-MarksCollection.html">MarksCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#parseAssignments">parseAssignments</a></li><li><a href="global.html#parseCourses">parseCourses</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Aug 27 2017 13:01:52 GMT+0530 (IST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Global</title>
+    <title>JSDoc: Source: routes/faculty.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,277 +17,74 @@
 
 <div id="main">
 
-    <h1 class="page-title">Global</h1>
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="parseAssignments"><span class="type-signature"></span>parseAssignments<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    parseAssignments
-
-parse assignments from a course from cal assignments page
-test-input: test/data/assignments.html
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scrapers_cal.js.html">scrapers/cal.js</a>, <a href="scrapers_cal.js.html#line50">line 50</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="parseCourses"><span class="type-signature"></span>parseCourses<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    parseCourses
-parse courses from cal assignments page
-test-input: test/data/cal.html
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scrapers_cal.js.html">scrapers/cal.js</a>, <a href="scrapers_cal.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">Source: routes/faculty.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module routes/faculty
+ */
+const path = require('path');
+const express = require('express');
+const fs = require('fs');
+const logger = require('winston');
+const router = express.Router();
+
+let facultyDetails = null;
+let filePath = path.join(__dirname, '..', '..', 'data', 'faculty_info.json');
+try {
+  const json = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  facultyDetails = json['faculty_info'];
+} catch (ex) {
+  logger.error('Faculty info data-file not found. Please create a data-file at ${filePath}.');
+}
+
+let lateHoursSchools = null;
+filePath = path.join(__dirname, '..', '..', 'data', 'late_schools.json');
+try {
+  const json = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  lateHoursSchools = json['late_schools'];
+} catch (ex) {
+  logger.error('Faculty info data-file not found. Please create a data-file at ${filePath}.');
+}
+
+/**
+ * GET /all
+ *
+ * return a list of details of all faculty (~2.2k elements)
+ */
+router.get('/all', (req, res, next) => {
+  if (facultyDetails === null || facultyDetails === undefined) {
+    let err = new Error('Faculty details not found.');
+    err.status = 500;
+    return next(err);
+  }
+  return res.json({ faculty: facultyDetails });
+})
+
+/**
+ * GET /late
+ *
+ * return a list of school with ids of faculty who can approve late hours permission
+ */
+router.get('/late', (req, res, next) => {
+  if (lateHoursSchools === null || lateHoursSchools === undefined) {
+    let err = new Error('Faculty details not found.');
+    err.status = 500;
+    return next(err);
+  }
+  return res.json({ schools: lateHoursSchools });
+})
+
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
 
 
 

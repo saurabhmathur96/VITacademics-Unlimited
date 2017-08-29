@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: utilities/CaptchaParser</title>
+    <title>JSDoc: Module: routes/home</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: utilities/CaptchaParser</h1>
+    <h1 class="page-title">Module: routes/home</h1>
 
     
 
@@ -64,12 +64,18 @@
     
 
     
-    <h4 class="name" id="~getCaptcha"><span class="type-signature">(inner) </span>getCaptcha<span class="signature">(img)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id="~postHome"><span class="type-signature">(inner) </span>postHome<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
 
 
+
+<div class="description">
+    POST /home
+
+respond with spotlight items and faculty messages
+</div>
 
 
 
@@ -104,13 +110,59 @@
 
         <tr>
             
-                <td class="name"><code>img</code></td>
+                <td class="name"><code>req</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;Array.&lt;Number>></span>
+<span class="param-type">Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
 
 
             
@@ -161,7 +213,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utilities_CaptchaParser.js.html">utilities/CaptchaParser.js</a>, <a href="utilities_CaptchaParser.js.html#line636">line 636</a>
+        <a href="routes_home.js.html">routes/home.js</a>, <a href="routes_home.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -184,173 +236,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~getPixelMapFromBuffer"><span class="type-signature">(inner) </span>getPixelMapFromBuffer<span class="signature">(bitmapBuffer)</span><span class="type-signature"> &rarr; {Array.&lt;Array.&lt;Number>>}</span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>bitmapBuffer</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Buffer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utilities_CaptchaParser.js.html">utilities/CaptchaParser.js</a>, <a href="utilities_CaptchaParser.js.html#line614">line 614</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;Array.&lt;Number>></span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
