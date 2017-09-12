@@ -149,7 +149,7 @@ module.exports.parseHistory = (html) => {
 module.exports.parseMarks = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      let $ = cheerio.load(html, { normalizeWhitespace: true });
+      let $ = cheerio.load(html, {normalizeWhitespace: true});
 
       const marks = $("table").eq(1)
         .find("tr[bgcolor='#EDEADE']")
@@ -191,4 +191,58 @@ module.exports.parseMarks = (html) => {
     }
 
   });
+}
+
+  /**
+   * parse current semester's marks
+   * test-input: test/data/marks_beta.html
+   * @function parseMarksBeta
+   * @param {String} html
+   * @returns {Promise<Array<Marks>>}
+   */
+
+  module.exports.parseMarksBeta = (html) => {
+    return new Promise((resolve, reject) => {
+      try {
+        let $ = cheerio.load(html, { normalizeWhitespace: true });
+        const marks = $("table").eq(0)
+          .find("tr[style='background-color: #d2edf7;']")
+          .map((i, element) => {
+
+            const course_marks = $(element).next()
+              .find("table")
+              .find("tr[class='danger']")
+              .map((j, e) => {
+
+                const td = $(e).find("td");
+                return {
+                  title: td.eq(1).text().trim(),
+                  max_marks: parseFloat(td.eq(2).text()),
+                  weightage: parseFloat(td.eq(3).text()),
+                  conducted_on: "Tentative, set by course faculty",
+                  status: td.eq(4).text(),
+                  scored_marks: parseFloat(td.eq(5).text()),
+                  scored_percentage: parseFloat(td.eq(6).text())
+                };
+
+              }).get();
+
+            const td = $(element).find("td");
+            return {
+              class_number: td.eq(1).text(),
+              course_code: td.eq(2).text(),
+              course_title: td.eq(3).text(),
+              course_type: td.eq(4).text(),
+              marks: course_marks
+            }
+
+          }).get();
+        return resolve(marks);
+
+      }
+      catch (ex) {
+        return reject(ex);
+      }
+
+    });
 }

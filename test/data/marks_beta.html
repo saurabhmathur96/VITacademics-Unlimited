@@ -1,0 +1,197 @@
+<div class="container">
+				<section class="content-header">
+
+
+				</section>
+
+				<section class="content">
+
+					<form role="form" id="studentMarkView" name="studentMarkView" method="post" autocomplete="off">
+						<!-- th:object="${examSchedule}"> -->
+						<div class="col-md-12" style="margin-top: 20px; margin-left: 2px;">
+							<div class="panel panel-primary">
+								<div class="panel-heading panel-head-custom" style="background-color: #3c8dbc; font-size: 18px; text-align: center;">
+									Mark Process - Course Details</div>
+
+								<div>
+
+									<div class="form-group col-sm-12"></div>
+									<div class="col-sm-6 col-sm-offset-3">
+										<div>
+											<label for="acadYear" class="col-sm-4 control-label">Select
+												Semester</label>
+
+											<div class="col-md-8">
+												<select class="form-control" name="semesterSubId" id="semesterSubId" data-validation-engine="validate[required]" onchange="doViewExamMark();">
+													<option value="" selected="selected">-- Choose
+														Semester --</option>
+													<option selected="selected" value="VL2017181">Fall Semester 2017-18</option>
+													<option value="VL2017182">Tri Semester I &amp; IV 2017-18</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-sm-12"></div>
+									<span class="col-sm-12 col-md-12" style="font-size: 20px; color: green; text-align: center;"></span> <span class="col-sm-12 col-md-12" style="font-size: 20px; color: red; text-align: center;"></span>
+									<div class="col-sm-12 col-md-12 table-responsive margin:">
+										<table style="text-align: center; width: 100%; border-color: #fffff;" border="1">
+
+											<tr style="background-color: #3c8dbc; color: #fff;">
+												<th height="50">Sl.No.</th>
+												<th>ClassNbr</th>
+												<th>Course Code</th>
+												<th>Course Title</th>
+												<th>Course Type</th>
+												<th>L T P J C</th>
+												<th>Course System</th>
+												<th>Faculty</th>
+												<th>Slot</th>
+												<th>Course Mode</th>
+											</tr>
+
+												<tr style="background-color: #d2edf7;">
+													<td height="50">1</td>
+													<td>VL2017181001464</td>
+													<td>CSE4001</td>
+													<td>Parallel and Distributed Computing</td>
+													<td>Embedded Theory</td>
+													<td>2 0 2 4 4</td>
+													<td>CAL</td>
+													<td>ANURADHA G</td>
+													<td>D2</td>
+													<td>CBL</td>
+												</tr>
+												<tr>
+													<td colspan="14" align="center">
+														<table class="table table-striped table-bordered " style="width: 80%; margin-top: 20px">
+															<tr style="background: #4d4d4d; color: white">
+																<th>Sl.No.</th>
+																<th>Mark Title</th>
+																<th>Max. Mark</th>
+																<th>Weightage %</th>
+																<th>Status</th>
+																<th>Scored Mark</th>
+																<th>Weightage Mark</th>
+															</tr>
+															<tr class="danger">
+																<td><output>1</output></td>
+																<td><output>Continous Assessment Test - I</output></td>
+																<td><output>50</output></td>
+																<td><output>15</output></td>
+																<td><output>Present</output></td>
+																<td><output>28</output></td>
+																<td><output>8.4</output></td>
+
+															</tr>
+
+
+														</table>
+
+
+													</td>
+													<td></td>
+												</tr>
+
+
+												<tr style="background-color: #d2edf7;">
+													<td height="50">2</td>
+													<td>VL2017181001530</td>
+													<td>CSE4015</td>
+													<td>Human  Computer Interaction</td>
+													<td>Embedded Theory</td>
+													<td>3 0 0 4 4</td>
+													<td>CAL</td>
+													<td>VAIRAMUTHU S</td>
+													<td>C2+TC2</td>
+													<td>CBL</td>
+												</tr>
+												<tr>
+													<td colspan="14" align="center">
+														<table class="table table-striped table-bordered " style="width: 80%; margin-top: 20px">
+															<tr style="background: #4d4d4d; color: white">
+																<th>Sl.No.</th>
+																<th>Mark Title</th>
+																<th>Max. Mark</th>
+																<th>Weightage %</th>
+																<th>Status</th>
+																<th>Scored Mark</th>
+																<th>Weightage Mark</th>
+															</tr>
+															<tr class="danger">
+																<td><output>1</output></td>
+																<td><output>Continous Assessment Test - I</output></td>
+																<td><output>50</output></td>
+																<td><output>15</output></td>
+																<td><output>Present</output></td>
+																<td><output>35</output></td>
+																<td><output>10.5</output></td>
+
+															</tr>
+
+
+														</table>
+
+
+													</td>
+													<td></td>
+												</tr>
+
+
+
+										</table>
+
+									</div>
+									<div class="box-footer"></div>
+								</div>
+							</div>
+						</div>
+
+					</form>
+
+				</section>
+				<noscript>
+					<h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
+				</noscript>
+				<!-- Custom Scripts for V-TOP Pages-->
+
+				<script>
+					/*<![CDATA[*/
+
+					jQuery(document).ready(function() {
+						// binds form submission and fields to the validation engine
+						jQuery("#studentMarkView").validationEngine('attach', {
+							autoHidePrompt : true,
+							binded : false,
+							onValidationComplete : function(form, status) {
+								if (status) {
+									doSavestudentMarkView();
+								}
+							}
+						});
+					});
+
+					function doViewExamMark() {
+						var myform = document.getElementById("studentMarkView");
+						var fd = new FormData(myform);
+						$
+								.blockUI({
+									message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+								});
+						$.ajax({
+							url : "examinations/doStudentMarkView",
+							type : "POST",
+							data : fd,
+							cache : false,
+							processData : false,
+							contentType : false,
+							success : function(response) {
+								$.unblockUI();
+								$("#page-wrapper").html(response);
+
+							}
+
+						});
+					}
+					/*]]>*/
+				</script>
+			</div>

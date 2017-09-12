@@ -38,7 +38,8 @@ router.post('/', (req, res, next) => {
       attendance: {
         report: 'https://vtopbeta.vit.ac.in/vtop/processViewStudentAttendance',
         details: 'https://vtopbeta.vit.ac.in/vtop/processViewAttendanceDetail'
-      }
+      },
+      marks: 'https://vtopbeta.vit.ac.in/vtop/examinations/doStudentMarkView'
     }
     const tasks = [
       requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': 'VL2017181' })
@@ -47,10 +48,13 @@ router.post('/', (req, res, next) => {
       requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': 'VL2017181' })
         .then(schedule.parseDailyBeta),
       requests.post(uri.schedule.exam, req.cookies, { 'semesterSubId': 'VL2017181' })
-        .then(schedule.parseExamBeta)
+        .then(schedule.parseExamBeta),
+      requests.post(uri.marks, req.cookies,  {'semesterSubId': 'VL2017181' })
+        .then(academic.parseMarksBeta)
+        .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
     ]
     // { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }
-    fetchData = Promise.all(tasks).then((results) => [results[0], results[1], results[2], []]);
+    fetchData = Promise.all(tasks).then((results) => [results[0], results[1], results[2], results[3]]);
   } else {
     // Use vtop for data
     const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');

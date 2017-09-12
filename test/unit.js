@@ -133,6 +133,18 @@ describe('Unit Tests', () => {
     }).catch(err => { throw err; })
   });
 
+  it('scrape marks beta', (done) => {
+    let filePath = path.join('test', 'data', 'marks_beta.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = academic.parseMarksBeta(html);
+    expect(task).to.be.instanceOf(Promise);
+    task.then(result => {
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/MarksBeta" }, "minItems": 1 }, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
+
   it('scrape timetable', (done) => {
     let filePath = path.join('test', 'data', 'course_regular.html')
     let html = fs.readFileSync(filePath, 'utf8');

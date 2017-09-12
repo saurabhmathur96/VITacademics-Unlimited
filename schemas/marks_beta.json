@@ -1,0 +1,16 @@
+{
+  "id": "/MarksBeta",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "class_number": { "type": "string", "required": "true"  },
+    "course_code": { "type": "string", "required": "true"  },
+    "course_title": { "type": "string", "required": "true"  },
+    "course_type": { "type": "string", "required": "true"  },
+    "marks": {
+      "type": "array",
+      "items": { "$ref": "MarksDetail" },
+      "required": "true"
+    }
+  }
+}
