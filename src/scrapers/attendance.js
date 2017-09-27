@@ -79,11 +79,13 @@ module.exports.parseReportBeta = (html) => {
 
       const report = rows.map((i, row) => {
         const td = $(row).find('td');
-        if (td.length != 10) {
+//         if (td.length != 10) {
+        if (td.length != 11) {
           return null;
         }
 
-        const fragments = td.eq(9).find('a').attr('onclick').split("'");
+//         const fragments = td.eq(9).find('a').attr('onclick').split("'");
+        const fragments = td.eq(10).find('a').attr('onclick').split("'");
         return {
           'course_code': td.eq(1).text().trim(),
           'course_title': td.eq(2).text().trim(),
