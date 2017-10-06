@@ -101,6 +101,7 @@ router.post('/', (req, res, next) => {
       'timetable': results[1],
       'exam_schedule': results[2],
       'marks': results[3],
+      'assignments': results[4],
       'semester': req.body.semester,
       'default_semester': defaultSemester
     })
