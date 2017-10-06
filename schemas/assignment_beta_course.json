@@ -11,7 +11,7 @@
     "slot": { "type": "string", "required": "true"  },
     "details": {
       "type": "array",
-      "items": {"$ref": "AssignmentBetaDetail"},
+      "items": {"$ref": "AssignmentBeta"},
       "required": "true",
       "minItems": 1
     }
