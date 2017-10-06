@@ -1,0 +1,19 @@
+{
+  "id": "/AssignmentBetaCourse",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "class_number": { "type": "string", "required": "true"  },
+    "course_code": { "type": "string", "required": "true"  },
+    "course_title": { "type": "string", "required": "true"  },
+    "course_type": { "type": "string", "required": "true"  },
+    "faculty_name": { "type": "string", "required": "true"  },
+    "slot": { "type": "string", "required": "true"  },
+    "details": {
+      "type": "array",
+      "items": {"$ref": "AssignmentBetaDetail"},
+      "required": "true",
+      "minItems": 1
+    }
+  }
+}

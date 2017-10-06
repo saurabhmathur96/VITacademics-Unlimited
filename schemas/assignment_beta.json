@@ -1,0 +1,11 @@
+{
+  "id": "/AssignmentBeta",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": { "type": "string", "required": "true"  },
+    "due_date": { "type": "string", "required": "true"  },
+    "max_mark": { "type": "string", "required": "true"  },
+    "weightage": { "type": "string", "required": "true"  }
+  }
+}

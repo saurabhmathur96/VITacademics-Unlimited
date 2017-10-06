@@ -4,6 +4,7 @@
 const path = require('path');
 const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
+const assignment = require(path.join(__dirname, '..', 'scrapers', 'assignment'));
 const schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
 const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
 const notification = require(path.join(__dirname, '..', 'services', 'notification'));
@@ -39,7 +40,11 @@ router.post('/', (req, res, next) => {
         report: 'https://vtopbeta.vit.ac.in/vtop/processViewStudentAttendance',
         details: 'https://vtopbeta.vit.ac.in/vtop/processViewAttendanceDetail'
       },
-      marks: 'https://vtopbeta.vit.ac.in/vtop/examinations/doStudentMarkView'
+      marks: 'https://vtopbeta.vit.ac.in/vtop/examinations/doStudentMarkView',
+      assignment: {
+        courses : 'https://vtopbeta.vit.ac.in/vtop/examinations/doDigitalAssignment',
+        details : 'https://vtopbeta.vit.ac.in/vtop/examinations/processDigitalAssignment'
+      }
     }
     const tasks = [
       requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': 'VL2017181' })
@@ -51,10 +56,13 @@ router.post('/', (req, res, next) => {
         .then(schedule.parseExamBeta),
       requests.post(uri.marks, req.cookies,  {'semesterSubId': 'VL2017181' })
         .then(academic.parseMarksBeta)
-        .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
+        .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year)),
+      requests.post(uri.assignment.courses, req.cookies, { 'semesterSubId': 'VL2017181' })
+        .then(assignment.parseCourses)
+        .then(courses => fetchAssignmentDetails(courses, uri.assignment.details, req.cookies, assignment.parseDA))
     ]
     // { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }
-    fetchData = Promise.all(tasks).then((results) => [results[0], results[1], results[2], results[3]]);
+    fetchData = Promise.all(tasks).then((results) => [results[0], results[1], results[2], results[3], results[4]]);
   } else {
     // Use vtop for data
     const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
@@ -163,7 +171,15 @@ function updateMarksCollection(marksCollection, marksReports, reg_no, semester, 
     });
 }
 
-
+function fetchAssignmentDetails(courses, uri, cookies, parseDA){
+  return Promise.all(courses.map(course => {
+    return requests.post(uri, cookies, {"classId": course.class_number})
+      .then(parseDA).then((details) => {
+        course.details = details;
+        return course;
+      });
+  }));
+}
 
 
 

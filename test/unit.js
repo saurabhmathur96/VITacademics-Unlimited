@@ -11,7 +11,7 @@ var schedule = require(path.join(__dirname, '..', 'src', 'scrapers', 'schedule')
 var academic = require(path.join(__dirname, '..', 'src', 'scrapers', 'academic'));
 var hostel = require(path.join(__dirname, '..', 'src', 'scrapers', 'hostel'));
 var cal = require(path.join(__dirname, '..', 'src', 'scrapers', 'cal'));
-
+var assignment = require(path.join(__dirname, '..', 'src', 'scrapers', 'assignment'))
 // Power up the jsonschema validator
 var validator = new Validator();
 
@@ -54,6 +54,32 @@ describe('Unit Tests', () => {
       expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })
+  });
+
+  it('scrape assignment beta course', (done) => {
+    let filePath = path.join('test','data', 'assignment_beta_courses.html');
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = assignment.parseCourses(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, {"type": "array", "items":{"$ref": "/AssignmentBetaReport"}}, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err;})
+  });
+
+  it('scrape assignment beta', (done) => {
+    let filePath = path.join('test','data', 'assignment_beta.html');
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = assignment.parseDA(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, {"type": "array", "items":{"$ref": "/AssignmentBeta"}}, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err;})
   });
 
   it('scrape attendance report', (done) => {
