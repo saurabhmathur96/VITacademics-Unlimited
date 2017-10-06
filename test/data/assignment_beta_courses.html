@@ -1,614 +1,708 @@
 <div class="container">
-				<!-- Content Header (Page header) -->
-				<section class="content-header">
-
-				</section>
-
-				<!-- Content here -->
-				<section class="content">
-					<!--  <div class="row">-->
-					<div class="col-sm-11  col-md-offset-0">
-						<div class="box box-solid box-primary">
-							<div class="box-header with-border text-center" style="background-color: #3c8dbc; font-size: 18px;">
-
-
-									Digital Assignment
-							</div>
-							<!-- /.box-header -->
-							<!-- form start -->
-							<form class="form-horizontal" method="post" id="digitalAssignment" name="digitalAssignment" autocomplete="off">
-								<div class="panel-body">
-
-									<!-- Semester Sub Id -->
-									<div class="form-groups">
-
-										<div class="form-group col-sm-12"></div>
-									<div class="col-sm-8 col-sm-offset-3">
-										<div>
-										<label for="acadYear" class="col-sm-3 control-label">Select	Semester</label>
-
-											<div class="col-md-5">
-												<select class="form-control" name="semesterSubId" id="semesterSubId" data-validation-engine="validate[required]" onchange="doViewExamMark();">
-													<option value="" selected="selected">-- Choose
-														Semester --</option>
-													<option value="VL2017185">Winter Semester 2017-18</option>
-													<option selected="selected" value="VL2017181">Fall Semester 2017-18</option>
-													<option value="VL2017182">Tri Semester I &amp; IV 2017-18</option>
-												</select><br />
-												<button class="btn btn-md btn-primary btn-block" type="submit">View</button>
-											</div>
-										</div>
-									</div>
-									</div>
-
-
-								</div>
-							</form>
-
-
-						</div>
-
-
-						<!-- loadMyFragment -->
-						<div class="form-group" id="loadMyFragment">
-							<div class="form-group" id="getStudentDetails">
-								<div class="table-responsive" id="studentDetailsList">
-
-									<table class="table" style="background-color: #fff; border: 1px solid #ddd;font-size:12px;padding:4px;text-align:center;">
-										<thead>
-											<tr Style="background-color: #656565; color: #fff;">
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Sl.No</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Class Nbr</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Course Code</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Course Title</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Course Type</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">L</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">T</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">P</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">J</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">C</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Course Option</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Slot</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Faculty Name</th>
-												<th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">process</th>
-
-											</tr>
-										</thead>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">1</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001303</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE2001</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Computer Architecture and Organization</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">TH</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>3</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>3</span>
-											</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">B2+TB2</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">MD AZHARUDDIN</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181001303&#39;,&#39;CSE2001&#39;,&#39;Computer Architecture and Organization&#39;,&#39;TH&#39;,            &#39;RGR&#39;,&#39;B2+TB2&#39;,&#39;MD AZHARUDDIN&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">2</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001386</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE2004</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Database Management Systems</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>2</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>2</span>
-											</td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">D2</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">MURALI S</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181001386&#39;,&#39;CSE2004&#39;,&#39;Database Management Systems&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;D2&#39;,&#39;MURALI S&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">3</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003697</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE2004</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Database Management Systems</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>4</span></td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>1</span>
-											</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">L53+L54</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">MURALI S</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181003697&#39;,&#39;CSE2004&#39;,&#39;Database Management Systems&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;L53+L54&#39;,&#39;MURALI S&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">4</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001474</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE2004</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Database Management Systems</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ELA</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>2</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>1</span>
-											</td>
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">L53+L54</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">MURALI S</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181001474&#39;,&#39;CSE2004&#39;,&#39;Database Management Systems&#39;,&#39;ELA&#39;,            &#39;RGR&#39;,&#39;L53+L54&#39;,&#39;MURALI S&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">5</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001230</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE2005</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Operating Systems</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>2</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>2</span>
-											</td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">A2</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">MOHAN K</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181001230&#39;,&#39;CSE2005&#39;,&#39;Operating Systems&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;A2&#39;,&#39;MOHAN K&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">6</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003749</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE2005</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Operating Systems</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>4</span></td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>1</span>
-											</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">L9+L10</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">MOHAN K</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181003749&#39;,&#39;CSE2005&#39;,&#39;Operating Systems&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;L9+L10&#39;,&#39;MOHAN K&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">7</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001269</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE2005</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Operating Systems</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ELA</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>2</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>1</span>
-											</td>
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">L9+L10</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">MOHAN K</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181001269&#39;,&#39;CSE2005&#39;,&#39;Operating Systems&#39;,&#39;ELA&#39;,            &#39;RGR&#39;,&#39;L9+L10&#39;,&#39;MOHAN K&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">8</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001268</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE3024</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Web Mining</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>3</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>3</span>
-											</td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">B1+TB1</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">ANIL KUMAR K</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181001268&#39;,&#39;CSE3024&#39;,&#39;Web Mining&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;B1+TB1&#39;,&#39;ANIL KUMAR K&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">9</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003748</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE3024</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Web Mining</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>4</span></td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>1</span>
-											</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">B1+TB1</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">ANIL KUMAR K</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181003748&#39;,&#39;CSE3024&#39;,&#39;Web Mining&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;B1+TB1&#39;,&#39;ANIL KUMAR K&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">10</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001526</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE4015</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Human  Computer Interaction</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>3</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>3</span>
-											</td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">C2+TC2</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">DHEEBA J</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181001526&#39;,&#39;CSE4015&#39;,&#39;Human  Computer Interaction&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;C2+TC2&#39;,&#39;DHEEBA J&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">11</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003725</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE4015</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Human  Computer Interaction</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>4</span></td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>1</span>
-											</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">C2+TC2</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">DHEEBA J</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181003725&#39;,&#39;CSE4015&#39;,&#39;Human  Computer Interaction&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;C2+TC2&#39;,&#39;DHEEBA J&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">12</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001707</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE4019</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Image  Processing</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>3</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>3</span>
-											</td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">G1+TG1</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">AKILA VICTOR</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181001707&#39;,&#39;CSE4019&#39;,&#39;Image  Processing&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;G1+TG1&#39;,&#39;AKILA VICTOR&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">13</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003836</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">CSE4019</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Image  Processing</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>4</span></td>
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>1</span>
-											</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">G1+TG1</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">AKILA VICTOR</p>
-												<p style="margin:0px;">SCOPE</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181003836&#39;,&#39;CSE4019&#39;,&#39;Image  Processing&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;G1+TG1&#39;,&#39;AKILA VICTOR&#39;);">Process</button></td>
-											</tr>
-										<tr class="danger">
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><p style="margin:0px;">14</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181000381</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">STS2001</p>
-												</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<p style="margin:0px;">Soft Skills</p></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">SS</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;"><span>0</span></td>
-
-
-
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
-												<span>1</span>
-											</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">E2+TE2</td>
-
-											<td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
-												<!-- <p style="margin: 0px;"
-													th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
-												<p style="margin:0px;">FACE (APT)</p>
-												<p style="margin:0px;">SSL</p>
-											</td>
-											<td><button onclick="javascript:myFunction(&#39;VL2017181000381&#39;,&#39;STS2001&#39;,&#39;Soft Skills&#39;,&#39;SS&#39;,            &#39;RGR&#39;,&#39;E2+TE2&#39;,&#39;FACE (APT)&#39;);">Process</button></td>
-											</tr>
-
-									</table>
-
-
-								</div>
-
-
-						</div>
-						</div>
-
-					</div>
-
-				</section>
-
-				<noscript>
-					<h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
-				</noscript>
-				<script type="text/javascript">
-					/*<![CDATA[*/
-
-					jQuery(document).ready(
-							function() {
-
-								// binds form submission and fields to the validation engine
-								jQuery("#digitalAssignment").validationEngine(
-										'attach',
-										{
-											autoHidePrompt : true,
-											binded : false,
-											onValidationComplete : function(
-													form, status) {
-												if (status) {
-													doDigitalAssignment();
-												}
-
-											}
-										});
-							});
-
-
-					function myFunction(classId,courseCode,title,type,option,slot,fName) {
-						var myform = document.getElementById("digitalAssignment");
-						var fd = new FormData(myform);
-
-
-						$
-								.blockUI({
-
-									message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
-								});
-
-						params = "&classId=" + classId
-						+ "&courseCode=" + courseCode
-						+ "&title=" + title
-						+ "&type=" + type
-						+ "&option=" + option
-						+ "&slot="+ slot
-						+ "&fName="	+ fName;
-						$.ajax({
-							url : "examinations/processDigitalAssignment",
-							type : "POST",
-							data : "params=" + params,
-
-							success : function(response) {
-								$.unblockUI();
-								$("#page-wrapper").html(response);
-
-							}
-
-						});
-					}
-
-					function doDigitalAssignment() {
-						var myform = document.getElementById("digitalAssignment");
-						var fd = new FormData(myform);
-
-						$
-								.blockUI({
-
-									message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
-								});
-						$.ajax({
-							url : "examinations/doDigitalAssignment",
-							type : "POST",
-							data : fd,
-							cache : false,
-							processData : false,
-							contentType : false,
-							success : function(response) {
-								$.unblockUI();
-								$("#page-wrapper").html(response);
-
-							}
-
-						});
-					}
-
-
-
-
-					/*]]>*/
-				</script>
-
-			</div>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+
+  </section>
+  <!-- Content here -->
+  <section class="content">
+    <!--  <div class="row">-->
+    <div class="col-sm-11  col-md-offset-0">
+      <div class="box box-solid box-primary">
+        <div class="box-header with-border text-center" style="background-color: #3c8dbc; font-size: 18px;">
+
+
+          Digital Assignment
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" method="post" id="digitalAssignment" name="digitalAssignment" autocomplete="off">
+          <div class="panel-body">
+            <!-- Semester Sub Id -->
+            <div class="form-groups">
+              <div class="form-group col-sm-12"></div>
+              <div class="col-sm-8 col-sm-offset-3">
+                <div>
+                  <label for="acadYear" class="col-sm-3 control-label">Select	Semester</label>
+                  <div class="col-md-5">
+                    <select class="form-control" name="semesterSubId" id="semesterSubId" data-validation-engine="validate[required]" onchange="doViewExamMark();">
+                      <option value="" selected="selected">-- Choose
+                        Semester --</option>
+                      <option value="VL2017185">Winter Semester 2017-18</option>
+                      <option selected="selected" value="VL2017181">Fall Semester 2017-18</option>
+                      <option value="VL2017182">Tri Semester I &amp; IV 2017-18</option>
+                    </select>
+                    <br />
+                    <button class="btn btn-md btn-primary btn-block" type="submit">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- loadMyFragment -->
+      <div class="form-group" id="loadMyFragment">
+        <div class="form-group" id="getStudentDetails">
+          <div class="table-responsive" id="studentDetailsList">
+            <table class="table" style="background-color: #fff; border: 1px solid #ddd;font-size:12px;padding:4px;text-align:center;">
+              <thead>
+              <tr Style="background-color: #656565; color: #fff;">
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Sl.No</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Class Nbr</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Course Code</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Course Title</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Course Type</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">L</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">T</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">P</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">J</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">C</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Course Option</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Slot</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">Faculty Name</th>
+                <th style="vertical-align:middle;text-align:center;border-right:1px solid #b2b2b2;padding:5px;">process</th>
+              </tr>
+              </thead>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">1</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001621</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE3002</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Internet and Web Programming</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>2</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>2</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">E2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">PRIYA G</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181001621&#39;,&#39;CSE3002&#39;,&#39;Internet and Web Programming&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;E2&#39;,&#39;PRIYA G&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">2</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003813</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE3002</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Internet and Web Programming</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>4</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">L27+L28</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">PRIYA G</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181003813&#39;,&#39;CSE3002&#39;,&#39;Internet and Web Programming&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;L27+L28&#39;,&#39;PRIYA G&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">3</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001655</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE3002</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Internet and Web Programming</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ELA</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>2</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">L27+L28</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">PRIYA G</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181001655&#39;,&#39;CSE3002&#39;,&#39;Internet and Web Programming&#39;,&#39;ELA&#39;,            &#39;RGR&#39;,&#39;L27+L28&#39;,&#39;PRIYA G&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">4</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001241</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE3021</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Social and Information Networks</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>3</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>3</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">A2+TA2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">VIJAYASHERLY V</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181001241&#39;,&#39;CSE3021&#39;,&#39;Social and Information Networks&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;A2+TA2&#39;,&#39;VIJAYASHERLY V&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">5</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003742</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE3021</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Social and Information Networks</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>4</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">A2+TA2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">VIJAYASHERLY V</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181003742&#39;,&#39;CSE3021&#39;,&#39;Social and Information Networks&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;A2+TA2&#39;,&#39;VIJAYASHERLY V&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">6</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001317</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE3024</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Web Mining</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>3</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>3</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">B2+TB2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">GERALDINE BESSIE AMALI D</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181001317&#39;,&#39;CSE3024&#39;,&#39;Web Mining&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;B2+TB2&#39;,&#39;GERALDINE BESSIE AMALI D&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">7</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003769</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE3024</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Web Mining</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>4</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">B2+TB2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">GERALDINE BESSIE AMALI D</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181003769&#39;,&#39;CSE3024&#39;,&#39;Web Mining&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;B2+TB2&#39;,&#39;GERALDINE BESSIE AMALI D&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">8</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001464</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE4001</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Parallel and Distributed Computing</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>2</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>2</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">D2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">ANURADHA G</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181001464&#39;,&#39;CSE4001&#39;,&#39;Parallel and Distributed Computing&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;D2&#39;,&#39;ANURADHA G&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">9</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003704</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE4001</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Parallel and Distributed Computing</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>4</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">L13+L14</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">ANURADHA G</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181003704&#39;,&#39;CSE4001&#39;,&#39;Parallel and Distributed Computing&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;L13+L14&#39;,&#39;ANURADHA G&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">10</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001567</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE4001</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Parallel and Distributed Computing</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ELA</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>2</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">L13+L14</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">ANURADHA G</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181001567&#39;,&#39;CSE4001&#39;,&#39;Parallel and Distributed Computing&#39;,&#39;ELA&#39;,            &#39;RGR&#39;,&#39;L13+L14&#39;,&#39;ANURADHA G&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">11</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001530</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE4015</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Human  Computer Interaction</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">ETH</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>3</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>3</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">C2+TC2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">VAIRAMUTHU S</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181001530&#39;,&#39;CSE4015&#39;,&#39;Human  Computer Interaction&#39;,&#39;ETH&#39;,            &#39;RGR&#39;,&#39;C2+TC2&#39;,&#39;VAIRAMUTHU S&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">12</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181003727</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">CSE4015</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Human  Computer Interaction</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">EPJ</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>4</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">C2+TC2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">VAIRAMUTHU S</p>
+                  <p style="margin:0px;">SCOPE</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181003727&#39;,&#39;CSE4015&#39;,&#39;Human  Computer Interaction&#39;,&#39;EPJ&#39;,            &#39;RGR&#39;,&#39;C2+TC2&#39;,&#39;VAIRAMUTHU S&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">13</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181001851</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">MGT1051</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Business Analytics for Engineers</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">TH</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>2</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>3</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">G2+TG2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">RAVIKUMAR B</p>
+                  <p style="margin:0px;">SMEC</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181001851&#39;,&#39;MGT1051&#39;,&#39;Business Analytics for Engineers&#39;,&#39;TH&#39;,            &#39;RGR&#39;,&#39;G2+TG2&#39;,&#39;RAVIKUMAR B&#39;);">Process</button>
+                </td>
+              </tr>
+              <tr class="danger">
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">14</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">VL2017181000458</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">STS3001</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <p style="margin:0px;">Soft Skills</p>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">SS</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>0</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">
+                  <span>1</span>
+                </td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">RGR</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;">F2+TF2</td>
+                <td style="vertical-align:middle;border:1px solid #b2b2b2;padding:5px;white-space: nowrap">
+                  <!-- <p style="margin: 0px;"
+                                  th:text="${RegList.getCourseAllocationModel().getErpId()}"></p> -->
+                  <p style="margin:0px;">SMART (APT)</p>
+                  <p style="margin:0px;">SSL</p>
+                </td>
+                <td>
+                  <button onclick="javascript:myFunction(&#39;VL2017181000458&#39;,&#39;STS3001&#39;,&#39;Soft Skills&#39;,&#39;SS&#39;,            &#39;RGR&#39;,&#39;F2+TF2&#39;,&#39;SMART (APT)&#39;);">Process</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <noscript>
+    <h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
+  </noscript>
+  <script type="text/javascript">
+    /*
+  <![CDATA[*/
+
+    jQuery(document).ready(
+      function() {
+
+        // binds form submission and fields to the validation engine
+        jQuery("#digitalAssignment").validationEngine(
+          'attach',
+          {
+            autoHidePrompt : true,
+            binded : false,
+            onValidationComplete : function(
+              form, status) {
+              if (status) {
+                doDigitalAssignment();
+              }
+
+            }
+          });
+      });
+
+
+    function myFunction(classId,courseCode,title,type,option,slot,fName) {
+      var myform = document.getElementById("digitalAssignment");
+      var fd = new FormData(myform);
+
+
+      $
+        .blockUI({
+
+          message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+        });
+
+      params = "&classId=" + classId
+        + "&courseCode=" + courseCode
+        + "&title=" + title
+        + "&type=" + type
+        + "&option=" + option
+        + "&slot="+ slot
+        + "&fName="	+ fName;
+      $.ajax({
+        url : "examinations/processDigitalAssignment",
+        type : "POST",
+        data : "params=" + params,
+
+        success : function(response) {
+          $.unblockUI();
+          $("#page-wrapper").html(response);
+
+        }
+
+      });
+    }
+
+    function doDigitalAssignment() {
+      var myform = document.getElementById("digitalAssignment");
+      var fd = new FormData(myform);
+
+      $
+        .blockUI({
+
+          message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+        });
+      $.ajax({
+        url : "examinations/doDigitalAssignment",
+        type : "POST",
+        data : fd,
+        cache : false,
+        processData : false,
+        contentType : false,
+        success : function(response) {
+          $.unblockUI();
+          $("#page-wrapper").html(response);
+
+        }
+
+      });
+    }
+
+
+
+
+    /*]]>*/
+
+  </script>
+</div>

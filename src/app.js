@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 const refresh = require(path.join(__dirname, 'routes', 'refresh'));
-// const assignments = require(path.join(__dirname, 'routes', 'assignments'));
+const assignments = require(path.join(__dirname, 'routes', 'assignments'));
 const grades = require(path.join(__dirname, 'routes', 'grades'));
 const faculty = require(path.join(__dirname, 'routes', 'faculty'));
 const home = require(path.join(__dirname, 'routes', 'home'));
@@ -36,15 +36,12 @@ const authentication = require(path.join(__dirname, 'middleware', 'authenticatio
 
 const app = express();
 
-
 app.use(requestLogger('short'));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(compression());
-
-
 
 database.connect('mongodb://localhost/student')
 .then(collections => {
@@ -69,7 +66,6 @@ database.connect('mongodb://localhost/student')
 
   // Routes
   app.use('/student/refresh', refresh);
-  // app.use('/student/assignments', assignments);
   app.use('/student/grades', grades);
   app.use('/student/home', home);
 

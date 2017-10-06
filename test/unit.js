@@ -63,7 +63,7 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      let r = validator.validate(result, {"type": "array", "items":{"$ref": "/AssignmentBetaReport"}}, { nestedErrors: true });
+      let r = validator.validate(result, {"type": "array", "items":{"$ref": "/AssignmentBetaCourse"}}, { nestedErrors: true });
       expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err;})

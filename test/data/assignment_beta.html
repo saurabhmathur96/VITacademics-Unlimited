@@ -1,161 +1,161 @@
 <div class="container">
-				<section class="content-header"></section>
+  <section class="content-header"></section>
 
-				<section class="content">
+  <section class="content">
 
-					<form role="form" id="daUpload" name="daUpload" method="post" autocomplete="off">
-						<!-- th:object="${examSchedule}"> -->
-						<div class="col-md-12" style="margin-top: 20px; margin-left: 2px;">
-							<div class="panel panel-primary">
-								<div class="panel-heading panel-head-custom" style="background-color: #3c8dbc; font-size: 18px; text-align: center;">
-									Digital Assignment Upload</div>
+    <form role="form" id="daUpload" name="daUpload" method="post" autocomplete="off">
+      <!-- th:object="${examSchedule}"> -->
+      <div class="col-md-12" style="margin-top: 20px; margin-left: 2px;">
+        <div class="panel panel-primary">
+          <div class="panel-heading panel-head-custom" style="background-color: #3c8dbc; font-size: 18px; text-align: center;">
+            Digital Assignment Upload</div>
 
-								<div>
-									<span class="col-sm-12 col-md-12" style="font-size: 20px; color: green; text-align: center;"></span> <span class="col-sm-12 col-md-12" style="font-size: 20px; color: red; text-align: center;"></span>
-									<div class="col-sm-12 col-md-12 table-responsive margin:">
-										<table class="table table-bordered" style="margin-top: 10px;">
+          <div>
+            <span class="col-sm-12 col-md-12" style="font-size: 20px; color: green; text-align: center;"></span> <span class="col-sm-12 col-md-12" style="font-size: 20px; color: red; text-align: center;"></span>
+            <div class="col-sm-12 col-md-12 table-responsive margin:">
+              <table class="table table-bordered" style="margin-top: 10px;">
 
-											<tr style="background-color: #656565; color: #fff;">
+                <tr style="background-color: #656565; color: #fff;">
 
-												<th>Class Nbr</th>
-												<th>Course Code</th>
-												<th>Course Title</th>
-												<th>Course Type</th>
-												<th>Course Option</th>
-												<th>Slot</th>
-												<th>Faculty Name</th>
-											</tr>
-											<tr class="danger">
-												<td>VL2017181001386</td>
-												<td>CSE2004</td>
-												<td>Database Management Systems</td>
-												<td>ETH</td>
-												<td>RGR</td>
-												<td>D2</td>
-												<td>MURALI S</td>
+                  <th>Class Nbr</th>
+                  <th>Course Code</th>
+                  <th>Course Title</th>
+                  <th>Course Type</th>
+                  <th>Course Option</th>
+                  <th>Slot</th>
+                  <th>Faculty Name</th>
+                </tr>
+                <tr class="danger">
+                  <td>VL2017181001621</td>
+                  <td>CSE3002</td>
+                  <td>Internet and Web Programming</td>
+                  <td>ETH</td>
+                  <td>RGR</td>
+                  <td>E2</td>
+                  <td>PRIYA G</td>
 
-											</tr>
-
-
-										</table>
-
-									</div>
+                </tr>
 
 
+              </table>
 
-									<div class="col-sm-12 col-md-12">
-										<table class="table table-bordered">
-
-											<tr style="background-color: #656565; color: #fff;">
-												<td>Sl.No.</td>
-												<td>Mark Title</td>
-												<td>Max. Mark</td>
-												<td>Weightage %</td>
-
-												<td>Due Date</td>
-												<td>Answer Upload</td>
-
-											</tr>
-
-											<tr class="danger">
-												<td>1</td>
-												<td>Additional Learning</td>
-												<td>10</td>
-												<td>10</td>
-
-												<!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
-														<a href="#">View</a></td>
-													<td th:text="'05-Sep-2017'"></td> -->
+            </div>
 
 
-												<td>-</td>
 
-												<td>
+            <div class="col-sm-12 col-md-12">
+              <table class="table table-bordered">
+
+                <tr style="background-color: #656565; color: #fff;">
+                  <td>Sl.No.</td>
+                  <td>Mark Title</td>
+                  <td>Max. Mark</td>
+                  <td>Weightage %</td>
+
+                  <td>Due Date</td>
+                  <td>Answer Upload</td>
+
+                </tr>
+
+                <tr class="danger">
+                  <td>1</td>
+                  <td>Additional Learning</td>
+                  <td>10</td>
+                  <td>10</td>
+
+                  <!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
+                                                  <a href="#">View</a></td>
+                                              <td th:text="'05-Sep-2017'"></td> -->
+
+
+                  <td>-</td>
+
+                  <td>
 
 
 												<span>
 												<span>
 												<input type="hidden" name="code" value="ADL" />
 
-												<button type="button" class="btn btn-primary btn-block" onclick="javascript:doDAssignment(&#39;VL2017181001386&#39;,             &#39;CSE2004&#39;,             &#39;Database Management Systems&#39;,             &#39;ETH&#39;,             &#39;RGR&#39;,             &#39;D2&#39;,             &#39;MURALI S&#39;,             &#39;ADL&#39;,             &#39;Additional Learning&#39;,             &#39;10&#39;,             &#39;10&#39;,             &#39;-&#39;,             &#39;ADL&#39;);">Process</button>
+												<button type="button" class="btn btn-primary btn-block" onclick="javascript:doDAssignment(&#39;VL2017181001621&#39;,             &#39;CSE3002&#39;,             &#39;Internet and Web Programming&#39;,             &#39;ETH&#39;,             &#39;RGR&#39;,             &#39;E2&#39;,             &#39;PRIYA G&#39;,             &#39;ADL&#39;,             &#39;Additional Learning&#39;,             &#39;10&#39;,             &#39;10&#39;,             &#39;-&#39;,             &#39;ADL&#39;);">Process</button>
 
 														</span>
 												</span>
 
 
-												</td>
+                  </td>
 
 
 
 
-											</tr>
+                </tr>
 
-											<tr class="danger">
-												<td>2</td>
-												<td>Continous Assessment Test - I</td>
-												<td>50</td>
-												<td>15</td>
+                <tr class="danger">
+                  <td>2</td>
+                  <td>Continous Assessment Test - I</td>
+                  <td>50</td>
+                  <td>15</td>
 
-												<!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
-														<a href="#">View</a></td>
-													<td th:text="'05-Sep-2017'"></td> -->
-
-
-												<td>-</td>
-
-												<td>
+                  <!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
+                                                  <a href="#">View</a></td>
+                                              <td th:text="'05-Sep-2017'"></td> -->
 
 
+                  <td>-</td>
 
-
-
-												</td>
-
-
-
-
-											</tr>
-
-											<tr class="danger">
-												<td>3</td>
-												<td>Continous Assessment Test - II</td>
-												<td>50</td>
-												<td>15</td>
-
-												<!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
-														<a href="#">View</a></td>
-													<td th:text="'05-Sep-2017'"></td> -->
-
-
-												<td>-</td>
-
-												<td>
+                  <td>
 
 
 
 
 
-												</td>
+                  </td>
 
 
 
 
-											</tr>
+                </tr>
 
-											<tr class="danger">
-												<td>4</td>
-												<td>Digital Assignment - I</td>
-												<td>10</td>
-												<td>10</td>
+                <tr class="danger">
+                  <td>3</td>
+                  <td>Continous Assessment Test - II</td>
+                  <td>50</td>
+                  <td>15</td>
 
-												<!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
-														<a href="#">View</a></td>
-													<td th:text="'05-Sep-2017'"></td> -->
+                  <!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
+                                                  <a href="#">View</a></td>
+                                              <td th:text="'05-Sep-2017'"></td> -->
 
 
-												<td>23-Sep-2017</td>
+                  <td>-</td>
 
-												<td>
+                  <td>
+
+
+
+
+
+                  </td>
+
+
+
+
+                </tr>
+
+                <tr class="danger">
+                  <td>4</td>
+                  <td>Digital Assignment - I</td>
+                  <td>10</td>
+                  <td>10</td>
+
+                  <!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
+                                                  <a href="#">View</a></td>
+                                              <td th:text="'05-Sep-2017'"></td> -->
+
+
+                  <td>18-Sep-2017</td>
+
+                  <td>
 
 
 												<span>
@@ -163,231 +163,224 @@
 												</span>
 
 
-												</td>
+                  </td>
 
 
 
 
-											</tr>
+                </tr>
 
-											<tr class="danger">
-												<td>5</td>
-												<td>Digital Assignment - II</td>
-												<td>10</td>
-												<td>10</td>
+                <tr class="danger">
+                  <td>5</td>
+                  <td>Final Assessment Test</td>
+                  <td>100</td>
+                  <td>40</td>
 
-												<!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
-														<a href="#">View</a></td>
-													<td th:text="'05-Sep-2017'"></td> -->
+                  <!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
+                                                  <a href="#">View</a></td>
+                                              <td th:text="'05-Sep-2017'"></td> -->
 
 
-												<td>14-Oct-2017</td>
+                  <td>-</td>
 
-												<td>
+                  <td>
 
 
-												<span>
-												<span>
-												<input type="hidden" name="code" value="DA02" />
 
-												<button type="button" class="btn btn-primary btn-block" onclick="javascript:doDAssignment(&#39;VL2017181001386&#39;,             &#39;CSE2004&#39;,             &#39;Database Management Systems&#39;,             &#39;ETH&#39;,             &#39;RGR&#39;,             &#39;D2&#39;,             &#39;MURALI S&#39;,             &#39;DA02&#39;,             &#39;Digital Assignment - II&#39;,             &#39;10&#39;,             &#39;10&#39;,             &#39;14-Oct-2017&#39;,             &#39;DA02&#39;);">Process</button>
 
-														</span>
-												</span>
 
+                  </td>
 
-												</td>
 
 
 
+                </tr>
 
-											</tr>
+                <tr class="danger">
+                  <td>6</td>
+                  <td>Quiz - I</td>
+                  <td>10</td>
+                  <td>10</td>
 
-											<tr class="danger">
-												<td>6</td>
-												<td>Final Assessment Test</td>
-												<td>100</td>
-												<td>40</td>
+                  <!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
+                                                  <a href="#">View</a></td>
+                                              <td th:text="'05-Sep-2017'"></td> -->
 
-												<!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
-														<a href="#">View</a></td>
-													<td th:text="'05-Sep-2017'"></td> -->
 
+                  <td>-</td>
 
-												<td>-</td>
+                  <td>
 
-												<td>
 
 
 
 
+                  </td>
 
-												</td>
 
 
 
+                </tr>
 
-											</tr>
+                <tr class="danger">
+                  <td>7</td>
+                  <td>Quiz - II</td>
+                  <td>10</td>
+                  <td>10</td>
 
-											<tr class="danger">
-												<td>7</td>
-												<td>Quiz - I</td>
-												<td>10</td>
-												<td>10</td>
+                  <!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
+                                                  <a href="#">View</a></td>
+                                              <td th:text="'05-Sep-2017'"></td> -->
 
-												<!-- <td><input type="button" value="Upload" />&nbsp;&nbsp;
-														<a href="#">View</a></td>
-													<td th:text="'05-Sep-2017'"></td> -->
 
+                  <td>-</td>
 
-												<td>-</td>
+                  <td>
 
-												<td>
 
 
 
 
+                  </td>
 
-												</td>
 
 
 
+                </tr>
 
-											</tr>
 
 
+              </table>
+              <div class="col-md-2" style="margin-top: 20px; margin-left: 0px;">
 
-										</table>
-											<div class="col-md-2" style="margin-top: 20px; margin-left: 0px;">
 
+                <button type="button" class="btn btn-primary btn-block" onclick="javascript:reload(&#39;VL2017181&#39;);">Go Back</button>
+              </div>
+            </div>
 
-												<button type="button" class="btn btn-primary btn-block" onclick="javascript:reload(&#39;VL2017181&#39;);">Go Back</button>
-								</div>
-									</div>
-
-
-									<div class="box-footer"></div>
-								</div>
-							</div>
-						</div>
 
-					</form>
+            <div class="box-footer"></div>
+          </div>
+        </div>
+      </div>
 
-				</section>
-				<noscript>
-					<h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
-				</noscript>
-				<!-- Custom Scripts for V-TOP Pages-->
+    </form>
 
-				<script>
-					/*<![CDATA[*/
+  </section>
+  <noscript>
+    <h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
+  </noscript>
+  <!-- Custom Scripts for V-TOP Pages-->
 
-					jQuery(document).ready(function() {
-						// binds form submission and fields to the validation engine
-						jQuery("#daUpload").validationEngine('attach', {
-							autoHidePrompt : true,
-							binded : false,
-							onValidationComplete : function(form, status) {
-								if (status) {
-									alert("TEST ONE");
-									doDAssignment();
-								}
-							}
-						});
-					});
+  <script>
+    /*<![CDATA[*/
 
-					/* function doDAssignment(td) {
-						var myform = document.getElementById("daUpload");
-						var fd = new FormData(myform);
-						$
-								.blockUI({
-									message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
-								});
-						$.ajax({
-							url : "examinations/doDAssignment",
-							type : "POST",
-							data : "td = " td,
+    jQuery(document).ready(function() {
+      // binds form submission and fields to the validation engine
+      jQuery("#daUpload").validationEngine('attach', {
+        autoHidePrompt : true,
+        binded : false,
+        onValidationComplete : function(form, status) {
+          if (status) {
+            alert("TEST ONE");
+            doDAssignment();
+          }
+        }
+      });
+    });
 
-							success : function(response) {
-								$.unblockUI();
-								$("#page-wrapper").html(response);
+    /* function doDAssignment(td) {
+                  var myform = document.getElementById("daUpload");
+                  var fd = new FormData(myform);
+                  $
+                          .blockUI({
+                              message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+                          });
+                  $.ajax({
+                      url : "examinations/doDAssignment",
+                      type : "POST",
+                      data : "td = " td,
 
-							}
+                      success : function(response) {
+                          $.unblockUI();
+                          $("#page-wrapper").html(response);
 
-						});
-					} */
+                      }
 
-					function doDAssignment(classId,courseCode,title,type,option,slot,fName,mCode,optionTitle,maxMark,weightageMark,dueDate,code) {
+                  });
+              } */
 
+    function doDAssignment(classId,courseCode,title,type,option,slot,fName,mCode,optionTitle,maxMark,weightageMark,dueDate,code) {
 
-						var myform = document.getElementById("daUpload");
-						var fd = new FormData(myform);
 
+      var myform = document.getElementById("daUpload");
+      var fd = new FormData(myform);
 
-						$
-								.blockUI({
 
-									message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
-								});
+      $
+        .blockUI({
 
-						params = "&classId=" + classId
-						+ "&courseCode=" + courseCode
-						+ "&title=" + title
-						+ "&type=" + type
-						+"&option="+option
-						+ "&slot="+ slot
-						+ "&fName="	+ fName
-						+ "&mCode="	+ mCode
-						+ "&maxMark=" +maxMark
-						+ "&dueDate=" +dueDate
-						+ "&code=" +code
-						+ "&optionTitle=" +optionTitle
-						+ "&weightageMark=" +weightageMark;
-						$.ajax({
-							url : "examinations/doUploadSeparateDAssignment",
-							type : "POST",
-							data : params,
+          message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+        });
 
-							success : function(response) {
-								$.unblockUI();
-								$("#page-wrapper").html(response);
+      params = "&classId=" + classId
+        + "&courseCode=" + courseCode
+        + "&title=" + title
+        + "&type=" + type
+        +"&option="+option
+        + "&slot="+ slot
+        + "&fName="	+ fName
+        + "&mCode="	+ mCode
+        + "&maxMark=" +maxMark
+        + "&dueDate=" +dueDate
+        + "&code=" +code
+        + "&optionTitle=" +optionTitle
+        + "&weightageMark=" +weightageMark;
+      $.ajax({
+        url : "examinations/doUploadSeparateDAssignment",
+        type : "POST",
+        data : params,
 
-							}
+        success : function(response) {
+          $.unblockUI();
+          $("#page-wrapper").html(response);
 
-						});
-					}
+        }
 
-					function reload(semesterSubId) {
+      });
+    }
 
+    function reload(semesterSubId) {
 
-						var myform = document.getElementById("daUpload");
-						var fd = new FormData(myform);
 
+      var myform = document.getElementById("daUpload");
+      var fd = new FormData(myform);
 
-						$
-								.blockUI({
 
-									message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
-								});
+      $
+        .blockUI({
 
-						params = "&semesterSubId=" + semesterSubId;
+          message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+        });
 
+      params = "&semesterSubId=" + semesterSubId;
 
 
-						$.ajax({
-							url : "examinations/doDigitalAssignment",
-							type : "POST",
-							data : params,
 
-							success : function(response) {
-								$.unblockUI();
-								$("#page-wrapper").html(response);
+      $.ajax({
+        url : "examinations/doDigitalAssignment",
+        type : "POST",
+        data : params,
 
-							}
+        success : function(response) {
+          $.unblockUI();
+          $("#page-wrapper").html(response);
 
-						});
-					}
+        }
 
-					/*]]>*/
-				</script>
-			</div>
+      });
+    }
+
+    /*]]>*/
+  </script>
+</div>
