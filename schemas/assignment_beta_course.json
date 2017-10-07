@@ -8,6 +8,12 @@
     "course_title": { "type": "string", "required": "true"  },
     "course_type": { "type": "string", "required": "true"  },
     "faculty_name": { "type": "string", "required": "true"  },
-    "slot": { "type": "string", "required": "true"  }
+    "slot": { "type": "string", "required": "true"  },
+    "assignments" : {
+      "type": "array",
+      "items": { "$ref": "AssignmentBeta" },
+      "required": "true",
+      "minItems": 1
+    }
   }
 }

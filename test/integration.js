@@ -327,7 +327,7 @@ describe('Integration Tests', () => {
         });
     });
 
-    xit('POST student/assignments', (done) => {
+    it('POST student/assignments', (done) => {
 
       request.post('/student/assignments')
         .send(credentials)
@@ -335,7 +335,7 @@ describe('Integration Tests', () => {
         .end((err, res) => {
           expect(err).to.not.exist;
           expect(res.body).to.have.property('courses');
-          let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/CalCourse" } }, { nestedErrors: true });
+          let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/AssignmentBetaCourse" } }, { nestedErrors: true });
           expect(r.valid).to.be.true;
           done();
         });

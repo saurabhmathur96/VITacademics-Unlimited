@@ -76,6 +76,7 @@ database.connect('mongodb://localhost/student')
   app.use('/student/late', late);
 
   app.use('/faculty', faculty);
+  app.use('/student/assignments', assignments);
 
 
 
