@@ -112,9 +112,9 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   * **Code:** 403 UNAUTHORIZED
 
 
-**CAL Assignments**
+**Assignments**
 ----
-  _Scrapes CAL Assignments for courses registered this semester. [Deprecated]_
+  _Scrapes Assignments
 
 * **URL**
 
@@ -129,20 +129,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   `reg_no`=[string]
 
   `password`=[string]
-
-   `semester`=[string, optional]
-
-* **Constraints**
-  `semester` can have one the following values
-
-  |Value| Meaning                                          |
-  |-----|:-------------------------------------------------|
-  |"WS" | Winter Semester                                  |
-  |"SS" | Summer Semester                                  |
-  |"IS" | Inter Semester                                   |
-  |"TS" | Tri Semester                                     |
-  |"FS" | Fall Semester                                    |
-
+  
 * **Success Response:**
 
 
@@ -150,7 +137,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     **Content:**
     ```
     {
-      courses: Array<CalCourse>
+      courses: Array<AssignmentBetaCourse>
     }
     ````
 
