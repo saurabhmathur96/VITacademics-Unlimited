@@ -66,6 +66,7 @@ database.connect('mongodb://localhost/student')
 
   // Routes
   app.use('/student/refresh', refresh);
+  app.use('/student/assignments', assignments);
   app.use('/student/grades', grades);
   app.use('/student/home', home);
 
@@ -76,7 +77,6 @@ database.connect('mongodb://localhost/student')
   app.use('/student/late', late);
 
   app.use('/faculty', faculty);
-  app.use('/student/assignments', assignments);
 
 
 

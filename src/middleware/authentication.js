@@ -54,8 +54,10 @@ module.exports = (req, res, next) => {
 
       req.body.campus = req.body.campus || 'vellore';
       const campus = req.body.campus;
-
-      const portal = (semester === 'FS' && req.url === '/refresh' && campus === 'vellore') ? 'vtopbeta' : 'vtop';
+      var portal = (semester === 'FS' && req.url === '/refresh' && campus === 'vellore') ? 'vtopbeta' : 'vtop';
+      if (req.url === '/assignments'){
+        portal = 'vtopbeta';
+      }
       req.body.reg_no = req.body.reg_no.toUpperCase();
 
 
@@ -85,5 +87,3 @@ module.exports = (req, res, next) => {
   })
 
 }
-
-

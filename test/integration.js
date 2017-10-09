@@ -327,10 +327,10 @@ describe('Integration Tests', () => {
         });
     });
 
-    it('POST student/assignments', (done) => {
+    it('POST student/assignments semester=FS', (done) => {
 
       request.post('/student/assignments')
-        .send(credentials)
+        .send(credentials, semester = 'FS')
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
