@@ -16,9 +16,15 @@ module.exports.parseCoursePageBeta = (html) => {
         const cells = $(e).find("td");
         const link = cells.eq(1).find("a");
         if(link === null){
-          return {"title":cells.eq(0).text(),"link":null}
+          return {
+            "title":cells.eq(0).text(),
+            "link":null
+          }
         }
-        return {"title":cells.eq(0).text(),"link":link.attr("href")}
+        return {
+          "title":cells.eq(0).text(),
+          "link":link.attr("href")
+        }
       }).get();
 
 
@@ -26,15 +32,21 @@ module.exports.parseCoursePageBeta = (html) => {
         const cells = $(e).find("td");
         const link = cells.eq(4).find("a");
         if(link === null){
-          return {"topic":cells.eq(3).text(),"link":null , "lecture_date" : cells.eq(1).text()}
+          return {
+            "topic":cells.eq(3).text(),
+            "link":null ,
+            "lecture_date" : cells.eq(1).text()}
+          }
+        return {
+          "topic":cells.eq(3).text(),
+          "link":link.attr("href") ,
+          "lecture_date" : cells.eq(1).text()
         }
-        return {"topic":cells.eq(3).text(),"link":link.attr("href") , "lecture_date" : cells.eq(1).text()}
       }).get();
 
-
       return resolve({
-        "referenceMaterial": JSON.stringify(referenceMaterial,null,2),
-        "daywiseMaterial": JSON.stringify(daywiseMaterial,null,2)
+        "referenceMaterial": referenceMaterial,
+        "daywiseMaterial": daywiseMaterial
       });
     } catch(err) {
       return reject(err);
