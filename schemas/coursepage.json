@@ -1,0 +1,9 @@
+{
+  "id": "/CoursePage",
+  "type": "object",
+  "additionalProperties": false,
+  "properties":{
+    "referenceMaterial" : { "type": "array", "required": "true" },
+    "daywiseMaterial" : { "type": "array", "required": "true" }
+  }
+}

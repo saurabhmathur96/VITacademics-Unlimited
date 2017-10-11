@@ -79,6 +79,7 @@ describe('Integration Tests', () => {
         });
     });
 
+
     it('POST /student/refresh semester=FS', (done) => {
       request.post('/student/refresh')
         .send({ reg_no: credentials.reg_no, password: credentials.password, semester: 'FS' })
@@ -119,6 +120,19 @@ describe('Integration Tests', () => {
           }
           let r = validator.validate(res.body, schema, { nestedErrors: true });
           expect(r.valid).to.be.true;
+          done();
+        });
+    });
+
+    //alter however
+    xit('POST /student/coursepage', (done) => {
+      request.post('/student/coursepage')
+        .send(credentials)
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.not.exist;
+          let r = validator.validate(res.body.details, {"$ref": "/CoursePage"});
+          expect(r.valid).to.be.true
           done();
         });
     });
@@ -327,15 +341,15 @@ describe('Integration Tests', () => {
         });
     });
 
-    it('POST student/assignments semester=FS', (done) => {
+    it('POST student/assignments', (done) => {
 
       request.post('/student/assignments')
-        .send(credentials, semester = 'FS')
+        .send(credentials)
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
           expect(res.body).to.have.property('courses');
-          let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/AssignmentBetaCourse" } }, { nestedErrors: true });
+          let r = validator.validate(res.body.courses, { "type": "array", "items": { "$ref": "/AssignmentBetaCourse" } }, { nestedErrors: true });
           expect(r.valid).to.be.true;
           done();
         });

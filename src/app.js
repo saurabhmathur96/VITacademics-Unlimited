@@ -26,6 +26,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const refresh = require(path.join(__dirname, 'routes', 'refresh'));
 const assignments = require(path.join(__dirname, 'routes', 'assignments'));
+const coursepage = require(path.join(__dirname, 'routes', 'coursepage'));
 const grades = require(path.join(__dirname, 'routes', 'grades'));
 const faculty = require(path.join(__dirname, 'routes', 'faculty'));
 const home = require(path.join(__dirname, 'routes', 'home'));
@@ -67,6 +68,7 @@ database.connect('mongodb://localhost/student')
   // Routes
   app.use('/student/refresh', refresh);
   app.use('/student/assignments', assignments);
+  // app.use('/student/coursepage', coursepage);
   app.use('/student/grades', grades);
   app.use('/student/home', home);
 

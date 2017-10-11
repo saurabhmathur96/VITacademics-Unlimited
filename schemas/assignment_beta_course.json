@@ -9,11 +9,10 @@
     "course_type": { "type": "string", "required": "true"  },
     "faculty_name": { "type": "string", "required": "true"  },
     "slot": { "type": "string", "required": "true"  },
-    "assignments" : {
+    "details" : {
       "type": "array",
       "items": { "$ref": "AssignmentBeta" },
-      "required": "true",
-      "minItems": 1
+      "required": "true"
     }
   }
 }

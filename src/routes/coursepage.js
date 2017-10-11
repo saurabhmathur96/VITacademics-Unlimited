@@ -3,8 +3,8 @@
  */
 
 const path = require('path');
-const requests = require(path.join(__dirname,"src","utilities","requests"));
-const coursepage = require(path.join(__dirname,"src","scrapers","coursepage"));
+const requests = require(path.join(__dirname,"..","utilities","requests"));
+const coursepage = require(path.join(__dirname,"..","scrapers","coursepage"));
 const Promise = require('bluebird');
 const express = require('express');
 const router = express.Router();
@@ -25,10 +25,11 @@ router.post('/',(req, res, next) => {
     //get course details from database in course
     const course = getCourseDetails();
     if (course != null){
+
       const formData = {
         'classId': course.class_number,
-        'slot': course.slot,
-        'semesterSubId': course.semesterSubId
+        'slotName': course.slot,
+        'semSubId': course.semesterSubId
       };
 
       return requests.post(uri.teacher_page, req.cookies, formData)
@@ -39,11 +40,20 @@ router.post('/',(req, res, next) => {
     }
   })
   .catch(next);
-}
+});
 
 function getCourseDetails(){
+
   //function body here
+  // const formData = {
+  //   'classId': 'VL2017181007647',
+  //   'slotName': 'H1/H2',
+  //   'semSubId': 'VL2017181'
+  //   };
+  // return formData;
+
   return;
+
 }
 
 module.exports = router;

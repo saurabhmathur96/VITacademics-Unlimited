@@ -12,6 +12,7 @@ var academic = require(path.join(__dirname, '..', 'src', 'scrapers', 'academic')
 var hostel = require(path.join(__dirname, '..', 'src', 'scrapers', 'hostel'));
 var cal = require(path.join(__dirname, '..', 'src', 'scrapers', 'cal'));
 var assignment = require(path.join(__dirname, '..', 'src', 'scrapers', 'assignment'))
+var coursepage = require(path.join(__dirname, '..','src', 'scrapers', 'coursepage'))
 // Power up the jsonschema validator
 var validator = new Validator();
 
@@ -29,6 +30,19 @@ schemaFiles.forEach((fileName) => {
 });
 
 describe('Unit Tests', () => {
+
+  it('scrape coursepage', (done) => {
+    let filePath = path.join('test', 'data', 'coursepage.html');
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = coursepage.parseCoursePageBeta(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, { "type": "object", "items": {"$ref": "/CoursePage"}},{ nestedErrors: true });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
 
   it('scrape cal course', (done) => {
     let filePath = path.join('test', 'data', 'cal.html');

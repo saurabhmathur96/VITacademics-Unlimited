@@ -1,0 +1,675 @@
+<div class="container">
+				<section class="content-header">
+					<h1>Course Page View</h1>
+					<ol class="breadcrumb">
+						<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+						<li class="active">Course Page View </li>
+					</ol>
+				</section>
+				<!-- Main content -->
+				<section class="content">
+					<div class="col-sm-12 col-md-11 col-md-offset-0">
+						<form role="form" method="post" name="CoursePageLectureDetail" id="CoursePageLectureDetail" autocomplete="off">
+
+							<div class="box box-solid box-primary">
+
+								<div class="box-header with-border text-center">
+									<h3 class="box-title">Course Page View </h3>
+								</div>
+								<div class="panel-body">
+
+									<div class="form-group">
+										<div class="table-responsive">
+											<table class="table" style="background-color: #fff; border: 1px solid #ddd; font-size: 13px; padding: 4px; text-align: center;">
+												<tr style="background-color:#656565;color:#fff;">
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Course Code</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Course Title</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Course Type</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>ClassNbr</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Slot</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Faculty</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Allotted Program</b></td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">CSE2004</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">Database Management Systems</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">ETH</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">VL2017181007647</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">H1/H2</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">12330 - MURALI S - SCOPE</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">ALL</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+
+									<div class="form-group text-center" id="getSyllabusDownload">
+										<strong style="color: red;"></strong>
+									</div>
+
+									<div class="form-group">
+										<div class="table-responsive">
+											<table class="table" style="background-color: #fff; border: 1px solid #ddd; font-size: 13px; padding: 4px;">
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Syllabus</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+														<span>
+															<button style="padding:3px 12px;font-size:13px;" class="btn btn-primary" type="button" onclick="processStudentGeneralDownload();">
+															Download</button>
+														</span>
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Reference Material I</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Reference Material II</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Reference Material III</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Reference Material IV</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Reference Material V</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Assignment I</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Assignment II</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Quiz-I Question Paper</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Quiz-I Answer Key</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Quiz-II Question Paper</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Quiz-II Answer Key</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; width:150px; border: 1px solid #b2b2b2; padding: 5px; background:#656565;color:#fff;">Model Question Paper</td>
+													<td style="vertical-align: middle; width:720px; border: 1px solid #b2b2b2; padding: 5px;">
+
+
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="table-responsive">
+											<table class="table" style="background-color: #fff; border: 1px solid #ddd; font-size: 13px; padding: 4px;">
+												<tr style="background-color:#656565;color:#fff;">
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Sl.No.</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Lecture Date</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Lecture Day</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Lecture Topic</b></td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding:7px;"><b>Reference Material</b></td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">1</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">17-Jul-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Not Scheduled</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">2</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">18-Jul-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Not Scheduled</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">3</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">24-Jul-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-1: History, Characteristics of the DBMS, Actors on the scene, Workers behind the scene</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/24-Jul-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">4</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">25-Jul-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-1: Data Models, Scheme, Instances, Three schema Architecture</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/25-Jul-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/20/25-Jul-2017">
+																	<span>Reference Material II</span>
+															</a>
+														</p>
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">5</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">31-Jul-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-1: DB Environment</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/31-Jul-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">6</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">01-Aug-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-2: ER Model, Types of attributes, Relationship , Notations, ER diagram</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/01-Aug-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/20/01-Aug-2017">
+																	<span>Reference Material II</span>
+															</a>
+														</p>
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">7</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">07-Aug-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-2: ER Model</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">8</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">08-Aug-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-2: Mapping ER Model to Relational schema</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/08-Aug-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">9</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">14-Aug-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-2: Relational Model</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/14-Aug-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">10</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">28-Aug-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-4: Relational Algebra</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/28-Aug-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">11</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">29-Aug-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-3: Schema Refinement</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/29-Aug-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">12</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">04-Sep-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-3: Inference Rule Problems, Normalization</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/04-Sep-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">13</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">05-Sep-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-3: Normalization, Minimal Cover, Equivalence of FD</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/05-Sep-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">14</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">11-Sep-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-3: Normalization, Minimal Cover, Equivalence of FD</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">15</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">12-Sep-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-3: Normalization Problems</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/12-Sep-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">16</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">18-Sep-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Module-3: Decomposition</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/18-Sep-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">17</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">19-Sep-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Query Processing</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/19-Sep-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">18</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">25-Sep-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Transaction Processing</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+														<p style="margin-bottom:0;">
+															<a style="padding:0px;font-size:13px;" class="btn btn-link" href="/vtop/downloadPdf/VL2017181/VL2017181007647/19/25-Sep-2017">
+																	<span>Reference Material I</span>
+															</a>
+														</p>
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">19</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">26-Sep-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">Query Processing and Optimization, Transaction processing</td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">20</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">09-Oct-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;"></td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">21</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">10-Oct-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;"></td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">22</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">23-Oct-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;"></td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">23</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">24-Oct-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;"></td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">24</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">30-Oct-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;"></td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">25</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">31-Oct-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;"></td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">26</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">06-Nov-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">MON</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;"></td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+												<tr>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">27</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">07-Nov-2017</td>
+													<td style="vertical-align: middle; text-align: center; border: 1px solid #b2b2b2; padding: 5px;">TUE</td>
+													<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;"></td>
+													<td style="vertical-align: middle;border: 1px solid #b2b2b2; padding: 5px;">
+
+
+
+
+
+
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+									<div class="form-group text-center">
+										<div class="col-md-6 col-md-offset-3">
+											<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" id="back" type="button" onclick="javascript:processbackToFilterCourse();">Go Back</a>
+											<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/">Download Course Plan</a>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<noscript>
+						<h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
+					</noscript>
+
+					<script type="text/javascript">
+						/*<![CDATA[*/
+
+					function processbackToFilterCourse() {
+							$
+									.ajax({
+										url : "processbackToFilterCourse",
+										type : "POST",
+										cache : false,
+										processData : false,
+										contentType : false,
+										success : function(response) {
+											$("#page-wrapper").html(response);
+										},
+										error : function(jqXHR, textStatus,
+												errorMessage) {
+											$.unblockUI();
+											$("#upload-file-message")
+													.text(
+															errorMessage
+																	+ "Error while Submitting");
+										}
+									});
+						}
+
+					function processStudentGeneralDownload() {
+						$
+								.ajax({
+									url : "processStudentGeneralDownload",
+									type : "POST",
+									cache : false,
+									processData : false,
+									contentType : false,
+									success : function(response) {
+										$("#getSyllabusDownload").html(response);
+									},
+									error : function(jqXHR, textStatus,
+											errorMessage) {
+										$.unblockUI();
+										$("#upload-file-message")
+												.text(
+														errorMessage
+																+ "Error while Submitting");
+									}
+								});
+					}
+
+
+						/*]]>*/
+					</script>
+
+				</section>
+				<!-- /.content -->
+			</div>
