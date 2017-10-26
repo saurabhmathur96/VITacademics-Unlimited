@@ -40,7 +40,8 @@ module.exports.parseDA = (html) => {
           "title" : cells.eq(1).text(),
           "max_mark" : cells.eq(2).text(),
           "weightage" : cells.eq(3).text(),
-          "due_date" : cells.eq(4).text()
+          "due_date" : cells.eq(4).text().trim(),
+          "status": cells.eq(5).text().trim()
         }
       }).get();
       details.shift();
