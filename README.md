@@ -1,4 +1,4 @@
-# VITAcademics-Unlimited
+# VITacademics-Unlimited
 
 [![CircleCI](https://circleci.com/gh/saurabhmathur96/VITAcademics-Unlimited.svg?style=svg&circle-token=52f6f35b7462d0ef611b79a19faca7ebd75e41ff)](https://circleci.com/gh/saurabhmathur96/VITAcademics-Unlimited)
 
