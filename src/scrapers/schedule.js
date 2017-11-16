@@ -100,21 +100,21 @@ module.exports.parseDailyBeta = (html) => {
         return resolve([]);
       }
       const schedule = table.map((row) => {
-        if (row['Class Nbr'] === undefined) {
+        if (row['Class\n\t\t\t\t\t\t\t\t\t\t\t\t\tNbr'] === undefined) {
           return null;
         }
 
         return {
-          'class_number': row['Class Nbr'].trim(),
-          'course_code': row['Course Code'].trim(),
-          'course_name': row['Course Title'].trim(),
-          'course_type': courseTypes[row['Course Type'].trim()],
+          'class_number': row['Class\n\t\t\t\t\t\t\t\t\t\t\t\t\tNbr'].trim(),
+          'course_code': row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tCode'].trim(),
+          'course_name': row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tTitle'].trim(),
+          'course_type': courseTypes[row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tType'].trim()],
           'ltpjc': `${row['L']}${row['T']}${row['P']}${row['J']}${row['C']}`,
-          'course_option': row['Course Option'].trim(),
+          'course_option': row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tOption'].trim(),
           'course_mode': 'NA',
           'slot': row['Slot'].trim(),
           'venue': row['Venue'].trim(),
-          'faculty_name': row['Faculty Name'].trim().replace(/\s+/g, ' '),
+          'faculty_name': row['Faculty\n\t\t\t\t\t\t\t\t\t\t\t\t\tName'].trim().replace(/\s+/g, ' '),
         }
       }).filter(n => n);
       return resolve(schedule);
