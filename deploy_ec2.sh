@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ssh root@collegecode.org <<'ENDSSH'
-cd VITAcademics-Unlimited/
+cd VITacademics-Unlimited/
 git stash
 git pull
 npm install
