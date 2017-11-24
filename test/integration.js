@@ -267,6 +267,24 @@ describe('Integration Tests', () => {
         });
     });
 
+    it('POST student/hostelbeta/applications', (done) => {
+      request.post('/student/hostelbeta/applications')
+        .send(credentials)
+        .expect(200)
+        .end((err, res) => {
+          let schema = {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applications": { "type": "array"}
+            }
+          };
+          let r = validator.validate(res.body, schema, {nestedErrors: true});
+          console.log(r);
+          expect(r.valid).to.be.true
+          done();
+        });
+    });
     xit('POST student/late/appplications', (done) => {
 
       request.post('/student/late/applications')

@@ -64,6 +64,7 @@ module.exports.parseLeaveApplications = (html) => {
 module.exports.parseLeaveApplicationsBeta = (html) => {
   return new Promise((resolve, reject) => {
     try {
+      // console.log(html);
       const $ = cheerio.load(html);
 
       html = $('table[class="table table-bordered"]').html();
