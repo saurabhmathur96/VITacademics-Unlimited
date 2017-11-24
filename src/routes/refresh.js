@@ -11,6 +11,7 @@ const moment = require('moment-timezone');
 const Promise = require('bluebird');
 const express = require('express');
 const router = express.Router();
+const database = require('../services/database');
 
 
 const defaultSemester = process.env.SEM || 'WS';
@@ -28,6 +29,8 @@ router.post('/', (req, res, next) => {
   const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY');
   const year = moment().tz('Asia/Kolkata').format('YYYY');
 
+  let courseCollection  = new database.CourseCollection();
+  
   if (semester === 'FS' && campus === 'vellore') {
     // Use vtopbeta for data
     const uri = {
@@ -41,6 +44,7 @@ router.post('/', (req, res, next) => {
       },
       marks: 'https://vtopbeta.vit.ac.in/vtop/examinations/doStudentMarkView'
     }
+
     const tasks = [
       requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': 'VL2017181' })
         .then(attendance.parseReportBeta)
@@ -51,7 +55,7 @@ router.post('/', (req, res, next) => {
         .then(schedule.parseExamBeta),
       requests.post(uri.marks, req.cookies,  {'semesterSubId': 'VL2017181' })
         .then(academic.parseMarksBeta)
-        .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
+        .then(marksReports => updateMarksCollection(courseCollection, marksReports, req.body.reg_no, semester, year))
     ]
     // { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }
     fetchData = Promise.all(tasks).then((results) => [results[0], results[1], results[2], results[3]]);
@@ -81,7 +85,7 @@ router.post('/', (req, res, next) => {
         .then(schedule.parseExam),
       requests.get(uri.marks, req.cookies)
         .then(academic.parseMarks)
-        .then(marksReports => updateMarksCollection(req.collections.marks, marksReports, req.body.reg_no, semester, year))
+        .then(marksReports => updateMarksCollection(courseCollection, marksReports, req.body.reg_no, semester, year))
     ];
 
     fetchData = Promise.all(tasks)
@@ -127,25 +131,25 @@ function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
 }
 
 
-function updateMarksCollection(marksCollection, marksReports, reg_no, semester, year) {
+function updateMarksCollection(courseCollection, marksReports, reg_no, semester, year) {
 
-  const marks = [];
-  for (let i = 0; i < marksReports.length; i++) {
-    for (let j = 0; j < marksReports[i].marks.length; j++) {
-      marks.push({
-        class_number: marksReports[i].class_number,
-        title: marksReports[i].marks[j].title,
-        scored_marks: marksReports[i].marks[j].scored_marks,
-        semester: semester,
-        year: year
-      });
-    }
-  }
+  // const marks = [];
+  // for (let i = 0; i < marksReports.length; i++) {
+  //   for (let j = 0; j < marksReports[i].marks.length; j++) {
+  //     marks.push({
+  //       class_number: marksReports[i].class_number,
+  //       title: marksReports[i].marks[j].title,
+  //       scored_marks: marksReports[i].marks[j].scored_marks,
+  //       semester: semester,
+  //       year: year
+  //     });
+  //   }
+  // }
 
-  return marksCollection.insertOrUpdate(reg_no, marks)
+  return courseCollection.insertOrUpdateMarks(reg_no, marksReports)
     .then(() => {
       const processReport = report =>
-        marksCollection.aggregate(report.class_number, semester, year)
+        courseCollection.aggregate(report.class_number)
           .then(aggregates => {
             const tasks = [];
             const topic = `${semester}/${year}/${report.class_number}`;

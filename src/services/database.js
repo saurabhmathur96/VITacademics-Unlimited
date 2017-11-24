@@ -5,6 +5,8 @@
 const crypto = require('crypto');
 const MongoClient = require('mongodb').MongoClient;
 const Promise = require('bluebird');
+const Course = require("../models/course");
+var cache = require('memory-cache');
 
 // Schema
 // {
@@ -18,87 +20,120 @@ const Promise = require('bluebird');
 // }
 
 /**
- * @class MarksCollection
+ * @class CourseCollection
  */
-class MarksCollection {
-    constructor(collection) {
-        this._collection = collection;
-    }
+class CourseCollection {
+  /**
+   * @method insertOrUpdate
+   * @param {String} reg_no
+   * @param {Object} marksReport
+   * @param {Promise<Object>}
+   */
+  insertOrUpdateMarks(reg_no, marksReports) {
+    const updateDb = marksReport => {
+      // console.log(marksReport)
+      return Course.findOne({
+          class_number: marksReport.class_number
+        }).exec()
+        .then(course => {
+          if (course == null) {
+            let newCourse = new Course({
+              class_number: marksReport["class_number"],
+              course_code: marksReport["course_code"],
+              course_title: marksReport["course_title"]
+            })
 
-    /**
-     * @method insertOrUpdate
-     * @param {String} reg_no
-     * @param {Object} marks
-     * @param {Promise<Object>}
-     */
-    insertOrUpdate(reg_no, marks) {
-        const id = crypto.createHash('md5')
-            .update(reg_no)
-            .digest('hex');
-        const update = {
-            $set: {
-                marks: marks
+            return newCourse.save();
+          } else {
+            return Promise.resolve(course);
+          }
+        }).then(course => {
+          for (var i = 0; i < marksReport.marks.length; i++) {
+            
+            if(isNaN(marksReport.marks[i].scored_marks))
+              continue;
+
+            let id = crypto.createHash('md5')
+              .update(`${reg_no}_${marksReport.marks[i].title}`)
+              .digest('hex');
+
+            var mark = course.marks.id(id);
+            if (mark != null) {
+              mark.is_present = (marksReport.marks[i].status === "Present");
+              mark.scored_marks = marksReport.marks[i].scored_marks;
+            } else {
+              course.marks.push({
+                _id: id,
+                is_present: (marksReport.marks[i].status === "Present"),
+                scored_marks: marksReport.marks[i].scored_marks,
+                marks_type: marksReport.marks[i].title
+              })
             }
-        }
-        return this._collection.updateOne({ _id: id }, update, { upsert: true });
-    }
 
-    /**
-     * @method aggregate
-     * @param {String} classNumber
-     * @param {String} semester
-     * @param {String} year
-     * @returns {Promise<Object>}
-     */
-    aggregate(classNumber, semester, year) {
-        return this._collection.aggregate([
-            {
-              $unwind: '$marks'
-            },
-            {
-                $match: {
-                  'marks.class_number': classNumber,
-                  'marks.semester': semester,
-                  'marks.year': year
-                }
-            },
-            {
-                $group: {
-                    _id: '$marks.title',
-                    average: { $avg: '$marks.scored_marks' },
-                    count: { $sum: 1 },
-                    minimum: { $min: '$marks.scored_marks' },
-                    maximum: { $max: '$marks.scored_marks' },
-                    standard_deviation: { $stdDevPop: '$marks.scored_marks' }
-                }
-            }
-        ])
-        .toArray()
-        .then(result => {
-
-          const aggregate = {};
-          for (let i=0; i<result.length; i++) {
-            const key = result[i]._id;
-            delete result[i]._id;
-            aggregate[key] = result[i];
           }
 
-         return aggregate;
-        });
+          return course.save();
+        })
     }
+
+    return Promise.all(marksReports.map(updateDb))
+  }
+
+  /**
+   * @method aggregate
+   * @param {String} classNumber
+   * @returns {Promise<Object>}
+   */
+  aggregate(classNumber) {
+    let aggregate = cache.get(`marks_${classNumber}`);
+
+    if (aggregate != null)
+      return Promise.resolve(aggregate);
+    else
+      return Course.aggregate([{
+          $match: {
+            'class_number': String(classNumber)
+          }
+        },
+        {
+          $unwind: "$marks"
+        },
+        {
+          $group: {
+            _id: '$marks.marks_type',
+            average: {
+              $avg: '$marks.scored_marks'
+            },
+            count: {
+              $sum: 1
+            },
+            minimum: {
+              $min: '$marks.scored_marks'
+            },
+            maximum: {
+              $max: '$marks.scored_marks'
+            },
+            standard_deviation: {
+              $stdDevPop: '$marks.scored_marks'
+            }
+          }
+        }
+      ]).then(result => {
+        const aggregate = {};
+        for (let i = 0; i < result.length; i++) {
+          const key = result[i]._id;
+          delete result[i]._id;
+          aggregate[key] = result[i];
+        }
+
+        cache.put(`marks_${classNumber}`, aggregate, 120 * 1000);
+
+        return aggregate;
+      });
+  }
 }
 
-/**
- * Connects to the MongoDB instance.
- * @function connect
- * @param {String} url
- * @returns {Promise}
- */
-module.exports.connect = (url) => {
-    return MongoClient.connect(url, { promiseLibrary: Promise })
-        .then(db => {
-            return {
-                marks: new MarksCollection(db.collection('marks'))
-            }
-        })
+
+module.exports = {
+  CourseCollection
 }

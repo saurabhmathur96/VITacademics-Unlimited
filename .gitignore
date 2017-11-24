@@ -47,6 +47,7 @@ test/credentials.json
 # IDE configuration
 .idea/
 .vscode/
+.vs/
 
 # Logs
 *.log
