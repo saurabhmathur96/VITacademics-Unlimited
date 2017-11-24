@@ -198,7 +198,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 * **URL**
 
-  _/student/hostel/applications_
+  _/student/hostelbeta/applications_
 
 * **Method:**
 
@@ -217,71 +217,12 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     **Content:**
     ```
     {
-      applications: Array<HostelApplication>,
-      authorities: Array<ApprovingAuthority>
+      applications: Array<HostelApplication>
     }
     ````
 * **Error Response:**
 
   * **Code:** 403 UNAUTHORIZED
-
-
-
-
-**Hostel Outing Application**
-----
-  _Makes request to vtop to apply for an outing. [Vellore Only]_
-
-* **URL**
-
-  _/student/hostel/outing_
-
-* **Method:**
-
-  `POST`
-
-* **Data Params**
-
-  `reg_no`=[string]
-
-  `password`=[string]
-
-  `authority`=[string]
-
-  `place`=[string]
-
-  `reason`=[string]
-
-  `from`=[string,ISO 8601 UTC] ex. 2017-04-09T06:48:37.745Z
-
-  `to`=[string,ISO 8601 UTC] ex. 2017-04-09T06:48:37.745Z
-
-* **Constraints**
-
-  `to` and `from` should be on same day.
-
-  `to` should be after `from`.
-
-  Outing can only be between 7AM to 6PM.
-
-  `authority` id should be from the `authorities` list.
-
-* **Success Response:**
-
-
-  * **Code:** 200 <br />
-    **Content:**
-    ```
-    {
-      applications: Array<HostelApplication>,
-      authorities: Array<ApprovingAuthority>
-    }
-    ````
-* **Error Response:**
-
-  * **Code:** 403 UNAUTHORIZED
-
-  * **Code:** 400 BAD REQUEST
 
 
 
@@ -292,7 +233,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 * **URL**
 
-  _/student/hostel/leave_
+  _/student/hostelbeta/leave_
 
 * **Method:**
 
@@ -303,8 +244,6 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   `reg_no`=[string]
 
   `password`=[string]
-
-  `authority`=[string]
 
   `place`=[string]
 
@@ -325,15 +264,16 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   `type` can have following values
 
   |Value| Meaning                                          |
-  |-----|:-------------------------------------------------|
-  |"EY" | Emergency Leave                                  |
-  |"AE" | Examinations (GATE)                              |
-  |"HT" | Home Town / Local Guardian"s Place               |
-  |"II" | Industrial Visit (Through Faculty Coordinators)  |
-  |"PJ" | Off Campus Interviews (Throught PAT Office)      |
-  |"EP" | Official Events                                  |
-  |"WV" | Winter Vacation                                  |
-  |"WP" | With Parent Leave                                |
+  |----- |:-------------------------------------------------|
+  |"EY1" | Emergency Leave                                 |
+  |"SL1" | Semester Leave                                  |
+  |"HT1" | Home Town / Local Guardian"s Place              |
+  |"LG1" | Local Guardian                                  |
+  |"SV"  | Summer Vacation                                 |
+  |"EP"  | Official Events                                 |
+  |"WV"  | Winter Vacation                                 |
+  |"WP"  | With Parent Leave                               |
+  |"OG1" | Outing                                          |
 
 * **Success Response:**
 
@@ -342,8 +282,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     **Content:**
     ```
     {
-      applications: Array<HostelApplication>,
-      authorities: Array<ApprovingAuthority>
+      applications: Array<HostelApplication>
     }
     ````
 * **Error Response:**
@@ -361,7 +300,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 * **URL**
 
-  _/student/hostel/cancel_
+  _/student/hostelbeta/cancel_
 
 * **Method:**
 
@@ -373,7 +312,9 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   `password`=[string]
 
-  `application_id`=[integer]
+  `application_id`=[string]
+  
+  `place`=[string]
 
 * **Constraints**
 
@@ -386,8 +327,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
     **Content:**
     ```
     {
-      applications: Array<HostelApplication>,
-      authorities: Array<ApprovingAuthority>
+      applications: Array<HostelApplication>
     }
     ````
 * **Error Response:**
