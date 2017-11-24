@@ -299,6 +299,27 @@ describe('Unit Tests', () => {
     }).catch(err => { throw err; })
   });
 
+  it('scrape leave request applications beta', (done) => {
+    let filePath = path.join('test', 'data', 'leave_applications_beta.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = hostel.parseLeaveApplicationsBeta(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let schema = {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "applications": { "type": "array", "items": { "$ref": "/HostelApplicationBeta" } }
+        }
+      }
+      let r = validator.validate(result, schema, { nestedErrors: true });
+      expect(r.valid).to.be.true;
+
+      done();
+    }).catch(err => { throw err; })
+  });
+
   it('scrape late hours applications', (done) => {
     let filePath = path.join('test', 'data', 'Hostel_LAB_Permission.html')
     let html = fs.readFileSync(filePath, 'utf8');

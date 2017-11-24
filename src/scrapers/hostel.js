@@ -53,6 +53,48 @@ module.exports.parseLeaveApplications = (html) => {
 }
 
 /**
+ * parse report of applied leave requests
+ * test-input: test/data/leave_request.html
+ * @function parseLeaveReport
+ * @param {String} html
+ * @returns {Promise<HostelApplicationBeta>}
+ */
+
+
+module.exports.parseLeaveApplicationsBeta = (html) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const $ = cheerio.load(html);
+
+      html = $('table[class="table table-bordered"]').html();
+      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0];
+
+      let applications
+      if (table === null || table === undefined) {
+        applications = [];
+      } else {
+        applications = table.map(row => {
+          return {
+            application_id: row['Leave Id'],
+            from: row['From'],
+            to: row['To'],
+            request_type: row['LeaveType'],
+            status: row['Status'],
+            place: row['Visit Place'],
+            reason: row['Reason']
+          }
+        });
+      }
+      return resolve({
+        applications: applications
+      });
+    } catch (ex) {
+      return reject(ex);
+    }
+  });
+}
+
+/**
  * parse report of applied late hours requests
  * @todo unit test
  * @function parseLateApplications

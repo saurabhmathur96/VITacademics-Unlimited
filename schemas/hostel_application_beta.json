@@ -1,0 +1,14 @@
+{
+  "id": "/HostelApplicationBeta",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "application_id": { "type": "string", "required": "true"  },
+    "from": { "type": "string", "required": "true"  },
+    "to": { "type": "string", "required": "true"  },
+    "request_type": { "type": "string", "required": "true"  },
+    "reason": {"type": "string", "required": "true"},
+    "place": {"type": "string", "required": "true"},
+    "status": { "type": "string", "required": "true"  }
+  }
+}
