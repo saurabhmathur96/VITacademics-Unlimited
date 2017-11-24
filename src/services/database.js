@@ -53,9 +53,12 @@ class CourseCollection {
             if(isNaN(marksReport.marks[i].scored_marks))
               continue;
 
-            let id = crypto.createHash('md5')
-              .update(`${reg_no}_${marksReport.marks[i].title}`)
+            let hreg = crypto.createHash('md5')
+              .update(`${reg_no}`)
               .digest('hex');
+             let id = crypto.createHash('md5')
+              .update(`${hreg}_${marksReport.marks[i].title}`)
+               .digest('hex');
 
             var mark = course.marks.id(id);
             if (mark != null) {
