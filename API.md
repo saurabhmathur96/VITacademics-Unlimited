@@ -259,8 +259,6 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   `to` should be after `from`.
 
-  `authority` id should be from the `authorities` list.
-
   `type` can have following values
 
   |Value| Meaning                                          |
