@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ssh root@collegecode.org <<'ENDSSH'
+ssh ubuntu@collegecode.org <<'ENDSSH'
 cd VITacademics-Unlimited/
 git stash
 git pull
