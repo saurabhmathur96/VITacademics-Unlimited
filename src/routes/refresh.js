@@ -30,8 +30,8 @@ router.post('/', (req, res, next) => {
   const year = moment().tz('Asia/Kolkata').format('YYYY');
 
   let courseCollection  = new database.CourseCollection();
-  
-  if (semester === 'FS' && campus === 'vellore') {
+  const semId = (semester === 'FS' ? 'VL2017181' : 'VL2017185');
+  if (campus === 'vellore') {
     // Use vtopbeta for data
     const uri = {
       schedule: {
@@ -46,10 +46,10 @@ router.post('/', (req, res, next) => {
     }
 
     const tasks = [
-      requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': 'VL2017181' })
+      requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': semId })
         .then(attendance.parseReportBeta)
         .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetailsBeta)),
-      requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': 'VL2017181' })
+      requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': semId })
         .then(schedule.parseDailyBeta),
       requests.post(uri.schedule.exam, req.cookies, { 'semesterSubId': 'VL2017181' })
         .then(schedule.parseExamBeta),

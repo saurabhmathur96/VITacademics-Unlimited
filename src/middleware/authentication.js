@@ -54,7 +54,7 @@ module.exports = (req, res, next) => {
 
       req.body.campus = req.body.campus || 'vellore';
       const campus = req.body.campus;
-      var portal = (semester === 'FS' && req.url === '/refresh' && campus === 'vellore') ? 'vtopbeta' : 'vtop';
+      var portal = (req.url === '/refresh' && campus === 'vellore') ? 'vtopbeta' : 'vtop';
       if (req.url === '/assignments' || req.url === '/coursepage' || req.url === '/hostelbeta/applications'){
       var portal = 'vtopbeta';
       }
