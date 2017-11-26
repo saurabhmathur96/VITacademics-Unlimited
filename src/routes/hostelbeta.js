@@ -117,6 +117,7 @@ router.post('/cancel', (req, res, next) => {
         requests.post(uri.init, req.cookies),
         requests.post(uri.cancel, req.cookies, form),
         requests.post(uri.applications, req.cookies)
+            .then(hostel.parseLeaveApplicationsBeta)
             .then((result) => res.json({ applications: result.applications }))
     ];
     cancelApplication = Promise.all(tasks).catch(next);
