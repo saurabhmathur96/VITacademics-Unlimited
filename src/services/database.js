@@ -152,12 +152,12 @@ class FacultyCollection {
     return Faculty.findOne({empid: faculty_details["empid"]}).
     then(faculty => {
       if(faculty == null){
-
         let newFaculty = new Faculty(faculty_details);
         return newFaculty.save();
 
       }else{
-        faculty.phone = faculty_details.phone;
+        if(faculty_details.phone != null && faculty.phone == null)
+          faculty.phone = faculty_details.phone;
         return faculty.save();
       }
     })  
