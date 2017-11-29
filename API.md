@@ -114,7 +114,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 **Assignments**
 ----
-  _Scrapes Assignments
+  _Scrapes Assignments_
 
 * **URL**
 
@@ -341,7 +341,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 * **URL**
 
-  _/student/late/apply_
+  _/student/latebeta/apply_
 
 * **Method:**
 
@@ -375,62 +375,39 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
   `faculty_id` should be from the list of schools from `/faculty/late`.
 
-  `from_time` can have the following values
+  `from_time` and `to_time` can have the following values
 
-  |Value     |
-  |----------|
-  |"08:00 PM"|
-  |"09:00 PM"|
-  |"10:00 PM"|
-  |"11:00 PM"|
-  |"12:00 AM"|
-  |"01:00 AM"|
-  |"02:00 AM"|
-  |"03:00 AM"|
-  |"04:00 AM"|
-
-  `to_time` can have the following values
-
-  |Value     |
-  |----------|
-  |"09:00 PM"|
-  |"10:00 PM"|
-  |"11:00 PM"|
-  |"12:00 AM"|
-  |"01:00 AM"|
-  |"02:00 AM"|
-  |"03:00 AM"|
-  |"04:00 AM"|
-  |"05:00 AM"|
-
+  |Value| Meaning              | 
+  |---- |:---------------------|
+  |"0"  | "8 PM"               |
+  |"1"  | "9 PM"               |
+  |"2"  | "10 PM"              |
+  |"3"  | "11 PM"              |
+  |"4"  | "12 AM"              |
+  |"5"  | "1 AM"               |
+  |"6"  | "2 AM"               |
+  
   `school` can have the following values
 
-  |Value     |
-  |----------|
-  |"ASC"     |
-  |"ARC"     |
-  |"CO2"     |
-  |"CBST"    |
-  |"CBCMT"   |
-  |"CCG"     |
-  |"CDMM"    |
-  |"CIMR"    |
-  |"CNBT"    |
-  |"CNR"     |
-  |"IIIP"    |
-  |"O/o-COE" |
-  |"SAS"     |
-  |"VSPARC"  |
-  |"SBST"    |
-  |"SCALE"   |
-  |"SCOPE"   |
-  |"SELECT"  |
-  |"SENSE"   |
-  |"SITE"    |
-  |"SMEC"    |
-  |"SSL"     |
-  |"TIFAC"   |
-  |"VITBS"   |
+  |Value  |Meaning                                                             |
+  |-------|:-------------------------------------------------------------------|
+  |  '74' | 'SAS School of Advanced Sciences'                                  |
+  |  '98' | 'VSPARC School of Architecture'                                    |
+  |  '73' | 'SAP School of Architecture and Planning'                          |
+  |  '75' | 'SBST School of Bio Sciences and Technology'                       |
+  |  '76' | 'SCALE School of Civil and Chemical Engineering'                   |
+  |  '77' | 'SCOPE School of Computer Engineering'                             |
+  |  '78' | 'SCSE School of Computing Sciences and Engineering'                |
+  |  '80' | 'SELECT School of Electrical Engineering'                          |
+  |  '81' | 'SENSE School of Electronics Engineering'                          |
+  |  '82' | 'SITE School of Information Technology and Engineering'            |
+  |  '84' | 'SMEC School of Mechanical Engineering'                            | 
+  |  '83' | 'SMBS School of Mechanical and Building Sciences'                  |
+  |  '88' | 'SSL School of Social Sciences &amp; Languages'                    |
+  |  '92' | 'TIFAC Technology Information Forecasting and Assessment Council'  |
+  |  '96' | 'VITBS VIT Business School'                                        |
+  |  '95' | 'VFIT VIT Fachion Technology'                                      | 
+  |  '97' | 'VITLS VIT School of Law'                                          |
 
 
 * **Success Response:**
@@ -457,7 +434,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 * **URL**
 
-  _/student/late/applications_
+  _/student/latebeta/applications_
 
 * **Method:**
 
@@ -491,7 +468,7 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
 
 * **URL**
 
-  _/student/late/cancel_
+  _/student/latebeta/cancel_
 
 * **Method:**
 
@@ -504,6 +481,9 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
   `password`=[string]
 
   `cancel_id`=[string]
+  
+  `place`=[string]
+  
 
 * **Constraints**
 
