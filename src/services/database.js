@@ -6,7 +6,8 @@ const crypto = require('crypto');
 const MongoClient = require('mongodb').MongoClient;
 const Promise = require('bluebird');
 const Course = require("../models/course");
-var cache = require('memory-cache');
+const Faculty = require("../models/faculty");
+const cache = require('memory-cache');
 
 // Schema
 // {
@@ -136,7 +137,44 @@ class CourseCollection {
   }
 }
 
+/**
+ * @class FacultyCollection
+ * 
+ */
+class FacultyCollection {
+
+  /**
+   * @method insertOrUpdate
+   * @param {Object} faculty_details
+   * @returns {Promise<Object>} 
+   */
+  insertOrUpdate(faculty_details){
+    return Faculty.findOne({empid: faculty_details["empid"]}).
+    then(faculty => {
+      if(faculty == null){
+
+        let newFaculty = new Faculty(faculty_details);
+        return newFaculty.save();
+
+      }else{
+        faculty.phone = faculty_details.phone;
+        return faculty.save();
+      }
+    })  
+  }
+
+  /**
+   * @method getAll
+   * @returns {Promise<Object>}
+   */
+  getAll(){
+    return Faculty.find({});
+  }
+
+}
+
 
 module.exports = {
-  CourseCollection
+  CourseCollection,
+  FacultyCollection
 }

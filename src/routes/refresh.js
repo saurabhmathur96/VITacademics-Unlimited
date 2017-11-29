@@ -6,6 +6,7 @@ const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
 const schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
 const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
+const home = require(path.join(__dirname, '..', 'scrapers', 'home'));
 const notification = require(path.join(__dirname, '..', 'services', 'notification'));
 const moment = require('moment-timezone');
 const Promise = require('bluebird');
@@ -100,6 +101,14 @@ router.post('/', (req, res, next) => {
       'assignments': results[4],
       'semester': req.body.semester,
       'default_semester': defaultSemester
+    })
+
+    process.nextTick(() => {
+      const facultyCollection = new database.FacultyCollection();
+      const facultyUrl = "https://vtopbeta.vit.ac.in/vtop/proctor/viewProctorDetails";
+      requests.post(facultyUrl, req.cookies, {})
+      .then(home.parseFaculty)
+      .then(facultyCollection.insertOrUpdate)
     })
   }).catch(next);
 });
