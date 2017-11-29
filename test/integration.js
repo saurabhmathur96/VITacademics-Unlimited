@@ -280,11 +280,29 @@ describe('Integration Tests', () => {
             }
           };
           let r = validator.validate(res.body, schema, {nestedErrors: true});
-          console.log(r);
           expect(r.valid).to.be.true
           done();
         });
     });
+
+    it('POST student/latebeta/applications', (done) => {
+      request.post('/student/latebeta/applications')
+        .send(credentials)
+        .expect(200)
+        .end((err, res) => {
+          let schema = {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applications": { "type": "array" }
+            }
+          };
+          let r = validator.validate(res.body, schema, { nestedErrors: true });
+          expect(r.valid).to.be.true
+          done();
+        });
+    });
+
     xit('POST student/late/appplications', (done) => {
 
       request.post('/student/late/applications')
