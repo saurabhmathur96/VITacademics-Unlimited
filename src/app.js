@@ -38,6 +38,7 @@ const home = require(path.join(__dirname, 'routes', 'home'));
 const hostel = require(path.join(__dirname, 'routes', 'hostel'));
 const hostelbeta = require(path.join(__dirname, 'routes', 'hostelbeta'));
 const late = require(path.join(__dirname, 'routes', 'late'));
+const latebeta = require(path.join(__dirname, 'routes', 'latebeta'));
 
 const authentication = require(path.join(__dirname, 'middleware', 'authentication'));
 
@@ -75,7 +76,8 @@ function onlyVellore(req, res, next) {
 // Routes
 app.use('/student/refresh', refresh);
 app.use('/student/assignments', assignments);
-app.use('/student/hostelbeta', hostelbeta)
+app.use('/student/hostelbeta', hostelbeta);
+app.use('/student/latebeta', latebeta);
 
 // app.use('/student/coursepage', coursepage);
 app.use('/student/grades', grades);
