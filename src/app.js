@@ -39,6 +39,7 @@ const hostel = require(path.join(__dirname, 'routes', 'hostel'));
 const hostelbeta = require(path.join(__dirname, 'routes', 'hostelbeta'));
 const late = require(path.join(__dirname, 'routes', 'late'));
 const latebeta = require(path.join(__dirname, 'routes', 'latebeta'));
+const iostoken = require(path.join(__dirname, 'routes', 'iostoken'));
 
 const authentication = require(path.join(__dirname, 'middleware', 'authentication'));
 
@@ -89,7 +90,10 @@ app.use('/student/hostel', hostel);
 app.use('/student/late', onlyVellore);
 app.use('/student/late', late);
 
+app.use('/student/iostoken', iostoken);
+
 app.use('/faculty', faculty);
+
 
 
 
