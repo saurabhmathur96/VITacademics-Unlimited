@@ -18,7 +18,7 @@ const FacultyCollection = require('../services/database').FacultyCollection;
 // }
 
 let lateHoursSchools = null;
-filePath = path.join(__dirname, '..', '..', 'data', 'late_schools.json');
+filePath = path.join(__dirname, '..', '..', 'data', 'late_schools_beta.json');
 try {
   const json = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   lateHoursSchools = json['late_schools'];
