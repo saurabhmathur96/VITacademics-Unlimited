@@ -58,6 +58,10 @@ module.exports = (req, res, next) => {
       if ( req.url === '/assignments' || req.url === '/coursepage' || req.url.startsWith('/hostelbeta/') || req.url.startsWith('/latebeta')){
       portal = 'vtopbeta';
       }
+
+      if (req.url === '/assignments' && req.body.campus === 'chennai'){
+        portal = 'vtop';
+      }
       req.body.reg_no = req.body.reg_no.toUpperCase();
 
 

@@ -16,6 +16,10 @@ const defaultSemester = 'FS';
  */
 router.post('/', (req, res, next) => {
   const semester = 'FS';
+  if(req.body.campus === 'chennai'){
+    res.json({'courses':[]});
+    return;
+  }
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
       const message = result.array().map((error) => error.msg).join('\n');
