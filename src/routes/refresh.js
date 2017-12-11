@@ -84,9 +84,6 @@ router.post('/', (req, res, next) => {
         .then(schedule.parseDaily),
       requests.get(uri.schedule.exam, req.cookies)
         .then(schedule.parseExam),
-      requests.get(uri.marks, req.cookies)
-        .then(academic.parseMarks)
-        .then(marksReports => updateMarksCollection(courseCollection, marksReports, req.body.reg_no, semester, year))
     ];
 
     fetchData = Promise.all(tasks)
@@ -97,12 +94,13 @@ router.post('/', (req, res, next) => {
       'attendance': results[0],
       'timetable': results[1],
       'exam_schedule': results[2],
-      'marks': results[3],
-      'assignments': results[4],
+      'marks': [],
+      'assignments': [],
       'semester': req.body.semester,
       'default_semester': defaultSemester
     })
 
+    if(campus !== 'chennai'){
     process.nextTick(() => {
       const facultyCollection = new database.FacultyCollection();
       const facultyUrl = "https://vtopbeta.vit.ac.in/vtop/proctor/viewProctorDetails";
@@ -110,6 +108,7 @@ router.post('/', (req, res, next) => {
       .then(home.parseFaculty)
       .then(facultyCollection.insertOrUpdate)
     })
+  }
   }).catch(next);
 });
 
