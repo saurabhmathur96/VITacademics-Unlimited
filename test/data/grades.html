@@ -1,0 +1,321 @@
+<div class="container">
+  <section class="content-header"></section>
+
+  <section class="content">
+
+    <form role="form" id="studentGradeView" name="studentGradeView" method="post" autocomplete="off">
+      <!-- th:object="${examSchedule}"> -->
+      <div class="col-md-12" style="margin-top: 20px; margin-left: 1px;">
+        <div class="panel panel-primary">
+          <div class="panel-heading panel-head-custom" style="background-color: #3c8dbc; font-size: 18px; text-align: center;">
+            Result - Grade View</div>
+
+          <div>
+
+            <div class="form-group col-sm-12"></div>
+            <div class="col-sm-6 col-sm-offset-3">
+              <div>
+                <label for="acadYear" class="col-sm-4 control-label">Select
+                  Semester</label>
+
+                <div class="col-md-8">
+                  <select class="form-control" name="semesterSubId" id="semesterSubId" data-validation-engine="validate[required]" onchange="doViewExamGrade();">
+                    <option value="" selected="selected">-- Choose
+                      Semester --</option>
+                    <option value="VL2017183">Tri Semester II &amp; V 2017-18</option>
+                    <option selected="selected" value="VL2017181">Fall Semester 2017-18</option>
+                    <option value="VL2017182">Tri Semester I &amp; IV 2017-18</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12"></div>
+            <span class="col-sm-12 col-md-12" style="font-size: 20px; color: green; text-align: center;"></span> <span class="col-sm-12 col-md-12" style="font-size: 20px; color: red; text-align: center;"></span>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-md-12">
+                  <div class="box-body table-responsive ">
+                    <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                      <tr style="background-color: #b1dfff;">
+                        <th rowspan="2">Sl.No.</th>
+                        <th rowspan="2">Course Code</th>
+                        <th rowspan="2">Course Title</th>
+                        <th rowspan="2">Course Type</th>
+                        <th colspan="4" align="center">Credits</th>
+                        <th rowspan="2">Course System</th>
+                        <th rowspan="2">Course Mode</th>
+                        <th rowspan="2">Grading Type</th>
+                        <th rowspan="2">Grand Total</th>
+                        <th rowspan="2">Grade</th>
+                        <th rowspan="2">View Mark</th>
+
+                      </tr>
+                      <tr style="background-color: #b1dfff;">
+                        <th>L</th>
+                        <th>P</th>
+                        <th>J</th>
+                        <th>C</th>
+                      </tr>
+
+                      <tr>
+                        <td height="50">1</td>
+                        <td>CSE3021</td>
+                        <td>Social and Information Networks</td>
+                        <td>Embedded Theory and Project</td>
+                        <td>3</td>
+                        <td>0</td>
+
+                        <td>1</td>
+
+                        <td>4</td>
+
+                        <td>CAL</td>
+                        <td>CBL</td>
+                        <td>RG</td>
+                        <td>84</td>
+                        <td>A</td>
+                        <td><button type="button" name="action" class="btn btn-primary btn-block" onclick="javascript:getGradeViewDetails(&#39;VL_CSE3021_00100&#39;);">
+                          <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        </td>
+                      </tr>
+
+
+
+
+
+
+
+
+
+
+
+                      <tr>
+                        <td height="50">2</td>
+                        <td>CSE3024</td>
+                        <td>Web Mining</td>
+                        <td>Embedded Theory and Project</td>
+                        <td>3</td>
+                        <td>0</td>
+
+                        <td>1</td>
+
+                        <td>4</td>
+
+                        <td>CAL</td>
+                        <td>CBL</td>
+                        <td>RG</td>
+                        <td>78</td>
+                        <td>B</td>
+                        <td><button type="button" name="action" class="btn btn-primary btn-block" onclick="javascript:getGradeViewDetails(&#39;VL_CSE3024_00100&#39;);">
+                          <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        </td>
+                      </tr>
+
+
+
+
+
+
+
+
+
+
+
+                      <tr>
+                        <td height="50">3</td>
+                        <td>CSE4001</td>
+                        <td>Parallel and Distributed Computing</td>
+                        <td>Embedded Theory, Lab and Project</td>
+                        <td>2</td>
+                        <td>1</td>
+
+                        <td>1</td>
+
+                        <td>4</td>
+
+                        <td>CAL</td>
+                        <td>CBL</td>
+                        <td>RG</td>
+                        <td>67</td>
+                        <td>B</td>
+                        <td><button type="button" name="action" class="btn btn-primary btn-block" onclick="javascript:getGradeViewDetails(&#39;VL_CSE4001_00100&#39;);">
+                          <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        </td>
+                      </tr>
+
+
+
+
+
+
+
+
+
+
+
+                      <tr>
+                        <td height="50">4</td>
+                        <td>CSE4015</td>
+                        <td>Human  Computer Interaction</td>
+                        <td>Embedded Theory and Project</td>
+                        <td>3</td>
+                        <td>0</td>
+
+                        <td>1</td>
+
+                        <td>4</td>
+
+                        <td>CAL</td>
+                        <td>CBL</td>
+                        <td>RG</td>
+                        <td>86</td>
+                        <td>A</td>
+                        <td><button type="button" name="action" class="btn btn-primary btn-block" onclick="javascript:getGradeViewDetails(&#39;VL_CSE4015_00100&#39;);">
+                          <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        </td>
+                      </tr>
+
+
+
+
+
+
+
+
+
+
+
+                      <tr>
+                        <td height="50">5</td>
+                        <td>MGT1051</td>
+                        <td>Business Analytics for Engineers</td>
+                        <td>Theory Only</td>
+                        <td>3</td>
+                        <td>0</td>
+
+                        <td>0</td>
+
+                        <td>3</td>
+
+                        <td>CAL</td>
+                        <td>CBL</td>
+                        <td>RG</td>
+                        <td>73</td>
+                        <td>B</td>
+                        <td><button type="button" name="action" class="btn btn-primary btn-block" onclick="javascript:getGradeViewDetails(&#39;VL_MGT1051_00100&#39;);">
+                          <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        </td>
+                      </tr>
+
+
+
+
+
+
+
+
+
+
+
+                      <tr align="center">
+                        <td colspan="14">
+                          <span style="font-size: 18px;font-weight: bold;">Your GPA is : 8.42</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="box-footer"></div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+  </section>
+  <noscript>
+    <h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
+  </noscript>
+  <!-- Custom Scripts for V-TOP Pages-->
+
+  <script>
+    /*<![CDATA[*/
+
+    jQuery(document).ready(
+      function() {
+        // binds form submission and fields to the validation engine
+        jQuery("#studentGradeView").validationEngine(
+          'attach',
+          {
+            autoHidePrompt : true,
+            binded : false,
+            onValidationComplete : function(
+              form, status) {
+              if (status) {
+                doViewExamGrade();
+              }
+            }
+          });
+      });
+
+    function doViewExamGrade() {
+      var myform = document
+        .getElementById("studentGradeView");
+      var fd = new FormData(myform);
+      $
+        .blockUI({
+          message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+        });
+      $
+        .ajax({
+          url : "examinations/examGradeView/doStudentGradeView",
+          type : "POST",
+          data : fd,
+          cache : false,
+          processData : false,
+          contentType : false,
+          success : function(response) {
+            $.unblockUI();
+            $("#page-wrapper").html(response);
+
+          }
+
+        });
+    };
+    function getGradeViewDetails(courseId) {
+      var myform = document
+        .getElementById("studentGradeView");
+      var semesterSubId = document
+        .getElementById("semesterSubId").value;
+      var params = "semesterSubId=" + semesterSubId
+        + "&courseId=" + courseId;
+      $
+        .blockUI({
+          message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+        });
+      $
+        .ajax({
+          url : "examinations/examGradeView/getGradeViewDetails",
+          type : "POST",
+          data : params,
+          success : function(response) {
+            $.unblockUI();
+            $("#page-wrapper").html(response);
+
+          }
+
+        });
+    };
+    /*]]>*/
+  </script>
+</div>

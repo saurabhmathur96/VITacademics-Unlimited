@@ -161,6 +161,19 @@ describe('Unit Tests', () => {
     }).catch(err => { throw err; })
   });
 
+  it('scrape grades beta', (done) => {
+    let filePath = path.join('test', 'data', 'grades.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = academic.parseGrades(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, { "$ref": "/Grades" });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
+
   it('scrape marks', (done) => {
     let filePath = path.join('test', 'data', 'marks.html')
     let html = fs.readFileSync(filePath, 'utf8');

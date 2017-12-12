@@ -137,6 +137,55 @@ module.exports.parseHistory = (html) => {
   });
 }
 
+/**
+ * parse grades from vtopbeta
+ * test-input: test/data/grades.html
+ * @function parseGrades
+ * @param {String} html
+ * @returns {Promise<Grades>}
+ */
+
+module.exports.parseGrades = (html) => {
+
+  let data = {
+    grades: []
+  };
+
+  return new Promise((resolve, reject) => {
+    try {
+      // Scraping Grades
+      const baseScraper = cheerio.load(html);
+      const gradesScraper = cheerio.load(baseScraper('table').html());
+      //console.log(gradesScraper.html());
+      gradesScraper('tr').each((i, elem) => {
+        if (i <= 0) {
+          return;
+        }
+        const attrs = baseScraper(elem).children('td');
+        const exam_held = '2017-11';
+        const grade = attrs.eq(12).text();
+        const credits = parseInt(attrs.eq(7).text());
+        data.grades.push({
+          'course_code': attrs.eq(1).text(),
+          'course_title': attrs.eq(2).text().trim(),
+          'course_type': attrs.eq(3).text(),
+          'credits': credits,
+          'grade': grade,
+          'exam_held': exam_held,
+          'result_date': '2017-12-11',
+          'option': attrs.eq(8).text()
+        });
+      });
+      data.grades.shift();
+      data.grades.pop();
+      return resolve(data);
+    }
+    catch (ex) {
+      return reject(ex);
+    }
+  });
+}
+
 
 /**
  * parse current semester's marks

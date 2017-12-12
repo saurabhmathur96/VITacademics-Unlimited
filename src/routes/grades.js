@@ -16,12 +16,40 @@ const router = express.Router();
 
 router.post('/', (req, res, next) => {
   const campus = req.body.campus;
-  const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
-  const uri = `${baseUri}/student_history.asp`;
-  const task = requests.get(uri, req.cookies);
-  task.then(academic.parseHistory)
-    .then(result => res.json(result))
-    .catch(next);
+  var baseUri;
+  if (campus == 'chennai') {
+    baseUri = 'https://academicscc.vit.ac.in/student';
+    const uri = `${baseUri}/student_history.asp`;
+    const task = requests.get(uri, req.cookies);
+    task.then(academic.parseHistory)
+      .then(result => res.json(result))
+      .catch(next);
+  }
+  else {
+    baseUri = 'https://vtop.vit.ac.in/student';
+    const uri = `${baseUri}/student_history.asp`;
+    const gradesUri = 'https://vtopbeta.vit.ac.in/vtop/examinations/examGradeView/doStudentGradeView';
+
+    resultFinal = {};
+    gradesData = {};
+
+    const tasks = [
+      requests.get(uri, req.cookies)
+        .then(academic.parseHistory)
+        .then(resultFinal),
+      requests.get(gradesUri, req.cookies)
+        .then(academic.parseGrades)
+        .then(gradesData)
+    ];
+
+    fetchData = Promise.all(tasks);
+    fetchData.then(results => {
+      var final = results[0];
+      final.grades.push(results[1].grades);
+
+      res.json(final);
+    }).catch(next);
+  }
 });
 
 module.exports = router;
