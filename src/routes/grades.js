@@ -6,6 +6,7 @@ const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
 const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
 const express = require('express');
 const router = express.Router();
+const signInVtopBeta = require('../utilities/getcookie-beta');
 
 /**
  * POST /grades
@@ -35,19 +36,21 @@ router.post('/', (req, res, next) => {
 
     const tasks = [
       requests.get(uri, req.cookies)
-        .then(academic.parseHistory)
-        .then(resultFinal),
-      requests.post(gradesUri, req.cookies, { 'semesterSubId': 'VL2017181' })
-        .then(academic.parseGrades)
-        .then(gradesData)
+        .then(academic.parseHistory),
+      signInVtopBeta(req.body.reg_no, req.body.password, campus)
     ];
 
     fetchData = Promise.all(tasks);
     fetchData.then(results => {
-      var final = results[0];
-      final.grades.push(results[1].grades);
+      requests.post(gradesUri, results[1], { 'semesterSubId': 'VL2017181' })
+        .then(academic.parseGrades)
+        .then(gradesData => {
 
-      res.json(final);
+          var grades = results[0].grades;
+          grades = grades.concat(gradesData.grades);
+          results[0].grades = grades;
+          res.json(results[0]);
+        });
     }).catch(next);
   }
 });

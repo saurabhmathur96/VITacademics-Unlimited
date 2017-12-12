@@ -154,7 +154,6 @@ module.exports.parseGrades = (html) => {
   return new Promise((resolve, reject) => {
     try {
       // Scraping Grades
-      console.log(html);
       const baseScraper = cheerio.load(html);
       const gradesScraper = cheerio.load(baseScraper('table').html());
       //console.log(gradesScraper.html());
@@ -174,11 +173,12 @@ module.exports.parseGrades = (html) => {
           'grade': grade,
           'exam_held': exam_held,
           'result_date': '2017-12-11',
-          'option': attrs.eq(8).text()
+          'option': 'NIL'
         });
       });
       data.grades.shift();
       data.grades.pop();
+
       return resolve(data);
     }
     catch (ex) {
