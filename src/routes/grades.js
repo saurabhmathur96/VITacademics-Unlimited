@@ -37,7 +37,7 @@ router.post('/', (req, res, next) => {
       requests.get(uri, req.cookies)
         .then(academic.parseHistory)
         .then(resultFinal),
-      requests.get(gradesUri, req.cookies)
+      requests.post(gradesUri, req.cookies, { 'semesterSubId': 'VL2017181' })
         .then(academic.parseGrades)
         .then(gradesData)
     ];

@@ -154,6 +154,7 @@ module.exports.parseGrades = (html) => {
   return new Promise((resolve, reject) => {
     try {
       // Scraping Grades
+      console.log(html);
       const baseScraper = cheerio.load(html);
       const gradesScraper = cheerio.load(baseScraper('table').html());
       //console.log(gradesScraper.html());
