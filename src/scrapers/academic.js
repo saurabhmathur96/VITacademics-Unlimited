@@ -155,16 +155,27 @@ module.exports.parseGrades = (html) => {
     try {
       // Scraping Grades
       const baseScraper = cheerio.load(html);
+      const exam_held = '2017-11';
+      let credits_total = 0;
+
+      var gpa = Number(baseScraper('span[style="font-size: 18px;font-weight: bold;"]').text().split(':')[1].trim());
+
+      dataObject = {
+        "exam_held": exam_held
+      };
+
       const gradesScraper = cheerio.load(baseScraper('table').html());
-      //console.log(gradesScraper.html());
       gradesScraper('tr').each((i, elem) => {
         if (i <= 0) {
           return;
         }
         const attrs = baseScraper(elem).children('td');
-        const exam_held = '2017-11';
         const grade = attrs.eq(12).text();
         const credits = parseInt(attrs.eq(7).text());
+
+        if(credits>0)
+          credits_total = credits_total + credits;
+
         data.grades.push({
           'course_code': attrs.eq(1).text(),
           'course_title': attrs.eq(2).text().trim(),
@@ -178,6 +189,11 @@ module.exports.parseGrades = (html) => {
       });
       data.grades.shift();
       data.grades.pop();
+
+      dataObject.credits = credits_total;
+
+      dataObject.gpa = gpa;
+      data.semester_wise = dataObject;
 
       return resolve(data);
     }

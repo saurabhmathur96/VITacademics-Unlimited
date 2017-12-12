@@ -49,6 +49,7 @@ router.post('/', (req, res, next) => {
           var grades = results[0].grades;
           grades = grades.concat(gradesData.grades);
           results[0].grades = grades;
+          results[0].semester_wise.push(gradesData.semester_wise);
           res.json(results[0]);
         });
     }).catch(next);
