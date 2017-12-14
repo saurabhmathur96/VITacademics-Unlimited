@@ -193,7 +193,7 @@ module.exports.parseGrades = (html) => {
       dataObject.credits = credits_total;
 
       dataObject.gpa = gpa;
-      data.semester_wise = dataObject;
+      data.semester_wise = [dataObject];
 
       return resolve(data);
     }
