@@ -158,7 +158,7 @@ module.exports.parseGrades = (html) => {
       const exam_held = '2017-11';
       let credits_total = 0;
 
-      var gpa = Number(baseScraper('span[style="font-size: 18px;font-weight: bold;"]').text().split(':')[1].trim());
+      var gpa = Number(baseScraper('span[style="font-size: 18px; font-weight: bold;"]').text().split(':')[1].trim());
 
       dataObject = {
         "exam_held": exam_held
