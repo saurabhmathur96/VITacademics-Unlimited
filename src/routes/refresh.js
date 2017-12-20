@@ -52,9 +52,9 @@ router.post('/', (req, res, next) => {
         .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetailsBeta)),
       requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': semId })
         .then(schedule.parseDailyBeta),
-      requests.post(uri.schedule.exam, req.cookies, { 'semesterSubId': 'VL2017181' })
+      requests.post(uri.schedule.exam, req.cookies, { 'semesterSubId': semId })
         .then(schedule.parseExamBeta),
-      requests.post(uri.marks, req.cookies,  {'semesterSubId': 'VL2017181' })
+      requests.post(uri.marks, req.cookies,  {'semesterSubId': semId })
         .then(academic.parseMarksBeta)
         .then(marksReports => updateMarksCollection(courseCollection, marksReports, req.body.reg_no, semester, year))
     ]
