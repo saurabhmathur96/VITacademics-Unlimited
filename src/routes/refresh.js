@@ -90,7 +90,19 @@ router.post('/', (req, res, next) => {
   }
   fetchData.then(results => {
     // Finally, send results as json.
+    if(campus === 'vellore'){
     res.json({
+      'attendance': results[0],
+      'timetable': results[1],
+      'exam_schedule': results[2],
+      'marks': results[3],
+      'assignments': results[4],
+      'semester': req.body.semester,
+      'default_semester': defaultSemester
+    })
+  }
+    else{
+      res.json({
       'attendance': results[0],
       'timetable': results[1],
       'exam_schedule': results[2],
@@ -99,6 +111,7 @@ router.post('/', (req, res, next) => {
       'semester': req.body.semester,
       'default_semester': defaultSemester
     })
+    }
 
     if(campus !== 'chennai'){
     process.nextTick(() => {
