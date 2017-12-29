@@ -6,14 +6,14 @@ const cheerio = require('cheerio');
 const Promise = require('bluebird');
 const moment = require('moment');
 
-const courseTypes = {
+/*const courseTypes = {
   "TH": "Theory Only",
   "LO": "Lab Only",
   "ETH": "Embedded Theory",
   "ELA": "Embedded Lab",
   "EPJ": "Embedded Project",
   "SS": "Soft Skill"
-}
+}*/
 
 
 /**
@@ -103,13 +103,12 @@ module.exports.parseDailyBeta = (html) => {
         if (row['Class\n\t\t\t\t\t\t\t\t\t\t\t\t\tNbr'] === undefined) {
           return null;
         }
-
         return {
           'class_number': row['Class\n\t\t\t\t\t\t\t\t\t\t\t\t\tNbr'].trim(),
           'course_code': row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tCode'].trim(),
           'course_name': row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tTitle'].trim(),
-          'course_type': courseTypes[row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tType'].trim()],
-          'ltpjc': `${row['L']}${row['T']}${row['P']}${row['J']}${row['C']}`,
+          'course_type': row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tType'].trim(),
+          'ltpjc': row['L T P J C'].replace(/ +/g, ""),
           'course_option': row['Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tOption'].trim(),
           'course_mode': 'NA',
           'slot': row['Slot'].trim(),
