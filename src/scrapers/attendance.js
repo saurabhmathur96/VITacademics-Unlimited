@@ -6,6 +6,15 @@ const tabletojson = require('tabletojson')
 const Promise = require('bluebird');
 const _ = require('lodash');
 
+const courseTypes = {
+  "Theory Only":"TH",
+  "Lab Only":"LO",
+  "Embedded Theory":"ETH",
+  "Embedded Lab":"ELA",
+  "Embedded Project":"EPJ",
+  "Soft Skill":"SS"
+}
+
 /**
  * parse general attendance report of all registered courses
  * test-input: test/data/attn_report.html
@@ -89,7 +98,7 @@ module.exports.parseReportBeta = (html) => {
         return {
           'course_code': td.eq(1).text().trim(),
           'course_title': td.eq(2).text().trim(),
-          'course_type': td.eq(3).text().trim(),
+          'course_type': courseTypes[td.eq(3).text().trim()],
           'slot': td.eq(4).text().trim(),
           'attended_classes': td.eq(7).text().trim(),
           'total_classes': td.eq(8).text().trim(),
