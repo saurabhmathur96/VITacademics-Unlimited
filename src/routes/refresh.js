@@ -52,9 +52,9 @@ router.post('/', (req, res, next) => {
         .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetailsBeta)),
       requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': semId })
         .then(schedule.parseDailyBeta),
-      requests.post(uri.schedule.exam, req.cookies, { 'semesterSubId': 'VL2017181' })
+      requests.post(uri.schedule.exam, req.cookies, { 'semesterSubId': semId })
         .then(schedule.parseExamBeta),
-      requests.post(uri.marks, req.cookies,  {'semesterSubId': 'VL2017181' })
+      requests.post(uri.marks, req.cookies,  {'semesterSubId': semId })
         .then(academic.parseMarksBeta)
         .then(marksReports => updateMarksCollection(courseCollection, marksReports, req.body.reg_no, semester, year))
     ]
@@ -90,7 +90,19 @@ router.post('/', (req, res, next) => {
   }
   fetchData.then(results => {
     // Finally, send results as json.
+    if(campus === 'vellore'){
     res.json({
+      'attendance': results[0],
+      'timetable': results[1],
+      'exam_schedule': results[2],
+      'marks': results[3],
+      'assignments': results[4],
+      'semester': req.body.semester,
+      'default_semester': defaultSemester
+    })
+  }
+    else{
+      res.json({
       'attendance': results[0],
       'timetable': results[1],
       'exam_schedule': results[2],
@@ -99,6 +111,7 @@ router.post('/', (req, res, next) => {
       'semester': req.body.semester,
       'default_semester': defaultSemester
     })
+    }
 
     if(campus !== 'chennai'){
     process.nextTick(() => {

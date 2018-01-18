@@ -141,6 +141,6 @@ module.exports.parseFaculty = html => {
     };
     resolve(details_formatted);
   }).catch(ex => {
-    return reject(ex);
+    return Promise.reject(ex);
   });
 }

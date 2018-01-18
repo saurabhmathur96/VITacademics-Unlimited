@@ -15,7 +15,8 @@ const defaultSemester = 'FS';
  * respond with CAL Assignment details for given student
  */
 router.post('/', (req, res, next) => {
-  const semester = 'FS';
+  const semester = req.body.semester;
+  const semId = (semester === 'FS' ? 'VL2017181' : 'VL2017185');
   if(req.body.campus === 'chennai'){
     res.json({'courses':[]});
     return;
@@ -31,7 +32,7 @@ router.post('/', (req, res, next) => {
       courses: 'https://vtopbeta.vit.ac.in/vtop/examinations/doDigitalAssignment',
       details: 'https://vtopbeta.vit.ac.in/vtop/examinations/processDigitalAssignment'
     };
-    return requests.post(uri.courses, req.cookies, { 'semesterSubId': 'VL2017181' })
+    return requests.post(uri.courses, req.cookies, { 'semesterSubId': semId })
       .then(assignments.parseCourses)
       .then(courses => fetchAssignmentDetails(courses, uri.details, req.cookies, assignments.parseDA))
       .then(courses => res.json({ 'courses': courses }))
