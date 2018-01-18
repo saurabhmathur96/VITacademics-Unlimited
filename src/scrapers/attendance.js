@@ -91,9 +91,9 @@ module.exports.parseReportBeta = (html) => {
           'course_title': td.eq(2).text().trim(),
           'course_type': td.eq(3).text().trim(),
           'slot': td.eq(4).text().trim(),
-          'attended_classes': td.eq(6).text().trim(),
-          'total_classes': td.eq(7).text().trim(),
-          'attendance_percentage': td.eq(8).text().trim(),
+          'attended_classes': td.eq(7).text().trim(),
+          'total_classes': td.eq(8).text().trim(),
+          'attendance_percentage': td.eq(9).text().trim(),
           'form': {
             'classId': fragments[1],
             'slotName': fragments[3]
