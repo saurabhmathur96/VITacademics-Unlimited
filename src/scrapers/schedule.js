@@ -215,7 +215,7 @@ module.exports.parseExamBeta = (html) => {
             course_type: row[3],
             slot: row[5],
             exam_date: row[6],
-            week_day: moment(row[6], "DD-MMM-YYYY").format('ddd').toUpperCase(),
+            week_day: ( row[6] !== "" ? moment(row[6], "DD-MMM-YYYY").format('ddd').toUpperCase() : ""),
             session: row[7],
             time: row[8],
             venue: row[9],
