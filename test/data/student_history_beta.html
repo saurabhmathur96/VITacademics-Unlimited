@@ -1,0 +1,1865 @@
+<div class="container">
+  <section class="content-header"></section>
+
+  <section class="content">
+
+    <form role="form" id="studentGradeView" name="studentGradeView" method="post" autocomplete="off">
+      <!-- th:object="${examSchedule}"> -->
+      <div class="col-sm-11" style="margin-top: 20px; margin-left: 1px;">
+        <div class="panel panel-primary">
+          <div class="panel-heading panel-head-custom" style="background-color: #3c8dbc; font-size: 18px; text-align: center;">
+            Student Grade History</div>
+          <div>
+
+
+            <div>
+              <div class="col-md-12 table-responsive" style="margin-top: 10px;">
+                <table class="table table-bordered table table-hover" style="margin-top: 5px;">
+
+                  <tr style="background: rgb(72, 109, 139);">
+                    <td style="color: #fff; font-weight: bold; white-space: nowrap;">Reg.No.</td>
+                    <td style="color: #fff; font-weight: bold;">Name</td>
+                    <td style="color: #fff; font-weight: bold; white-space: nowrap;">Programme and Branch</td>
+                    <td style="color: #fff; font-weight: bold; white-space: nowrap;">Programme Mode
+                    </td>
+
+                    <td style="color: #fff; font-weight: bold; white-space: nowrap;">Study System
+                    </td>
+                    <td style="color: #fff; font-weight: bold;">Gender</td>
+
+                    <td style="color: #fff; font-weight: bold; white-space: nowrap;">YearJoined</td>
+                    <td style="color: #fff; font-weight: bold; white-space: nowrap;">Edu Status
+                    </td>
+
+                    <td style="color: #fff; font-weight: bold; white-space: nowrap;">School</td>
+                    <td style="color: #fff; font-weight: bold;">Campus</td>
+                  </tr>
+                  <tr>
+                    <td>16BCE0979</td>
+
+
+                    <td>PRIYANSH JAIN</td>
+                    <td>B.Tech. - Computer Science and Engineering</td>
+                    <td>Regular</td>
+                    <td>CAL</td>
+                    <td>MALE</td>
+                    <td>2016</td>
+                    <td>Admitted</td>
+                    <td>SCOPE</td>
+
+                    <td>VLR</td>
+                  </tr>
+
+                </table>
+
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <div class="box-body table-responsive ">
+                      <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                        <thead style="background: rgb(72, 109, 139);">
+                          <tr>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Sl.No.</th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Course Code
+                            </th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Course Title
+                            </th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Course Type
+                            </th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Credits</th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Grade</th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Exam Month
+                            </th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Result Declared
+                            </th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">Course Option
+                            </th>
+                            <th style="color: #fff; font-weight: bold; white-space: nowrap;">
+                              Detail View</th>
+                          </tr>
+                        </thead>
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">1</td>
+                          <td>CHY1002</td>
+                          <td>Environmental Sciences</td>
+                          <td>ETP</td>
+                          <td>3</td>
+                          <td>A</td>
+                          <td>Nov-2016</td>
+                          <td>19-Dec-2016</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CHY1002&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CHY1002">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CHY1002</td>
+                                  <td>Environmental Sciences</td>
+                                  <td>ETP</td>
+                                  <td>3</td>
+                                  <td>A</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CHY1002</td>
+                                  <td>Environmental Sciences</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CHY1002</td>
+                                  <td>Environmental Sciences</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">2</td>
+                          <td>CSE1001</td>
+                          <td>Problem Solving and Programming</td>
+                          <td>LO</td>
+                          <td>3</td>
+                          <td>S</td>
+                          <td>Nov-2016</td>
+                          <td>03-Jan-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE1001">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE1001</td>
+                                  <td>Problem Solving and Programming</td>
+                                  <td>LO</td>
+                                  <td>3</td>
+                                  <td>S</td>
+                                  <td>Nov-2016</td>
+                                  <td>03-Jan-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">3</td>
+                          <td>EEE1001</td>
+                          <td>Basic Electrical and Electronics Engineering</td>
+                          <td>ETL</td>
+                          <td>3</td>
+                          <td>A</td>
+                          <td>Nov-2016</td>
+                          <td>19-Dec-2016</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;EEE1001&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="EEE1001">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>EEE1001</td>
+                                  <td>Basic Electrical and Electronics Engineering</td>
+                                  <td>ETL</td>
+                                  <td>3</td>
+                                  <td>A</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>EEE1001</td>
+                                  <td>Basic Electrical and Electronics Engineering</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>EEE1001</td>
+                                  <td>Basic Electrical and Electronics Engineering</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">4</td>
+                          <td>ENG1011</td>
+                          <td>English for Engineers</td>
+                          <td>ELP</td>
+                          <td>2</td>
+                          <td>A</td>
+                          <td>Nov-2016</td>
+                          <td>19-Dec-2016</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;ENG1011&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="ENG1011">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>ENG1011</td>
+                                  <td>English for Engineers</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>ENG1011</td>
+                                  <td>English for Engineers</td>
+                                  <td>ELP</td>
+                                  <td>2</td>
+                                  <td>A</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>ENG1011</td>
+                                  <td>English for Engineers</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">5</td>
+                          <td>MAT1011</td>
+                          <td>Calculus for Engineers</td>
+                          <td>ETL</td>
+                          <td>4</td>
+                          <td>B</td>
+                          <td>Nov-2016</td>
+                          <td>19-Dec-2016</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;MAT1011&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="MAT1011">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>MAT1011</td>
+                                  <td>Calculus for Engineers</td>
+                                  <td>ETL</td>
+                                  <td>4</td>
+                                  <td>B</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>MAT1011</td>
+                                  <td>Calculus for Engineers</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>MAT1011</td>
+                                  <td>Calculus for Engineers</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">6</td>
+                          <td>PHY1001</td>
+                          <td>Engineering Physics</td>
+                          <td>ETLP</td>
+                          <td>5</td>
+                          <td>A</td>
+                          <td>Nov-2016</td>
+                          <td>19-Dec-2016</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;PHY1001&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="PHY1001">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>PHY1001</td>
+                                  <td>Engineering Physics</td>
+                                  <td>ETLP</td>
+                                  <td>5</td>
+                                  <td>A</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>PHY1001</td>
+                                  <td>Engineering Physics</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>PHY1001</td>
+                                  <td>Engineering Physics</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>PHY1001</td>
+                                  <td>Engineering Physics</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2016</td>
+                                  <td>19-Dec-2016</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">7</td>
+                          <td>CHY1001</td>
+                          <td>Engineering Chemistry</td>
+                          <td>ETLP</td>
+                          <td>5</td>
+                          <td>B</td>
+                          <td>May-2017</td>
+                          <td>11-Jul-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CHY1001&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CHY1001">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CHY1001</td>
+                                  <td>Engineering Chemistry</td>
+                                  <td>ETLP</td>
+                                  <td>5</td>
+                                  <td>B</td>
+                                  <td>May-2017</td>
+                                  <td>11-Jul-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CHY1001</td>
+                                  <td>Engineering Chemistry</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>11-Jul-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CHY1001</td>
+                                  <td>Engineering Chemistry</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>11-Jul-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CHY1001</td>
+                                  <td>Engineering Chemistry</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>11-Jul-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">8</td>
+                          <td>CSE1003</td>
+                          <td>Digital Logic and Design</td>
+                          <td>ETLP</td>
+                          <td>4</td>
+                          <td>A</td>
+                          <td>May-2017</td>
+                          <td>02-Jun-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CSE1003&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE1003">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE1003</td>
+                                  <td>Digital Logic and Design</td>
+                                  <td>ETLP</td>
+                                  <td>4</td>
+                                  <td>A</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE1003</td>
+                                  <td>Digital Logic and Design</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE1003</td>
+                                  <td>Digital Logic and Design</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE1003</td>
+                                  <td>Digital Logic and Design</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">9</td>
+                          <td>CSE2003</td>
+                          <td>Data Structures and Algorithms</td>
+                          <td>ETLP</td>
+                          <td>4</td>
+                          <td>A</td>
+                          <td>May-2017</td>
+                          <td>02-Jun-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CSE2003&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE2003">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2003</td>
+                                  <td>Data Structures and Algorithms</td>
+                                  <td>ETLP</td>
+                                  <td>4</td>
+                                  <td>A</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2003</td>
+                                  <td>Data Structures and Algorithms</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2003</td>
+                                  <td>Data Structures and Algorithms</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2003</td>
+                                  <td>Data Structures and Algorithms</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">10</td>
+                          <td>MAT1014</td>
+                          <td>Discrete Mathematics and Graph Theory</td>
+                          <td>TH</td>
+                          <td>4</td>
+                          <td>B</td>
+                          <td>May-2017</td>
+                          <td>26-Jul-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="MAT1014">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>MAT1014</td>
+                                  <td>Discrete Mathematics and Graph Theory</td>
+                                  <td>TH</td>
+                                  <td>4</td>
+                                  <td>B</td>
+                                  <td>May-2017</td>
+                                  <td>26-Jul-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">11</td>
+                          <td>MAT2002</td>
+                          <td>Applications of Differential and Difference Equations</td>
+                          <td>ETL</td>
+                          <td>4</td>
+                          <td>B</td>
+                          <td>May-2017</td>
+                          <td>02-Jun-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;MAT2002&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="MAT2002">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>MAT2002</td>
+                                  <td>Applications of Differential and Difference Equations</td>
+                                  <td>ETL</td>
+                                  <td>4</td>
+                                  <td>B</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>MAT2002</td>
+                                  <td>Applications of Differential and Difference Equations</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>MAT2002</td>
+                                  <td>Applications of Differential and Difference Equations</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>02-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">12</td>
+                          <td>PHY1999</td>
+                          <td>Introduction to Innovative Projects</td>
+                          <td>ETP</td>
+                          <td>2</td>
+                          <td>B</td>
+                          <td>May-2017</td>
+                          <td>06-Jun-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;PHY1999&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="PHY1999">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>PHY1999</td>
+                                  <td>Introduction to Innovative Projects</td>
+                                  <td>ETP</td>
+                                  <td>2</td>
+                                  <td>B</td>
+                                  <td>May-2017</td>
+                                  <td>06-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>PHY1999</td>
+                                  <td>Introduction to Innovative Projects</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>06-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>PHY1999</td>
+                                  <td>Introduction to Innovative Projects</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>May-2017</td>
+                                  <td>06-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">13</td>
+                          <td>STS1001</td>
+                          <td>Soft Skills</td>
+                          <td>SS</td>
+                          <td>1</td>
+                          <td>B</td>
+                          <td>May-2017</td>
+                          <td>16-Jun-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="STS1001">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>STS1001</td>
+                                  <td>Soft Skills</td>
+                                  <td>SS</td>
+                                  <td>1</td>
+                                  <td>B</td>
+                                  <td>May-2017</td>
+                                  <td>16-Jun-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">14</td>
+                          <td>CSE2001</td>
+                          <td>Computer Architecture and Organization</td>
+                          <td>TH</td>
+                          <td>3</td>
+                          <td>A</td>
+                          <td>Nov-2017</td>
+                          <td>14-Dec-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE2001">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2001</td>
+                                  <td>Computer Architecture and Organization</td>
+                                  <td>TH</td>
+                                  <td>3</td>
+                                  <td>A</td>
+                                  <td>Nov-2017</td>
+                                  <td>14-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">15</td>
+                          <td>CSE2004</td>
+                          <td>Database Management Systems</td>
+                          <td>ETLP</td>
+                          <td>4</td>
+                          <td>A</td>
+                          <td>Nov-2017</td>
+                          <td>11-Dec-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CSE2004&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE2004">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2004</td>
+                                  <td>Database Management Systems</td>
+                                  <td>ETLP</td>
+                                  <td>4</td>
+                                  <td>A</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2004</td>
+                                  <td>Database Management Systems</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2004</td>
+                                  <td>Database Management Systems</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2004</td>
+                                  <td>Database Management Systems</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">16</td>
+                          <td>CSE2005</td>
+                          <td>Operating Systems</td>
+                          <td>ETLP</td>
+                          <td>4</td>
+                          <td>B</td>
+                          <td>Nov-2017</td>
+                          <td>11-Dec-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CSE2005&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE2005">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2005</td>
+                                  <td>Operating Systems</td>
+                                  <td>ETLP</td>
+                                  <td>4</td>
+                                  <td>B</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2005</td>
+                                  <td>Operating Systems</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2005</td>
+                                  <td>Operating Systems</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE2005</td>
+                                  <td>Operating Systems</td>
+                                  <td>ELA</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">17</td>
+                          <td>CSE3024</td>
+                          <td>Web Mining</td>
+                          <td>ETP</td>
+                          <td>4</td>
+                          <td>B</td>
+                          <td>Nov-2017</td>
+                          <td>11-Dec-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CSE3024&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE3024">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE3024</td>
+                                  <td>Web Mining</td>
+                                  <td>ETP</td>
+                                  <td>4</td>
+                                  <td>B</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE3024</td>
+                                  <td>Web Mining</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE3024</td>
+                                  <td>Web Mining</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">18</td>
+                          <td>CSE4015</td>
+                          <td>Human Computer Interaction</td>
+                          <td>ETP</td>
+                          <td>4</td>
+                          <td>A</td>
+                          <td>Nov-2017</td>
+                          <td>11-Dec-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CSE4015&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE4015">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE4015</td>
+                                  <td>Human Computer Interaction</td>
+                                  <td>ETP</td>
+                                  <td>4</td>
+                                  <td>A</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE4015</td>
+                                  <td>Human Computer Interaction</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE4015</td>
+                                  <td>Human Computer Interaction</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">19</td>
+                          <td>CSE4019</td>
+                          <td>Image Processing</td>
+                          <td>ETP</td>
+                          <td>4</td>
+                          <td>B</td>
+                          <td>Nov-2017</td>
+                          <td>11-Dec-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+                            <button type="button" name="action" class="btn btn-primary btn-block" style="padding: 0px 0px;" onclick="javascript:toggleDiv(&#39;CSE4019&#39;);">
+                              <span class="glyphicon glyphicon-menu-down"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="CSE4019">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE4019</td>
+                                  <td>Image Processing</td>
+                                  <td>ETP</td>
+                                  <td>4</td>
+                                  <td>B</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE4019</td>
+                                  <td>Image Processing</td>
+                                  <td>ETH</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>CSE4019</td>
+                                  <td>Image Processing</td>
+                                  <td>EPJ</td>
+                                  <td>0</td>
+                                  <td>-</td>
+                                  <td>Nov-2017</td>
+                                  <td>11-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+
+                        <tr style="background: rgb(224, 234, 242);">
+                          <td height="50">20</td>
+                          <td>STS2001</td>
+                          <td>Soft Skills</td>
+                          <td>SS</td>
+                          <td>1</td>
+                          <td>B</td>
+                          <td>Nov-2017</td>
+                          <td>19-Dec-2017</td>
+                          <td>NIL</td>
+                          <td>
+                            <!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+
+                          </td>
+                        </tr>
+                        <!-- </th:block>-->
+
+                        <tr>
+                          <td colspan="10" align="center" style="display: none;" id="STS2001">
+                            <div style="padding: 5px 10px;">
+                              <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+                                <thead>
+                                  <tr style="background-color: #b1dfff;">
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Code
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Title
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Type
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Credits</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Grade</th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Exam Month
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Result Declared
+                                    </th>
+                                    <th style="font-weight: bold; white-space: nowrap;">Course Option
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tr style="background-color: #e6e6e6;">
+                                  <td>STS2001</td>
+                                  <td>Soft Skills</td>
+                                  <td>SS</td>
+                                  <td>1</td>
+                                  <td>B</td>
+                                  <td>Nov-2017</td>
+                                  <td>19-Dec-2017</td>
+                                  <td>NIL</td>
+                                </tr>
+
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+
+
+                      </table>
+
+
+                      <div>
+                        <table class="table table-hover table-bordered" style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff; margin-top: 10px;">
+                          <thead style="background: rgb(72, 109, 139);">
+                            <tr>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">Credits Registered
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">Credits Earned
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">CGPA</th>
+
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">S Grades
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">A Grades
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">B Grades
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">C Grades
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">D Grades
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">E Grades
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">F Grades
+                              </th>
+                              <th style="color: #fff; font-weight: bold; white-space: nowrap;">N Grades
+                              </th>
+                            </tr>
+                          </thead>
+                          <tr style="background-color: #e6e6e6;">
+                            <td>68</td>
+                            <td>68</td>
+                            <td>8.56</td>
+                            <td>1</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                          </tr>
+                        </table>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+  </section>
+  <noscript>
+    <h2 class="text-red">Enable JavasCript to Access V-TOP</h2>
+  </noscript>
+  <!-- Custom Scripts for V-TOP Pages-->
+
+  <script>
+    /*<![CDATA[*/
+
+    jQuery(document).ready(
+      function () {
+        // binds form submission and fields to the validation engine								
+        jQuery("#studentGradeView").validationEngine(
+          'attach',
+          {
+            autoHidePrompt: true,
+            binded: false,
+            onValidationComplete: function (
+              form, status) {
+              if (status) {
+                getGradeViewDetails();
+              }
+            }
+          });
+      });
+
+    function doViewExamGrade() {
+      var myform = document
+        .getElementById("studentGradeView");
+      var fd = new FormData(myform);
+      $
+        .blockUI({
+          message: '<img src="assets/img/482.GIF"> loading... Just a moment...'
+        });
+      $
+        .ajax({
+          url: "examinations/examGradeView/doStudentGradeView",
+          type: "POST",
+          data: fd,
+          cache: false,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            $.unblockUI();
+            $("#page-wrapper").html(response);
+
+          }
+
+        });
+    };
+    function getGradeViewDetails() {
+      var myform = document
+        .getElementById("studentGradeView");
+      var regNo = document.getElementById("regNo").value;
+      var params = "regNo=" + regNo;
+      $
+        .blockUI({
+          message: '<img src="assets/img/482.GIF"> loading... Just a moment...'
+        });
+      $
+        .ajax({
+          url: "examinations/examGradeView/getGradeViewDetails",
+          type: "POST",
+          data: params,
+          success: function (response) {
+            $.unblockUI();
+            $("#page-wrapper").html(response);
+
+          }
+
+        });
+    };
+
+    function toggleDiv(divId) {
+      $("#" + divId).toggle();
+    }
+
+					/*]]>*/
+  </script>
+</div>

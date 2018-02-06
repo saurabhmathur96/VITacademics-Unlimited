@@ -138,6 +138,98 @@ module.exports.parseHistory = (html) => {
 }
 
 /**
+ * parse academic history and output a list of grades
+ * test-input: test/data/student_history.html
+ * @function parseHistoryBeta
+ * @param {String} html
+ * @returns {Promise<Grades>}
+ */
+
+module.exports.parseHistoryBeta = (html) => {
+  let data = {
+    grades: [],
+    semester_wise: {},
+    grade_count: []
+  };
+  return new Promise((resolve, reject) => {
+    try {
+      // Scraping Grades
+      console.log(html);
+      const baseScraper = cheerio.load(html);
+      const gradesScraper = cheerio.load(baseScraper('table').eq(1).html());
+      gradesScraper('tr').each((i, elem) => {
+        if (i <= 0) {
+          return;
+        }
+        const attrs = baseScraper(elem).children('td');
+        const exam_held = moment(attrs.eq(6).text(), 'MMM-YYYY').format('YYYY-MM');
+        const grade = attrs.eq(5).text();
+        const credits = parseInt(attrs.eq(4).text());
+        data.grades.push({
+          'course_code': attrs.eq(1).text(),
+          'course_title': attrs.eq(2).text().trim(),
+          'course_type': attrs.eq(3).text(),
+          'credits': credits,
+          'grade': grade,
+          'exam_held': exam_held,
+          'result_date': moment(attrs.eq(7).text(), 'DD-MMM-YYYY').isValid() ? moment(attrs.eq(7).text(), 'DD-MMM-YYYY').format('YYYY-MM-DD') : null,
+          'option': attrs.eq(8).text()
+        });
+        // Computing Semester-Wise GPA
+        if (gradeValue(grade) === true) {
+          if (data.semester_wise[exam_held]) {
+            data.semester_wise[exam_held].credits += credits;
+          }
+          else {
+            data.semester_wise[exam_held] = {
+              exam_held: exam_held,
+              credits: credits,
+              gpa: 0.0
+            };
+          }
+        }
+        else if (gradeValue(grade)) {
+          if (data.semester_wise[exam_held]) {
+            data.semester_wise[exam_held].gpa = Math.round((data.semester_wise[exam_held].gpa * data.semester_wise[exam_held].credits + gradeValue(grade) * credits) / (data.semester_wise[exam_held].credits + credits) * 1e2) / 1e2;
+            data.semester_wise[exam_held].credits += credits;
+          }
+          else {
+            data.semester_wise[exam_held] = {
+              exam_held: exam_held,
+              credits: credits,
+              gpa: gradeValue(grade)
+            };
+          }
+        }
+      });
+
+      // Convert semester-wise object to array
+      data.semester_wise = _.values(data.semester_wise);
+
+      // Scraping the credit summary
+      const length = baseScraper('table').length;
+      const creditsTable = baseScraper('table').eq(length - 1).children('tr').eq(0);
+      data.credits_registered = parseInt(creditsTable.children('td').eq(0).text());
+      data.credits_earned = parseInt(creditsTable.children('td').eq(1).text());
+      data.cgpa = parseFloat(creditsTable.children('td').eq(2).text().trim());
+
+      // Scraping the grade summary information
+      data.grade_count.push({
+        count: parseInt(creditsTable.children('td').eq(3).text()),
+        value: gradeValue(gradeCharacter(3)) || 0,
+        grade: gradeCharacter(3)
+      });
+      data.grades = data.grades.filter((grade) => grade.credits != null && !isNaN(grade.credits));
+      console.log(data);
+      return resolve(data);
+    }
+    catch (ex) {
+      return reject(ex);
+    }
+  });
+}
+
+/**
  * parse grades from vtopbeta
  * test-input: test/data/grades.html
  * @function parseGrades
@@ -160,7 +252,7 @@ module.exports.parseGrades = (html) => {
 
       var gpa = Number(baseScraper('span[style="font-size: 18px; font-weight: bold;"]').text().split(':')[1].trim());
 
-      dataObject = {
+      let dataObject = {
         "exam_held": exam_held
       };
 
@@ -173,7 +265,7 @@ module.exports.parseGrades = (html) => {
         const grade = attrs.eq(12).text();
         const credits = parseInt(attrs.eq(7).text());
 
-        if(credits>0)
+        if (credits>0)
           credits_total = credits_total + credits;
 
         data.grades.push({
@@ -215,7 +307,7 @@ module.exports.parseGrades = (html) => {
 module.exports.parseMarks = (html) => {
   return new Promise((resolve, reject) => {
     try {
-      let $ = cheerio.load(html, {normalizeWhitespace: true});
+      let $ = cheerio.load(html, { normalizeWhitespace: true });
 
       const marks = $("table").eq(1)
         .find("tr[bgcolor='#EDEADE']")

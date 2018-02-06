@@ -8,7 +8,7 @@ const Promise = require('bluebird');
 const express = require('express');
 const router = express.Router();
 
-const defaultSemester = 'FS';
+
 /**
  * POST /assignments
  *
@@ -17,8 +17,8 @@ const defaultSemester = 'FS';
 router.post('/', (req, res, next) => {
   const semester = req.body.semester;
   const semId = (semester === 'FS' ? 'VL2017181' : 'VL2017185');
-  if(req.body.campus === 'chennai'){
-    res.json({'courses':[]});
+  if (req.body.campus === 'chennai') {
+    res.json({ 'courses': [] });
     return;
   }
   req.getValidationResult().then((result) => {
@@ -37,12 +37,12 @@ router.post('/', (req, res, next) => {
       .then(courses => fetchAssignmentDetails(courses, uri.details, req.cookies, assignments.parseDA))
       .then(courses => res.json({ 'courses': courses }))
   })
-  .catch(next);
+    .catch(next);
 });
 
-function fetchAssignmentDetails(courses, uri, cookies, parseDA){
+function fetchAssignmentDetails(courses, uri, cookies, parseDA) {
   return Promise.all(courses.map(course => {
-    return requests.post(uri, cookies, {"classId": course.class_number})
+    return requests.post(uri, cookies, { "classId": course.class_number })
       .then(parseDA).then((details) => {
         course.details = details;
         return course;

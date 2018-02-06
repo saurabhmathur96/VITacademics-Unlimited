@@ -55,11 +55,17 @@ module.exports = (req, res, next) => {
       req.body.campus = req.body.campus || 'vellore';
       const campus = req.body.campus;
       var portal = (req.url === '/refresh' && campus === 'vellore') ? 'vtopbeta' : 'vtop';
-      if ( req.url === '/assignments' || req.url === '/coursepage' || req.url.startsWith('/hostelbeta/') || req.url.startsWith('/latebeta')){
-      portal = 'vtopbeta';
+      if (
+        req.url === '/assignments' ||
+        req.url === '/coursepage' ||
+        req.url.startsWith('/hostelbeta/') ||
+        req.url.startsWith('/latebeta') ||
+        req.url === '/grades'
+      ) {
+        portal = 'vtopbeta';
       }
 
-      if (req.url === '/assignments' && req.body.campus === 'chennai'){
+      if (req.url === '/assignments' && req.body.campus === 'chennai') {
         portal = 'vtop';
       }
       req.body.reg_no = req.body.reg_no.toUpperCase();
@@ -73,7 +79,7 @@ module.exports = (req, res, next) => {
       // }
 
       // Sign in to Vtop beta for Fall Semester
-      const signIn = ((portal === 'vtopbeta') ? signInVtopBeta: signInVtop);
+      const signIn = ((portal === 'vtopbeta') ? signInVtopBeta : signInVtop);
       return signIn(req.body.reg_no, req.body.password, campus)
         .then(cookies => {
           // cache.put(key, cookies, 2 * 60 * 1000); // timeout of 2 minutes

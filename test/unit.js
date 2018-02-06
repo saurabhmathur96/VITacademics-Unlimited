@@ -12,7 +12,7 @@ var academic = require(path.join(__dirname, '..', 'src', 'scrapers', 'academic')
 var hostel = require(path.join(__dirname, '..', 'src', 'scrapers', 'hostel'));
 var cal = require(path.join(__dirname, '..', 'src', 'scrapers', 'cal'));
 var assignment = require(path.join(__dirname, '..', 'src', 'scrapers', 'assignment'))
-var coursepage = require(path.join(__dirname, '..','src', 'scrapers', 'coursepage'))
+var coursepage = require(path.join(__dirname, '..', 'src', 'scrapers', 'coursepage'))
 // Power up the jsonschema validator
 var validator = new Validator();
 
@@ -38,7 +38,7 @@ describe('Unit Tests', () => {
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      let r = validator.validate(result, { "type": "object", "items": {"$ref": "/CoursePage"}},{ nestedErrors: true });
+      let r = validator.validate(result, { "type": "object", "items": { "$ref": "/CoursePage" } }, { nestedErrors: true });
       expect(r.valid).to.be.true;
       done();
     }).catch(err => { throw err; })
@@ -71,29 +71,29 @@ describe('Unit Tests', () => {
   });
 
   it('scrape assignment beta course', (done) => {
-    let filePath = path.join('test','data', 'assignment_beta_courses.html');
+    let filePath = path.join('test', 'data', 'assignment_beta_courses.html');
     let html = fs.readFileSync(filePath, 'utf8');
     let task = assignment.parseCourses(html);
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      let r = validator.validate(result, {"type": "array", "items":{"$ref": "/AssignmentBetaCourse"}}, { nestedErrors: true });
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AssignmentBetaCourse" } }, { nestedErrors: true });
       expect(r.valid).to.be.true;
       done();
-    }).catch(err => { throw err;})
+    }).catch(err => { throw err; })
   });
 
   it('scrape assignment beta', (done) => {
-    let filePath = path.join('test','data', 'assignment_beta.html');
+    let filePath = path.join('test', 'data', 'assignment_beta.html');
     let html = fs.readFileSync(filePath, 'utf8');
     let task = assignment.parseDA(html);
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {
-      let r = validator.validate(result, {"type": "array", "items":{"$ref": "/AssignmentBeta"}}, { nestedErrors: true });
+      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AssignmentBeta" } }, { nestedErrors: true });
       expect(r.valid).to.be.true;
       done();
-    }).catch(err => { throw err;})
+    }).catch(err => { throw err; })
   });
 
   it('scrape attendance report', (done) => {
@@ -152,6 +152,19 @@ describe('Unit Tests', () => {
     let filePath = path.join('test', 'data', 'student_history.html')
     let html = fs.readFileSync(filePath, 'utf8');
     let task = academic.parseHistory(html);
+    expect(task).to.be.instanceOf(Promise);
+
+    task.then(result => {
+      let r = validator.validate(result, { "$ref": "/Grades" });
+      expect(r.valid).to.be.true;
+      done();
+    }).catch(err => { throw err; })
+  });
+
+  it('scrape grades history beta', (done) => {
+    let filePath = path.join('test', 'data', 'student_history_beta.html')
+    let html = fs.readFileSync(filePath, 'utf8');
+    let task = academic.parseHistoryBeta(html);
     expect(task).to.be.instanceOf(Promise);
 
     task.then(result => {

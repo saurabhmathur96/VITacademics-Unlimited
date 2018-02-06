@@ -21,7 +21,7 @@ mongoose.Promise = Promise;
 if (process.env.NODE_ENV === 'production') {
   logger.configure({
     transports: [
-      new(logger.transports.File)({
+      new (logger.transports.File)({
         filename: 'production.log'
       })
     ]
@@ -31,7 +31,6 @@ if (process.env.NODE_ENV === 'production') {
 
 const refresh = require(path.join(__dirname, 'routes', 'refresh'));
 const assignments = require(path.join(__dirname, 'routes', 'assignments'));
-const coursepage = require(path.join(__dirname, 'routes', 'coursepage'));
 const grades = require(path.join(__dirname, 'routes', 'grades'));
 const faculty = require(path.join(__dirname, 'routes', 'faculty'));
 const home = require(path.join(__dirname, 'routes', 'home'));
@@ -54,7 +53,7 @@ app.use(bodyParser.urlencoded({
 app.use(expressValidator());
 app.use(compression());
 
-mongoose.connect('mongodb://localhost/student', { 
+mongoose.connect('mongodb://localhost/student', {
   useMongoClient: true
 })
   .then(_ => {
@@ -62,7 +61,7 @@ mongoose.connect('mongodb://localhost/student', {
   })
   .catch(err => logger.error('Unable To connect to MongoDB.', err.stack));;
 
-  app.use('/student', authentication);
+app.use('/student', authentication);
 
 function onlyVellore(req, res, next) {
   if (req.body.campus !== 'vellore') {
@@ -79,8 +78,6 @@ app.use('/student/refresh', refresh);
 app.use('/student/assignments', assignments);
 app.use('/student/hostelbeta', hostelbeta);
 app.use('/student/latebeta', latebeta);
-
-// app.use('/student/coursepage', coursepage);
 app.use('/student/grades', grades);
 app.use('/student/home', home);
 
