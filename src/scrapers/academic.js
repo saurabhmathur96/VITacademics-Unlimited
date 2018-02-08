@@ -154,7 +154,6 @@ module.exports.parseHistoryBeta = (html) => {
   return new Promise((resolve, reject) => {
     try {
       // Scraping Grades
-      console.log(html);
       const baseScraper = cheerio.load(html);
       const gradesScraper = cheerio.load(baseScraper('table').eq(1).html());
       gradesScraper('tr').each((i, elem) => {
@@ -213,14 +212,16 @@ module.exports.parseHistoryBeta = (html) => {
       data.credits_earned = parseInt(creditsTable.children('td').eq(1).text());
       data.cgpa = parseFloat(creditsTable.children('td').eq(2).text().trim());
 
-      // Scraping the grade summary information
-      data.grade_count.push({
-        count: parseInt(creditsTable.children('td').eq(3).text()),
-        value: gradeValue(gradeCharacter(3)) || 0,
-        grade: gradeCharacter(3)
+
+      creditsTable.children('td').slice(3).each(i => {
+        data.grade_count.push({
+          count: parseInt(creditsTable.children('td').slice(3).eq(i).text()),
+          value: gradeValue(gradeCharacter(i)) || 0,
+          grade: gradeCharacter(i)
+        });
       });
+      
       data.grades = data.grades.filter((grade) => grade.credits != null && !isNaN(grade.credits));
-      console.log(data);
       return resolve(data);
     }
     catch (ex) {
