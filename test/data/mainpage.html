@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<!--
+  Author: Anthoniraj Amalanathan
+  Date  : 03/12/2016
+-->
+<html lang="en">
+<base href="https://vtopbeta.vit.ac.in/vtop/" />
+<meta charset="utf-8" />
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+
+<link href="assets/img/favicon.ico" rel="icon" type="image/x-icon" />
+<link href="assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>VIT University - VTOP</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/adminlte/css/AdminLTE.css" />
+<link rel="stylesheet" href="assets/adminlte/css/skins/skin-blue-light.css" />
+<!-- 	<link rel="stylesheet" href="assets/css/form_style.css" />
+	<link rel="stylesheet" href="assets/css/login_style.css" />
+ -->
+
+<head>
+
+
+</head>
+
+<body class="skin-blue-light layout-top-nav" style="height: auto; min-height: 100%;background-color:#ecf0f5">
+
+  <div class="wrapper" style="height: auto; min-height: 100%;">
+
+    <div id="login-wrapper">
+      <header class="main-header">
+        <nav class="navbar navbar-static-top">
+          <div class="container-fluid">
+            <img src="assets/img/vitlogo.png" class="img-responsive pull-left" alt="User Image" width="250" height="100" />
+            <h3 class="pull-right" style="color: #fff; font-size: 24px;">V-TOP</h3>
+          </div>
+        </nav>
+      </header>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="container">
+
+        <section class="content">
+
+          <div class="callout callout-success">
+            <h4>Spotlight</h4>
+
+            <p> New V-TOP version (2.0) Updates! </p>
+            <ul>
+              <li>Multitab Error has been replaced with New-Popup Window Concept.</li>
+              <li>New Dynamic Menu Bar (You may get submenus even menubar is collapsed).</li>
+              <li>New Academic Calendar Interface has been added under Academics->Calendar Menu.</li>
+              <li>User can set the "custom name" instead of register number or employee ID to login.</li>
+            </ul>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="box box-primary box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title ">V-TOP for Employees and Students</h3>
+
+                </div>
+
+                <div class="box-body">
+                  <h4 class="text-primary text-lg">V-TOP for Employee and Students</h4>
+                  <p class="text-primary">With Responsive and Fresh Look and Feel</p>
+                  <button class="btn btn-primary pull-right" onclick="openPage()">Go to V-TOP Login</button>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+              <div class="box box-info box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">V-TOP for Parents</h3>
+                </div>
+
+                <div class="box-body">
+                  <h4 class="text-primary text-lg">V-TOP for Parents</h4>
+                  <p class="text-primary">With more information about students</p>
+                  <button class="btn btn-info pull-right" onclick="openParentPage()">Go to Parent Login</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="footer navbar-fixed-bottom bg-primary">
+      <div class="container" style="color:white;">
+        <div class="pull-right hidden-xs">
+          <span>Software Development Cell (SDC)</span>
+        </div>
+        <span>Copyright &copy;</span>
+        <a href="http://www.vit.ac.in" style="color:white;" target="_blank">Vellore Institute of Technology (VIT)</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/jquery/jquery-3.3.1.min.js"></script>
+  <script src="assets/jquery/jquery-3.3.1.slim.min.js"></script>
+  <script src="assets/jquery-ui/jquery-ui.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+  <script>
+    /*<![CDATA[*/
+    function openPage() {
+      var gsid = 5017946;
+      var urlPop = "executeApp/?gsid=" + gsid;
+      var windowW = screen.availWidth;
+      var windowH = screen.availHeight;
+      var title = "VTop";
+      var autoclose = true;
+      s = "width=" + windowW + ",height=" + (windowH - 50);
+      var style = "toolbar=no,status = yes,border=1,menubar=no,scrollbars=yes,resizable=no,maximized=yes," + s;
+      var beIE = document.getElementById ? true : false;
+      if (beIE) {
+        NFW = window.open(urlPop, "popFrameless", style, false);
+        NFW.moveTo(-3, -3);
+        NFW.resizeTo(NFW.screen.availWidth + 8, NFW.screen.availHeight + 8);
+        if (NFW != null) {
+          window.opener = window;
+        } else {
+          document.write(
+            '<BR><BR><br><br><br><TABLE  align="center" border="0" width=100%><tr align="center"><td class="userInfo" align="center"><img src="/img/warningIcon.gif"></img>&nbsp;&nbsp;&nbsp;&nbsp;<B>Please enable Pop-up in your Browser.</B>&nbsp;</td></tr><tr align="center"><td>&nbsp;&nbsp;&nbsp;&nbsp;<B>Click on Tools->Pop-up Blocker->Turn off Pop-up Blocker.</B>&nbsp;</td></tr><tr align="center"><td>&nbsp;&nbsp;&nbsp;&nbsp;<B>Open a new Browser window and try connecting to https://vtopbeta.vit.ac.in/vtop</B>&nbsp;</td></tr></TABLE>'
+          );
+        }
+      } else {
+        NFW = window.open(urlPop, "popFrameless", "scrollbars," + s);
+        NFW.blur();
+        window.focus();
+        NFW.resizeTo(screen.availWidth, screen.availHeight);
+        NFW.moveTo(0, 0);
+      }
+      NFW.focus();
+    }
+
+
+    function openParentPage() {
+      var gsid = 5017946;
+      var urlPop = "executeParentApp/?gsid=" + gsid;
+      var windowW = screen.availWidth;
+      var windowH = screen.availHeight;
+      var title = "VTopParent";
+      var autoclose = true;
+      s = "width=" + windowW + ",height=" + (windowH - 50);
+      var style = "toolbar=no,status = yes,border=1,menubar=no,scrollbars=yes,resizable=no,maximized=yes," + s;
+      var beIE = document.getElementById ? true : false;
+      if (beIE) {
+        NFW = window.open(urlPop, "popFrameless", style, false);
+        NFW.moveTo(-3, -3);
+        NFW.resizeTo(NFW.screen.availWidth + 8, NFW.screen.availHeight + 8);
+        if (NFW != null) {
+          window.opener = window;
+        } else {
+          document.write(
+            '<BR><BR><br><br><br><TABLE  align="center" border="0" width=100%><tr align="center"><td class="userInfo" align="center"><img src="/img/warningIcon.gif"></img>&nbsp;&nbsp;&nbsp;&nbsp;<B>Please enable Pop-up in your Browser.</B>&nbsp;</td></tr><tr align="center"><td>&nbsp;&nbsp;&nbsp;&nbsp;<B>Click on Tools->Pop-up Blocker->Turn off Pop-up Blocker.</B>&nbsp;</td></tr><tr align="center"><td>&nbsp;&nbsp;&nbsp;&nbsp;<B>Open a new Browser window and try connecting to https://vtopbeta.vit.ac.in/vtop</B>&nbsp;</td></tr></TABLE>'
+          );
+        }
+      } else {
+        NFW = window.open(urlPop, "popFrameless", "scrollbars," + s);
+        NFW.blur();
+        window.focus();
+        NFW.resizeTo(screen.availWidth, screen.availHeight);
+        NFW.moveTo(0, 0);
+      }
+      NFW.focus();
+    }
+
+
+
+    /*]]>*/
+
+  </script>
+</body>
+
+</html>

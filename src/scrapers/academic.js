@@ -220,7 +220,6 @@ module.exports.parseHistoryBeta = (html) => {
           grade: gradeCharacter(i)
         });
       });
-      
       data.grades = data.grades.filter((grade) => grade.credits != null && !isNaN(grade.credits));
       return resolve(data);
     }

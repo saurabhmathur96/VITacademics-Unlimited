@@ -48,12 +48,26 @@ describe('Integration Tests', () => {
           let r;
 
           expect(res.body).to.have.property('attendance');
-          r = validator.validate(res.body.attendance, { "type": "array", "items": { "$ref": "/Attendance" } }, { nestedErrors: true });
+          r = validator.validate(res.body.attendance, {
+            "type": "array",
+            "items": {
+              "$ref": "/Attendance"
+            }
+          }, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true;
           expect(res.body.attendance.length).to.be.above(0);
 
           expect(res.body).to.have.property('timetable');
-          r = validator.validate(res.body.timetable, { "type": "array", "items": { "$ref": "/DailySchedule" } }, { nestedErrors: true });
+          r = validator.validate(res.body.timetable, {
+            "type": "array",
+            "items": {
+              "$ref": "/DailySchedule"
+            }
+          }, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true;
           expect(res.body.timetable.length).to.be.above(0);
 
@@ -61,13 +75,27 @@ describe('Integration Tests', () => {
           let exams = ['CAT - I', 'CAT - II', 'Final Assessment Test'];
           for (let i = 0; i < exams.length; i++) {
             expect(res.body.exam_schedule).to.have.property(exams[i]);
-            r = validator.validate(res.body.exam_schedule[exams[i]], { "type": "array", "items": { "$ref": "/ExamSchedule" } }, { nestedErrors: true });
+            r = validator.validate(res.body.exam_schedule[exams[i]], {
+              "type": "array",
+              "items": {
+                "$ref": "/ExamSchedule"
+              }
+            }, {
+              nestedErrors: true
+            });
             expect(r.valid).to.be.true;
             expect(res.body.exam_schedule[exams[i]].length).to.be.above(0);
           }
 
           expect(res.body).to.have.property('marks');
-          r = validator.validate(res.body.marks, { "type": "array", "items": { "$ref": "/Marks" } }, { nestedErrors: true });
+          r = validator.validate(res.body.marks, {
+            "type": "array",
+            "items": {
+              "$ref": "/Marks"
+            }
+          }, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true;
           expect(res.body.marks.length).to.be.above(0);
 
@@ -82,23 +110,28 @@ describe('Integration Tests', () => {
 
     it('POST /student/refresh semester=FS', (done) => {
       request.post('/student/refresh')
-        .send({ reg_no: credentials.reg_no, password: credentials.password, semester: 'FS' })
+        .send({
+          reg_no: credentials.reg_no,
+          password: credentials.password,
+          semester: 'FS'
+        })
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
           let r;
-
           expect(res.body).to.have.property('timetable');
-          r = validator.validate(res.body.timetable, { "type": "array", "items": { "$ref": "/DailySchedule" } }, { nestedErrors: true });
+          r = validator.validate(res.body.timetable, {
+            "type": "array",
+            "items": {
+              "$ref": "/DailySchedule"
+            }
+          }, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true;
           expect(res.body.timetable.length).to.be.above(0);
-
-
-
           expect(res.body).to.have.property('semester');
-
           expect(res.body).to.have.property('default_semester');
-
           done();
         });
     });
@@ -113,25 +146,47 @@ describe('Integration Tests', () => {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              messages: { "type": "array", required: true, "items": { "$ref": "/FacultyMessage" } },
-              spotlight: { "type": "array", required: true, "items": { "$ref": "/SpotlightItem" } },
-              cookies: { "type": "array", required: true, "items": { "type": "string" } }
+              messages: {
+                "type": "array",
+                required: true,
+                "items": {
+                  "$ref": "/FacultyMessage"
+                }
+              },
+              spotlight: {
+                "type": "array",
+                required: true,
+                "items": {
+                  "$ref": "/SpotlightItem"
+                }
+              },
+              cookies: {
+                "type": "array",
+                required: true,
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           }
-          let r = validator.validate(res.body, schema, { nestedErrors: true });
+          let r = validator.validate(res.body, schema, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true;
           done();
         });
     });
 
-    //alter however
+    // alter however
     xit('POST /student/coursepage', (done) => {
       request.post('/student/coursepage')
         .send(credentials)
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-          let r = validator.validate(res.body.details, {"$ref": "/CoursePage"});
+          let r = validator.validate(res.body.details, {
+            "$ref": "/CoursePage"
+          });
           expect(r.valid).to.be.true
           done();
         });
@@ -143,7 +198,9 @@ describe('Integration Tests', () => {
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
-          let r = validator.validate(res.body, { "$ref": "/Grades" });
+          let r = validator.validate(res.body, {
+            "$ref": "/Grades"
+          });
           expect(r.valid).to.be.true
           done();
         });
@@ -160,11 +217,24 @@ describe('Integration Tests', () => {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
-              "authorities": { "type": "array", "items": { "$ref": "/ApprovingAuthority", "minItems": 1 } }
+              "applications": {
+                "type": "array",
+                "items": {
+                  "$ref": "/HostelApplication"
+                }
+              },
+              "authorities": {
+                "type": "array",
+                "items": {
+                  "$ref": "/ApprovingAuthority",
+                  "minItems": 1
+                }
+              }
             }
           }
-          let r = validator.validate(res1.body, schema, { nestedErrors: true });
+          let r = validator.validate(res1.body, schema, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true
 
           const from = moment().hours(38);
@@ -182,7 +252,9 @@ describe('Integration Tests', () => {
             .expect(200)
             .end((err2, res2) => {
               expect(err2).to.not.exist;
-              r = validator.validate(res2.body, schema, { nestedErrors: true });
+              r = validator.validate(res2.body, schema, {
+                nestedErrors: true
+              });
               expect(r.valid).to.be.true;
 
               var index = res2.body.applications.map((e) => e.from).indexOf(from.format('DD-MMM-YYYY').toUpperCase());
@@ -199,7 +271,9 @@ describe('Integration Tests', () => {
                 .end((err3, res3) => {
                   expect(err3).to.not.exist;
 
-                  r = validator.validate(res3.body, schema, { nestedErrors: true });
+                  r = validator.validate(res3.body, schema, {
+                    nestedErrors: true
+                  });
                   expect(r.valid).to.be.true;
 
                   done();
@@ -219,11 +293,24 @@ describe('Integration Tests', () => {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
-              "authorities": { "type": "array", "items": { "$ref": "/ApprovingAuthority", "minItems": 1 } }
+              "applications": {
+                "type": "array",
+                "items": {
+                  "$ref": "/HostelApplication"
+                }
+              },
+              "authorities": {
+                "type": "array",
+                "items": {
+                  "$ref": "/ApprovingAuthority",
+                  "minItems": 1
+                }
+              }
             }
           }
-          let r = validator.validate(res1.body, schema, { nestedErrors: true });
+          let r = validator.validate(res1.body, schema, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true
 
           const from = moment().hours(38).add(60 * 60 * 1000 * 24);
@@ -242,7 +329,9 @@ describe('Integration Tests', () => {
             .expect(200)
             .end((err2, res2) => {
               expect(err2).to.not.exist;
-              r = validator.validate(res2.body, schema, { nestedErrors: true });
+              r = validator.validate(res2.body, schema, {
+                nestedErrors: true
+              });
               expect(r.valid).to.be.true;
 
               var index = res2.body.applications.map((e) => e.from).indexOf(from.format('DD-MMM-YYYY').toUpperCase());
@@ -258,7 +347,9 @@ describe('Integration Tests', () => {
                 .expect(200)
                 .end((err3, res3) => {
                   expect(err3).to.not.exist;
-                  r = validator.validate(res3.body, schema, { nestedErrors: true });
+                  r = validator.validate(res3.body, schema, {
+                    nestedErrors: true
+                  });
                   expect(r.valid).to.be.true;
 
                   done();
@@ -276,10 +367,14 @@ describe('Integration Tests', () => {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "applications": { "type": "array"}
+              "applications": {
+                "type": "array"
+              }
             }
           };
-          let r = validator.validate(res.body, schema, {nestedErrors: true});
+          let r = validator.validate(res.body, schema, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true
           done();
         });
@@ -294,10 +389,14 @@ describe('Integration Tests', () => {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "applications": { "type": "array" }
+              "applications": {
+                "type": "array"
+              }
             }
           };
-          let r = validator.validate(res.body, schema, { nestedErrors: true });
+          let r = validator.validate(res.body, schema, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true
           done();
         });
@@ -314,10 +413,17 @@ describe('Integration Tests', () => {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "applications": { "type": "array", "items": { "$ref": "/LateHoursApplication" } }
+              "applications": {
+                "type": "array",
+                "items": {
+                  "$ref": "/LateHoursApplication"
+                }
+              }
             }
           };
-          let r = validator.validate(res.body, schema, { nestedErrors: true });
+          let r = validator.validate(res.body, schema, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true
           done();
         });
@@ -348,10 +454,17 @@ describe('Integration Tests', () => {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "applications": { "type": "array", "items": { "$ref": "/LateHoursApplication" } }
+              "applications": {
+                "type": "array",
+                "items": {
+                  "$ref": "/LateHoursApplication"
+                }
+              }
             }
           };
-          let r = validator.validate(res.body, schema, { nestedErrors: true });
+          let r = validator.validate(res.body, schema, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true
 
           var index = res.body.applications.map((e) => e.from).indexOf(from.format('DD-MMM-YYYY').toUpperCase());
@@ -369,7 +482,9 @@ describe('Integration Tests', () => {
             .expect(200)
             .end((error, response) => {
               expect(error).to.not.exist;
-              r = validator.validate(response.body, schema, { nestedErrors: true });
+              r = validator.validate(response.body, schema, {
+                nestedErrors: true
+              });
               expect(r.valid).to.be.true;
 
               done();
@@ -385,7 +500,14 @@ describe('Integration Tests', () => {
         .end((err, res) => {
           expect(err).to.not.exist;
           expect(res.body).to.have.property('courses');
-          let r = validator.validate(res.body.courses, { "type": "array", "items": { "$ref": "/AssignmentBetaCourse" } }, { nestedErrors: true });
+          let r = validator.validate(res.body.courses, {
+            "type": "array",
+            "items": {
+              "$ref": "/AssignmentBetaCourse"
+            }
+          }, {
+            nestedErrors: true
+          });
           expect(r.valid).to.be.true;
           done();
         });
@@ -399,7 +521,14 @@ describe('Integration Tests', () => {
       .end((err, res) => {
         expect(err).to.not.exist;
         expect(res.body).to.have.property('faculty');
-        let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/Faculty" } }, { nestedErrors: true });
+        let r = validator.validate(res.body.faculty, {
+          "type": "array",
+          "items": {
+            "$ref": "/Faculty"
+          }
+        }, {
+          nestedErrors: true
+        });
         expect(r.valid).to.be.true;
         done();
       });
@@ -411,7 +540,14 @@ describe('Integration Tests', () => {
       .end((err, res) => {
         expect(err).to.not.exist;
         expect(res.body).to.have.property('schools');
-        let r = validator.validate(res.body.faculty, { "type": "array", "items": { "$ref": "/LateHoursSchool" } }, { nestedErrors: true });
+        let r = validator.validate(res.body.faculty, {
+          "type": "array",
+          "items": {
+            "$ref": "/LateHoursSchool"
+          }
+        }, {
+          nestedErrors: true
+        });
         expect(r.valid).to.be.true;
         done();
       });

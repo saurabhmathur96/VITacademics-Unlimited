@@ -19,7 +19,10 @@ module.exports.parseMessages = (html) => {
     try {
       const $ = cheerio.load(html);
       html = $('marquee[width=450]').html();
-      const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false });
+      const table = tabletojson.convert(html, {
+        ignoreEmptyRows: true,
+        allowHTML: false
+      });
 
       if (table.length < 1) {
         return resolve([]);
@@ -75,8 +78,14 @@ module.exports.parseSpotlight = (html) => {
   return new Promise((resolve, reject) => {
     try {
       const $ = cheerio.load(html);
-      let current = { title: '', data: [] };
-      let currentData = { link: '#', text: '' };
+      let current = {
+        title: '',
+        data: []
+      };
+      let currentData = {
+        link: '#',
+        text: ''
+      };
       const result = [];
       $('td').each((i, e) => {
         let item = $(e);
@@ -93,27 +102,35 @@ module.exports.parseSpotlight = (html) => {
           if (current.data.length > 0) {
             result.push(current);
           }
-          current = { title: itemText, data: [] };
+          current = {
+            title: itemText,
+            data: []
+          };
         } else {
           if (link !== null && link !== undefined) {
             current.data.push({
               link: link,
               text: currentData.text + itemText
             });
-            currentData = { link: '#', text: '' };
+            currentData = {
+              link: '#',
+              text: ''
+            };
           } else if (itemHTML === '<hr>' || itemHTML === '<hr/>') {
             if (currentData.text !== '') {
               current.data.push(currentData);
             }
-            currentData = { link: '#', text: '' };
+            currentData = {
+              link: '#',
+              text: ''
+            };
           } else {
             currentData.text += itemText;
           }
         }
       });
       return resolve(result);
-    }
-    catch (ex) {
+    } catch (ex) {
       return reject(ex);
     }
   })
@@ -122,9 +139,12 @@ module.exports.parseSpotlight = (html) => {
 
 module.exports.parseFaculty = html => {
   return new Promise((resolve, reject) => {
-    const table = tabletojson.convert(html, { ignoreEmptyRows: true, allowHTML: false })[0];
-    let details = {};    
-    for(let i = 0; i < table.length; i++){
+    const table = tabletojson.convert(html, {
+      ignoreEmptyRows: true,
+      allowHTML: false
+    })[0];
+    let details = {};
+    for (let i = 0; i < table.length; i++) {
       details[table[i][0]] = table[i][1];
     }
 

@@ -59,7 +59,7 @@ mongoose.connect('mongodb://localhost/student', {
   .then(_ => {
     logger.info('Connected to MongoDB instance.');
   })
-  .catch(err => logger.error('Unable To connect to MongoDB.', err.stack));;
+  .catch(err => logger.error('Unable To connect to MongoDB.', err.stack));
 
 app.use('/student', authentication);
 
