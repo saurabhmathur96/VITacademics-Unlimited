@@ -143,23 +143,27 @@ module.exports.parseFaculty = html => {
       ignoreEmptyRows: true,
       allowHTML: false
     })[0];
-    let details = {};
-    for (let i = 0; i < table.length; i++) {
-      details[table[i][0]] = table[i][1];
-    }
 
-    let details_formatted = {
-      empid: Number(details["Faculty ID"]),
-      name: details["Faculty Name"],
-      division: details["Faculty Department"],
-      school: details["School"],
-      room: details["Cabin"],
-      designation: details["Faculty Designation"],
-      intercom: details["Faculty intercom"],
-      email: details["Faculty Email"],
-      phone: details["Faculty Mobile Number"]
-    };
-    resolve(details_formatted);
+    if(table) {
+      let details = {};
+      for (let i = 0; i < table.length; i++) {
+        details[table[i][0]] = table[i][1];
+      }
+
+      let details_formatted = {
+        empid: Number(details["Faculty ID"]),
+        name: details["Faculty Name"],
+        division: details["Faculty Department"],
+        school: details["School"],
+        room: details["Cabin"],
+        designation: details["Faculty Designation"],
+        intercom: details["Faculty intercom"],
+        email: details["Faculty Email"],
+        phone: details["Faculty Mobile Number"]
+      };
+      resolve(details_formatted);
+    }
+    else resolve({});
   }).catch(ex => {
     return Promise.reject(ex);
   });
