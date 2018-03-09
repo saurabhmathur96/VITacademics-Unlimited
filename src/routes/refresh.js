@@ -91,6 +91,13 @@ router.post('/', (req, res, next) => {
   fetchData.then(results => {
     // Finally, send results as json.
     if(campus === 'vellore'){
+      if(results[0].length === 0){
+        res.json({
+          error: 'Some unknown error occurred',
+          message: 'Some unknown error occurred'
+      });
+        return;
+      }
     res.json({
       'attendance': results[0],
       'timetable': results[1],
