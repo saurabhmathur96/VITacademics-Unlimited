@@ -17,7 +17,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
  * @param {String} password
  * @param {String} [campus]
  */
-function getCookieBeta(username, password, campus) {
+function getCookieBeta(username, password, campus,attempt=0) {
   return requests.getCookies('https://vtopbeta.vit.ac.in/vtop/', null)
     .then(result => {
       return gsidScraper.getGsid(result.body)
@@ -53,6 +53,11 @@ function getCookieBeta(username, password, campus) {
         // retry
         return getCookieBeta(username, password);
       } else if (errorMessage) {
+        if(attempt<3){
+          attempt += 1;
+          console.log("Attempting another time");
+          return getCookieBeta(username,password,campus,attempt);
+        }
         logger.error('Error signing in to VTOP beta', errorMessage);
       }
       return result.cookies;
