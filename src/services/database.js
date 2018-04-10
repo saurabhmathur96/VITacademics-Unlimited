@@ -168,7 +168,7 @@ class FacultyCollection {
    * @returns {Promise<Object>}
    */
   getAll(){
-    return Faculty.find({});
+    return Faculty.find({empid:{$exists:true}});
   }
 
 }
