@@ -219,7 +219,7 @@ module.exports.parseExamBeta = (html) => {
             session: row[7],
             time: row[8],
             venue: row[9],
-            table_number: row[10]
+            table_number: row[11]
           })
         }
       }
