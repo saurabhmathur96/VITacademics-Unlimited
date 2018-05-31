@@ -16,7 +16,7 @@ const facultySchema = new Schema({
     email: String, 
     room: String,
     phone: String
-});
+},{ usePushEach: true });
 
 
 module.exports = mongoose.model("Faculty", facultySchema);

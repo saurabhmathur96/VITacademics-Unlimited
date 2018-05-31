@@ -6,14 +6,14 @@ const marksSchema = new Schema({
     is_present: Boolean,
     scored_marks: {type: Number, required: true},
     marks_type: {type: String, required: true}
-})
+},{ usePushEach: true })
 
 const courseSchema = new Schema({
     class_number: {type: String, required: true},
     course_title: String,
     course_code: String,
     marks: [marksSchema]
-});
+},{ usePushEach: true });
 
 
 module.exports = mongoose.model("Course", courseSchema);
