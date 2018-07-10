@@ -25,13 +25,13 @@ const defaultSemester = process.env.SEM || 'WS';
 
 router.post('/', (req, res, next) => {
   let fetchData = null;
-  const semester = req.body.semester;
+  const semester = 'FS'; //Force FS temporarily req.body.semester;
   const campus = req.body.campus;
   const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY');
   const year = moment().tz('Asia/Kolkata').format('YYYY');
 
   let courseCollection  = new database.CourseCollection();
-  const semId = (semester === 'FS' ? 'VL2017181' : 'VL2017185');
+  const semId = (semester === 'FS' ? 'VL2018191' : 'VL2017185');
   if (campus === 'vellore') {
     // Use vtopbeta for data
     const uri = {
@@ -91,13 +91,6 @@ router.post('/', (req, res, next) => {
   fetchData.then(results => {
     // Finally, send results as json.
     if(campus === 'vellore'){
-      if(results[0].length === 0){
-        res.json({
-          error: 'Some unknown error occurred',
-          message: 'Some unknown error occurred'
-      });
-        return;
-      }
     res.json({
       'attendance': results[0],
       'timetable': results[1],

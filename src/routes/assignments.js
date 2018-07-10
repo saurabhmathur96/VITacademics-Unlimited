@@ -15,8 +15,8 @@ const router = express.Router();
  * respond with CAL Assignment details for given student
  */
 router.post('/', (req, res, next) => {
-  const semester = req.body.semester;
-  const semId = (semester === 'FS' ? 'VL2017181' : 'VL2017185');
+  const semester = 'FS'; //Force FS temporarily req.body.semester;
+  const semId = (semester === 'FS' ? 'VL2018191' : 'VL2017185');
   if (req.body.campus === 'chennai') {
     res.json({ 'courses': [] });
     return;
