@@ -559,3 +559,44 @@ This API documentation refers to JSON schemas (ex. Attendance) which can be foun
       schools: Array<LateHoursSchool>
     }
     ````
+
+
+**Curriculum**
+----
+  _Scrapes my curriculum. [Vellore only]_
+
+* **URL**
+
+  _/student/curriculum_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `reg_no`=[string]
+
+  `password`=[string]
+
+
+* **Success Response:**
+
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      pc : Array<Course>,
+      pe : Array<Course>,
+      ue : Array<Course>,
+      uc : Array<Course>
+    }
+    ````
+
+* **Error Response:**
+
+  * **Code:** 403 UNAUTHORIZED
+
+  * **Code:** 400 BAD REQUEST
+

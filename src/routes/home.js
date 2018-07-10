@@ -15,8 +15,14 @@ const router = express.Router();
  *
  * respond with spotlight items and faculty messages
  */
+
+ //TODO : Spotlight, Messages from VtopBeta
 router.post('/', (req, res, next) => {
-  const campus = req.body.campus;
+  const campus = req.body.campus || 'vellore';
+  if(campus === 'vellore'){
+    res.json({'spotlight': [], 'messages': []});
+  }
+  else {
   const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
   const uri = {
     spotlight: `${baseUri}/include_spotlight.asp`,
@@ -30,6 +36,7 @@ router.post('/', (req, res, next) => {
   Promise.all(tasks)
     .then(results => res.json({ 'spotlight': results[0], 'messages': results[1].sort(dateTimeComparator), 'cookies': req.cookies }))
     .catch(next);
+  }
 });
 
 

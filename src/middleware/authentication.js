@@ -54,20 +54,8 @@ module.exports = (req, res, next) => {
 
       req.body.campus = req.body.campus || 'vellore';
       const campus = req.body.campus;
-      var portal = (req.url === '/refresh' && campus === 'vellore') ? 'vtopbeta' : 'vtop';
-      if (
-        req.url === '/assignments' ||
-        req.url === '/coursepage' ||
-        req.url.startsWith('/hostelbeta/') ||
-        req.url.startsWith('/latebeta') ||
-        req.url === '/grades'
-      ) {
-        portal = 'vtopbeta';
-      }
-
-      if (req.url === '/assignments' && req.body.campus === 'chennai') {
-        portal = 'vtop';
-      }
+      var portal = (campus === 'vellore') ? 'vtopbeta' : 'vtop';
+      
       req.body.reg_no = req.body.reg_no.toUpperCase();
 
 
