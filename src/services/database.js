@@ -2,12 +2,11 @@
  * Persistent data storage service implemnted with MongoDB.
  * @module services/database
  */
-const crypto = require('crypto');
-const MongoClient = require('mongodb').MongoClient;
-const Promise = require('bluebird');
+const crypto = require("crypto");
+const Promise = require("bluebird");
 const Course = require("../models/course");
 const Faculty = require("../models/faculty");
-const cache = require('memory-cache');
+const cache = require("memory-cache");
 
 // Schema
 // {
@@ -34,53 +33,54 @@ class CourseCollection {
     const updateDb = marksReport => {
       // console.log(marksReport)
       return Course.findOne({
-          class_number: marksReport.class_number
-        }).exec()
+        class_number: marksReport.class_number
+      })
+        .exec()
         .then(course => {
           if (course == null) {
             let newCourse = new Course({
               class_number: marksReport["class_number"],
               course_code: marksReport["course_code"],
               course_title: marksReport["course_title"]
-            })
+            });
 
             return newCourse.save();
           } else {
             return Promise.resolve(course);
           }
-        }).then(course => {
+        })
+        .then(course => {
           for (var i = 0; i < marksReport.marks.length; i++) {
-            
-            if(isNaN(marksReport.marks[i].scored_marks))
-              continue;
+            if (isNaN(marksReport.marks[i].scored_marks)) continue;
 
-            let hreg = crypto.createHash('md5')
+            let hreg = crypto
+              .createHash("md5")
               .update(`${reg_no}`)
-              .digest('hex');
-             let id = crypto.createHash('md5')
+              .digest("hex");
+            let id = crypto
+              .createHash("md5")
               .update(`${hreg}_${marksReport.marks[i].title}`)
-               .digest('hex');
+              .digest("hex");
 
             var mark = course.marks.id(id);
             if (mark != null) {
-              mark.is_present = (marksReport.marks[i].status === "Present");
+              mark.is_present = marksReport.marks[i].status === "Present";
               mark.scored_marks = marksReport.marks[i].scored_marks;
             } else {
               course.marks.push({
                 _id: id,
-                is_present: (marksReport.marks[i].status === "Present"),
+                is_present: marksReport.marks[i].status === "Present",
                 scored_marks: marksReport.marks[i].scored_marks,
                 marks_type: marksReport.marks[i].title
-              })
+              });
             }
-
           }
 
           return course.save();
-        })
-    }
+        });
+    };
 
-    return Promise.all(marksReports.map(updateDb))
+    return Promise.all(marksReports.map(updateDb));
   }
 
   /**
@@ -91,12 +91,12 @@ class CourseCollection {
   aggregate(classNumber) {
     let aggregate = cache.get(`marks_${classNumber}`);
 
-    if (aggregate != null)
-      return Promise.resolve(aggregate);
+    if (aggregate != null) return Promise.resolve(aggregate);
     else
-      return Course.aggregate([{
+      return Course.aggregate([
+        {
           $match: {
-            'class_number': String(classNumber)
+            class_number: String(classNumber)
           }
         },
         {
@@ -104,21 +104,21 @@ class CourseCollection {
         },
         {
           $group: {
-            _id: '$marks.marks_type',
+            _id: "$marks.marks_type",
             average: {
-              $avg: '$marks.scored_marks'
+              $avg: "$marks.scored_marks"
             },
             count: {
               $sum: 1
             },
             minimum: {
-              $min: '$marks.scored_marks'
+              $min: "$marks.scored_marks"
             },
             maximum: {
-              $max: '$marks.scored_marks'
+              $max: "$marks.scored_marks"
             },
             standard_deviation: {
-              $stdDevPop: '$marks.scored_marks'
+              $stdDevPop: "$marks.scored_marks"
             }
           }
         }
@@ -139,42 +139,39 @@ class CourseCollection {
 
 /**
  * @class FacultyCollection
- * 
+ *
  */
 class FacultyCollection {
-
   /**
    * @method insertOrUpdate
    * @param {Object} faculty_details
-   * @returns {Promise<Object>} 
+   * @returns {Promise<Object>}
    */
-  insertOrUpdate(faculty_details){
-    return Faculty.findOne({empid: faculty_details["empid"]}).
-    then(faculty => {
-      if(faculty == null){
-        let newFaculty = new Faculty(faculty_details);
-        return newFaculty.save();
-
-      }else{
-        if(faculty_details.phone != null && faculty.phone == null)
-          faculty.phone = faculty_details.phone;
-        return faculty.save();
+  insertOrUpdate(faculty_details) {
+    return Faculty.findOne({ empid: faculty_details["empid"] }).then(
+      faculty => {
+        if (faculty == null) {
+          let newFaculty = new Faculty(faculty_details);
+          return newFaculty.save();
+        } else {
+          if (faculty_details.phone != null && faculty.phone == null)
+            faculty.phone = faculty_details.phone;
+          return faculty.save();
+        }
       }
-    })  
+    );
   }
 
   /**
    * @method getAll
    * @returns {Promise<Object>}
    */
-  getAll(){
-    return Faculty.find({empid:{$exists:true}});
+  getAll() {
+    return Faculty.find({ empid: { $exists: true } });
   }
-
 }
-
 
 module.exports = {
   CourseCollection,
   FacultyCollection
-}
+};

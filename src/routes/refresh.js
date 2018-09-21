@@ -1,21 +1,30 @@
 /**
  * @module routes/refresh
  */
-const path = require('path');
-const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
-const attendance = require(path.join(__dirname, '..', 'scrapers', 'attendance'));
-const schedule = require(path.join(__dirname, '..', 'scrapers', 'schedule'));
-const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
-const home = require(path.join(__dirname, '..', 'scrapers', 'home'));
-const notification = require(path.join(__dirname, '..', 'services', 'notification'));
-const moment = require('moment-timezone');
-const Promise = require('bluebird');
-const express = require('express');
+const path = require("path");
+const requests = require(path.join(__dirname, "..", "utilities", "requests"));
+const attendance = require(path.join(
+  __dirname,
+  "..",
+  "scrapers",
+  "attendance"
+));
+const schedule = require(path.join(__dirname, "..", "scrapers", "schedule"));
+const academic = require(path.join(__dirname, "..", "scrapers", "academic"));
+const home = require(path.join(__dirname, "..", "scrapers", "home"));
+const notification = require(path.join(
+  __dirname,
+  "..",
+  "services",
+  "notification"
+));
+const moment = require("moment-timezone");
+const Promise = require("bluebird");
+const express = require("express");
 const router = express.Router();
-const database = require('../services/database');
+const database = require("../services/database");
 
-
-const defaultSemester = process.env.SEM || 'WS';
+const defaultSemester = process.env.SEM || "WS";
 
 /**
  * POST /refresh
@@ -23,137 +32,194 @@ const defaultSemester = process.env.SEM || 'WS';
  * respond with (daily, exam) schedule, attendance and marks details
  */
 
-router.post('/', (req, res, next) => {
+router.post("/", (req, res, next) => {
   let fetchData = null;
-  const semester = 'FS'; //Force FS temporarily req.body.semester;
+  const semester = "FS"; // Force FS temporarily req.body.semester;
   const campus = req.body.campus;
-  const today = moment().tz('Asia/Kolkata').format('DD-MMM-YYYY');
-  const year = moment().tz('Asia/Kolkata').format('YYYY');
+  const today = moment()
+    .tz("Asia/Kolkata")
+    .format("DD-MMM-YYYY");
+  const year = moment()
+    .tz("Asia/Kolkata")
+    .format("YYYY");
 
-  let courseCollection  = new database.CourseCollection();
-  const semId = (semester === 'FS' ? 'VL2018191' : 'VL2017185');
-  if (campus === 'vellore') {
+  let courseCollection = new database.CourseCollection();
+  const semId = semester === "FS" ? "VL2018191" : "VL2017185";
+  if (campus === "vellore") {
     // Use vtopbeta for data
     const uri = {
       schedule: {
-        timetable: 'https://vtopbeta.vit.ac.in/vtop/processViewTimeTable',
-        exam: 'https://vtopbeta.vit.ac.in/vtop/examinations/doSearchExamScheduleForStudent'
+        timetable: "https://vtopbeta.vit.ac.in/vtop/processViewTimeTable",
+        exam:
+          "https://vtopbeta.vit.ac.in/vtop/examinations/doSearchExamScheduleForStudent"
       },
       attendance: {
-        report: 'https://vtopbeta.vit.ac.in/vtop/processViewStudentAttendance',
-        details: 'https://vtopbeta.vit.ac.in/vtop/processViewAttendanceDetail'
+        report: "https://vtopbeta.vit.ac.in/vtop/processViewStudentAttendance",
+        details: "https://vtopbeta.vit.ac.in/vtop/processViewAttendanceDetail"
       },
-      marks: 'https://vtopbeta.vit.ac.in/vtop/examinations/doStudentMarkView'
-    }
+      marks: "https://vtopbeta.vit.ac.in/vtop/examinations/doStudentMarkView"
+    };
 
     const tasks = [
-      requests.post(uri.attendance.report, req.cookies, { 'semesterSubId': semId })
+      requests
+        .post(uri.attendance.report, req.cookies, { semesterSubId: semId })
         .then(attendance.parseReportBeta)
-        .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetailsBeta)),
-      requests.post(uri.schedule.timetable, req.cookies, { 'semesterSubId': semId })
+        .then(courses =>
+          fetchAttendanceDetails(
+            courses,
+            uri.attendance.details,
+            req.cookies,
+            attendance.parseDetailsBeta
+          )
+        ),
+      requests
+        .post(uri.schedule.timetable, req.cookies, { semesterSubId: semId })
         .then(schedule.parseDailyBeta),
-      requests.post(uri.schedule.exam, req.cookies, { 'semesterSubId': semId })
+      requests
+        .post(uri.schedule.exam, req.cookies, { semesterSubId: semId })
         .then(schedule.parseExamBeta),
-      requests.post(uri.marks, req.cookies,  {'semesterSubId': semId })
+      requests
+        .post(uri.marks, req.cookies, { semesterSubId: semId })
         .then(academic.parseMarksBeta)
-        .then(marksReports => updateMarksCollection(courseCollection, marksReports, req.body.reg_no, semester, year))
-    ]
+        .then(marksReports =>
+          updateMarksCollection(
+            courseCollection,
+            marksReports,
+            req.body.reg_no,
+            semester,
+            year
+          )
+        )
+    ];
     // { 'CAT - I': [], 'CAT - II': [], 'Final Assessment Test': [] }
-    fetchData = Promise.all(tasks).then((results) => [results[0], results[1], results[2], results[3]]);
+    fetchData = Promise.all(tasks).then(results => [
+      results[0],
+      results[1],
+      results[2],
+      results[3]
+    ]);
   } else {
     // Use vtop for data
-    const baseUri = (campus === 'chennai' ? 'https://academicscc.vit.ac.in/student' : 'https://vtop.vit.ac.in/student');
+    let baseUri;
+    if (campus === "chennai") {
+      baseUri = "https://academicscc.vit.ac.in/student";
+    } else {
+      baseUri = "https://vtop.vit.ac.in/student";
+    }
     const uri = {
       attendance: {
         report: `${baseUri}/attn_report.asp?sem=${semester}&fmdt=01-Jan-2016&todt=${today}`,
-        details: `${baseUri}/attn_report_details.asp`,
+        details: `${baseUri}/attn_report_details.asp`
       },
       schedule: {
         timetable: `${baseUri}/course_regular.asp?sem=${semester}`,
-        exam: `${baseUri}/exam_schedule.asp?sem=${semester}`,
+        exam: `${baseUri}/exam_schedule.asp?sem=${semester}`
       },
       marks: `${baseUri}/marks.asp?sem=${semester}`
     };
 
-
     const tasks = [
-      requests.get(uri.attendance.report, req.cookies)
+      requests
+        .get(uri.attendance.report, req.cookies)
         .then(attendance.parseReport)
-        .then(courses => fetchAttendanceDetails(courses, uri.attendance.details, req.cookies, attendance.parseDetails)),
-      requests.get(uri.schedule.timetable, req.cookies)
+        .then(courses =>
+          fetchAttendanceDetails(
+            courses,
+            uri.attendance.details,
+            req.cookies,
+            attendance.parseDetails
+          )
+        ),
+      requests
+        .get(uri.schedule.timetable, req.cookies)
         .then(schedule.parseDaily),
-      requests.get(uri.schedule.exam, req.cookies)
-        .then(schedule.parseExam),
+      requests.get(uri.schedule.exam, req.cookies).then(schedule.parseExam)
     ];
 
-    fetchData = Promise.all(tasks)
+    fetchData = Promise.all(tasks);
   }
-  fetchData.then(results => {
-    // Finally, send results as json.
-    if(campus === 'vellore'){
-    res.json({
-      'attendance': results[0],
-      'timetable': results[1],
-      'exam_schedule': results[2],
-      'marks': results[3],
-      'assignments': results[4],
-      'semester': req.body.semester,
-      'default_semester': defaultSemester
-    })
-  }
-    else{
-      res.json({
-      'attendance': results[0],
-      'timetable': results[1],
-      'exam_schedule': results[2],
-      'marks': [],
-      'assignments': [],
-      'semester': req.body.semester,
-      'default_semester': defaultSemester
-    })
-    }
+  fetchData
+    .then(results => {
+      // Finally, send results as json.
+      if (campus === "vellore") {
+        res.json({
+          attendance: results[0],
+          timetable: results[1],
+          exam_schedule: results[2],
+          marks: results[3],
+          assignments: results[4],
+          semester: req.body.semester,
+          default_semester: defaultSemester
+        });
+      } else {
+        res.json({
+          attendance: results[0],
+          timetable: results[1],
+          exam_schedule: results[2],
+          marks: [],
+          assignments: [],
+          semester: req.body.semester,
+          default_semester: defaultSemester
+        });
+      }
 
-    if(campus !== 'chennai'){
-    process.nextTick(() => {
-      const facultyCollection = new database.FacultyCollection();
-      const facultyUrl = "https://vtopbeta.vit.ac.in/vtop/proctor/viewProctorDetails";
-      requests.post(facultyUrl, req.cookies, {})
-      .then(home.parseFaculty)
-      .then(facultyCollection.insertOrUpdate)
+      if (campus !== "chennai") {
+        process.nextTick(() => {
+          const facultyCollection = new database.FacultyCollection();
+          const facultyUrl =
+            "https://vtopbeta.vit.ac.in/vtop/proctor/viewProctorDetails";
+          requests
+            .post(facultyUrl, req.cookies, {})
+            .then(home.parseFaculty)
+            .then(facultyCollection.insertOrUpdate);
+        });
+      }
     })
-  }
-  }).catch(next);
+    .catch(next);
 });
 
-
-
-
 function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
-  return Promise.all(courses.map(course => {
-    return requests.post(uri, cookies, course.form)
-      .then(parseDetails).then((details) => {
+  return Promise.all(
+    courses.map(course => {
+      return requests
+        .post(uri, cookies, course.form)
+        .then(parseDetails)
+        .then(details => {
+          if (details.length > 0 && course.attendance_percentage === "0") {
+            const units =
+              course.slot[0] === "L" ? course.slot.split("+").length : 1;
+            const total_classes = units * details.length;
+            const attended_classes =
+              total_classes -
+              details.reduce(
+                (sum, detail) => sum + units * (detail.status === "Absent"),
+                0
+              );
+            const attendance_percentage = (
+              (attended_classes * 100) /
+              total_classes
+            ).toFixed();
 
-        if (details.length > 0 && course.attendance_percentage === '0') {
-          const units = (course.slot[0] === 'L' ? course.slot.split('+').length : 1);
-          const total_classes = units * details.length;
-          const attended_classes = total_classes - details.reduce((sum, detail) => sum + units * (detail.status === 'Absent'), 0);
-          const attendance_percentage = (attended_classes * 100 / total_classes).toFixed();
+            course.total_classes = total_classes.toString();
+            course.attended_classes = attended_classes.toString();
+            course.attendance_percentage = attendance_percentage.toString();
+          }
 
-          course.total_classes = total_classes.toString();
-          course.attended_classes = attended_classes.toString();
-          course.attendance_percentage = attendance_percentage.toString();
-        }
-
-        course.details = details;
-        delete course.form;
-        return course;
-      });
-  }));
+          course.details = details;
+          delete course.form;
+          return course;
+        });
+    })
+  );
 }
 
-
-function updateMarksCollection(courseCollection, marksReports, reg_no, semester, year) {
-
+function updateMarksCollection(
+  courseCollection,
+  marksReports,
+  reg_no,
+  semester,
+  year
+) {
   // const marks = [];
   // for (let i = 0; i < marksReports.length; i++) {
   //   for (let j = 0; j < marksReports[i].marks.length; j++) {
@@ -167,29 +233,31 @@ function updateMarksCollection(courseCollection, marksReports, reg_no, semester,
   //   }
   // }
 
-  return courseCollection.insertOrUpdateMarks(reg_no, marksReports)
-    .then(() => {
-      const processReport = report =>
-        courseCollection.aggregate(report.class_number)
-          .then(aggregates => {
-            const tasks = [];
-            const topic = `${semester}/${year}/${report.class_number}`;
-            for (let i = 0; i < report.marks.length; i++) {
-              const title = report.marks[i].title
-              report.marks[i].aggregates = aggregates[title];
-              if (report.marks[i].count === 1) {
-                tasks.push(notification.sendNotification(topic, `Marks updated for ${title}`))
-              }
+  return courseCollection.insertOrUpdateMarks(reg_no, marksReports).then(() => {
+    const processReport = report =>
+      courseCollection
+        .aggregate(report.class_number)
+        .then(aggregates => {
+          const tasks = [];
+          const topic = `${semester}/${year}/${report.class_number}`;
+          for (let i = 0; i < report.marks.length; i++) {
+            const title = report.marks[i].title;
+            report.marks[i].aggregates = aggregates[title];
+            if (report.marks[i].count === 1) {
+              tasks.push(
+                notification.sendNotification(
+                  topic,
+                  `Marks updated for ${title}`
+                )
+              );
             }
-            return Promise.all([report, tasks]);
-          })
-          .then(result => result[0])
+          }
+          return Promise.all([report, tasks]);
+        })
+        .then(result => result[0]);
 
-      return Promise.all(marksReports.map(processReport));
-    });
+    return Promise.all(marksReports.map(processReport));
+  });
 }
-
-
-
 
 module.exports = router;

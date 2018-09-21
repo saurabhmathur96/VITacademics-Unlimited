@@ -1,363 +1,574 @@
-var fs = require('fs');
-var path = require('path');
-var expect = require('chai').expect;
-var Promise = require('bluebird');
-var Validator = require('jsonschema').Validator;
-var logger = require('winston');
+var fs = require("fs");
+var path = require("path");
+var expect = require("chai").expect;
+var Promise = require("bluebird");
+var Validator = require("jsonschema").Validator;
+var logger = require("winston");
 
-var home = require(path.join(__dirname, '..', 'src', 'scrapers', 'home'));
-var attendance = require(path.join(__dirname, '..', 'src', 'scrapers', 'attendance'));
-var schedule = require(path.join(__dirname, '..', 'src', 'scrapers', 'schedule'));
-var academic = require(path.join(__dirname, '..', 'src', 'scrapers', 'academic'));
-var hostel = require(path.join(__dirname, '..', 'src', 'scrapers', 'hostel'));
-var cal = require(path.join(__dirname, '..', 'src', 'scrapers', 'cal'));
-var assignment = require(path.join(__dirname, '..', 'src', 'scrapers', 'assignment'))
-var coursepage = require(path.join(__dirname, '..', 'src', 'scrapers', 'coursepage'))
+var home = require(path.join(__dirname, "..", "src", "scrapers", "home"));
+var attendance = require(path.join(
+  __dirname,
+  "..",
+  "src",
+  "scrapers",
+  "attendance"
+));
+var schedule = require(path.join(
+  __dirname,
+  "..",
+  "src",
+  "scrapers",
+  "schedule"
+));
+var academic = require(path.join(
+  __dirname,
+  "..",
+  "src",
+  "scrapers",
+  "academic"
+));
+var hostel = require(path.join(__dirname, "..", "src", "scrapers", "hostel"));
+var cal = require(path.join(__dirname, "..", "src", "scrapers", "cal"));
+var assignment = require(path.join(
+  __dirname,
+  "..",
+  "src",
+  "scrapers",
+  "assignment"
+));
+var coursepage = require(path.join(
+  __dirname,
+  "..",
+  "src",
+  "scrapers",
+  "coursepage"
+));
 // Power up the jsonschema validator
 var validator = new Validator();
 
 // Read and load each schema file from schemas/
-var schemaFiles = fs.readdirSync(path.join(__dirname, '..', 'schemas'));
-schemaFiles.forEach((fileName) => {
+var schemaFiles = fs.readdirSync(path.join(__dirname, "..", "schemas"));
+schemaFiles.forEach(fileName => {
   try {
-    let filePath = path.join(__dirname, '..', 'schemas', fileName);
+    let filePath = path.join(__dirname, "..", "schemas", fileName);
     let schema = JSON.parse(fs.readFileSync(filePath));
     validator.addSchema(schema);
-
   } catch (ex) {
     logger.error(`${fileName} contains invalid JSON.`, ex);
   }
 });
 
-describe('Unit Tests', () => {
-
-  it('scrape coursepage', (done) => {
-    let filePath = path.join('test', 'data', 'coursepage.html');
-    let html = fs.readFileSync(filePath, 'utf8');
+describe("Unit Tests", () => {
+  it("scrape coursepage", done => {
+    let filePath = path.join("test", "data", "coursepage.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = coursepage.parseCoursePageBeta(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "object", "items": { "$ref": "/CoursePage" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "object", items: { $ref: "/CoursePage" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape cal course', (done) => {
-    let filePath = path.join('test', 'data', 'cal.html');
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape cal course", done => {
+    let filePath = path.join("test", "data", "cal.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = cal.parseCourses(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/CalCourseReport" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/CalCourseReport" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape cal assignment', (done) => {
-    let filePath = path.join('test', 'data', 'assignments.html');
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape cal assignment", done => {
+    let filePath = path.join("test", "data", "assignments.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = cal.parseAssignments(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/CalAssignment" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/CalAssignment" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape assignment beta course', (done) => {
-    let filePath = path.join('test', 'data', 'assignment_beta_courses.html');
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape assignment beta course", done => {
+    let filePath = path.join("test", "data", "assignment_beta_courses.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = assignment.parseCourses(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AssignmentBetaCourse" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/AssignmentBetaCourse" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape assignment beta', (done) => {
-    let filePath = path.join('test', 'data', 'assignment_beta.html');
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape assignment beta", done => {
+    let filePath = path.join("test", "data", "assignment_beta.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = assignment.parseDA(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AssignmentBeta" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/AssignmentBeta" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape attendance report', (done) => {
-    let filePath = path.join('test', 'data', 'attn_report.html');
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape attendance report", done => {
+    let filePath = path.join("test", "data", "attn_report.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = attendance.parseReport(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AttendanceReport" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/AttendanceReport" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape attendance report beta', (done) => {
-    let filePath = path.join('test', 'data', 'processViewStudentAttendance.html');
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape attendance report beta", done => {
+    let filePath = path.join(
+      "test",
+      "data",
+      "processViewStudentAttendance.html"
+    );
+    let html = fs.readFileSync(filePath, "utf8");
     let task = attendance.parseReportBeta(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AttendanceReport" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/AttendanceReport" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape attendance details', (done) => {
-    let filePath = path.join('test', 'data', 'attn_report_details.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape attendance details", done => {
+    let filePath = path.join("test", "data", "attn_report_details.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = attendance.parseDetails(html);
     expect(task).to.be.instanceof(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AttendanceDetail" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/AttendanceDetail" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape attendance details beta', (done) => {
-    let filePath = path.join('test', 'data', 'processViewAttendanceDetail.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape attendance details beta", done => {
+    let filePath = path.join(
+      "test",
+      "data",
+      "processViewAttendanceDetail.html"
+    );
+    let html = fs.readFileSync(filePath, "utf8");
     let task = attendance.parseDetailsBeta(html);
     expect(task).to.be.instanceof(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/AttendanceDetail" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/AttendanceDetail" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape grades', (done) => {
-    let filePath = path.join('test', 'data', 'student_history.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape grades", done => {
+    let filePath = path.join("test", "data", "student_history.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = academic.parseHistory(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "$ref": "/Grades" });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(result, { $ref: "/Grades" });
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape grades history beta', (done) => {
-    let filePath = path.join('test', 'data', 'student_history_beta.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape grades history beta", done => {
+    let filePath = path.join("test", "data", "student_history_beta.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = academic.parseHistoryBeta(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "$ref": "/Grades" });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(result, { $ref: "/Grades" });
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape grades beta', (done) => {
-    let filePath = path.join('test', 'data', 'grades.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape grades beta", done => {
+    let filePath = path.join("test", "data", "grades.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = academic.parseGrades(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "$ref": "/Grades" });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(result, { $ref: "/Grades" });
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape marks', (done) => {
-    let filePath = path.join('test', 'data', 'marks.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape marks", done => {
+    let filePath = path.join("test", "data", "marks.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = academic.parseMarks(html);
     expect(task).to.be.instanceOf(Promise);
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/Marks" }, "minItems": 1 }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/Marks" }, minItems: 1 },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape marks beta', (done) => {
-    let filePath = path.join('test', 'data', 'marks_beta.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape marks beta", done => {
+    let filePath = path.join("test", "data", "marks_beta.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = academic.parseMarksBeta(html);
     expect(task).to.be.instanceOf(Promise);
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/MarksBeta" }, "minItems": 1 }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/MarksBeta" }, minItems: 1 },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape timetable', (done) => {
-    let filePath = path.join('test', 'data', 'course_regular.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape timetable", done => {
+    let filePath = path.join("test", "data", "course_regular.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = schedule.parseDaily(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/DailySchedule" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/DailySchedule" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape timetable beta', (done) => {
-    let filePath = path.join('test', 'data', 'processViewTimeTable.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape timetable beta", done => {
+    let filePath = path.join("test", "data", "processViewTimeTable.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = schedule.parseDailyBeta(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/DailySchedule" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
-      done();
-    }).catch(err => { throw err; })
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/DailySchedule" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape exam schedule', (done) => {
-    let filePath = path.join('test', 'data', 'exam_schedule.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape exam schedule", done => {
+    let filePath = path.join("test", "data", "exam_schedule.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = schedule.parseExam(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let exams = ['CAT - I', 'CAT - II', 'Final Assessment Test'];
-      for (let i = 0; i < exams.length; i++) {
-        expect(result).to.have.property(exams[i]);
-        let r = validator.validate(result[exams[i]], { "type": "array", "items": { "$ref": "/ExamSchedule" } }, { nestedErrors: true });
-        expect(r.valid).to.be.true;
-      }
+    task
+      .then(result => {
+        let exams = ["CAT - I", "CAT - II", "Final Assessment Test"];
+        for (let i = 0; i < exams.length; i++) {
+          expect(result).to.have.property(exams[i]);
+          let r = validator.validate(
+            result[exams[i]],
+            { type: "array", items: { $ref: "/ExamSchedule" } },
+            { nestedErrors: true }
+          );
+          expect(r.valid).to.be.true;
+        }
 
-      done();
-    }).catch(err => { throw err; })
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape exam schedule beta', (done) => {
-    let filePath = path.join('test', 'data', 'doSearchExamScheduleForStudent.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape exam schedule beta", done => {
+    let filePath = path.join(
+      "test",
+      "data",
+      "doSearchExamScheduleForStudent.html"
+    );
+    let html = fs.readFileSync(filePath, "utf8");
     let task = schedule.parseExamBeta(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let exams = ['CAT - I', 'CAT - II', 'Final Assessment Test'];
-      for (let i = 0; i < exams.length; i++) {
-        expect(result).to.have.property(exams[i]);
-        let r = validator.validate(result[exams[i]], { "type": "array", "items": { "$ref": "/ExamSchedule" } }, { nestedErrors: true });
-        expect(r.valid).to.be.true;
-      }
+    task
+      .then(result => {
+        let exams = ["CAT - I", "CAT - II", "Final Assessment Test"];
+        for (let i = 0; i < exams.length; i++) {
+          expect(result).to.have.property(exams[i]);
+          let r = validator.validate(
+            result[exams[i]],
+            { type: "array", items: { $ref: "/ExamSchedule" } },
+            { nestedErrors: true }
+          );
+          expect(r.valid).to.be.true;
+        }
 
-      done();
-    }).catch(err => { throw err; })
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape spotlight', (done) => {
-    let filePath = path.join('test', 'data', 'include_spotlight.html');
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape spotlight", done => {
+    let filePath = path.join("test", "data", "include_spotlight.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = home.parseSpotlight(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/SpotlightItem" } }, { nestedErrors: true });
-      expect(r.valid).to.be.true;
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/SpotlightItem" } },
+          { nestedErrors: true }
+        );
+        expect(r.valid).to.be.true;
 
-
-      done();
-    }).catch(err => { throw err; })
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape messages', (done) => {
-    let filePath = path.join('test', 'data', 'stud_home.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape messages", done => {
+    let filePath = path.join("test", "data", "stud_home.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = home.parseMessages(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let r = validator.validate(result, { "type": "array", "items": { "$ref": "/FacultyMessage" } }, { nestedErrors: true });
+    task
+      .then(result => {
+        let r = validator.validate(
+          result,
+          { type: "array", items: { $ref: "/FacultyMessage" } },
+          { nestedErrors: true }
+        );
 
-      expect(r.valid).to.be.true;
+        expect(r.valid).to.be.true;
 
-      done();
-    }).catch(err => { throw err; })
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape leave request applications', (done) => {
-    let filePath = path.join('test', 'data', 'leave_request.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape leave request applications", done => {
+    let filePath = path.join("test", "data", "leave_request.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = hostel.parseLeaveApplications(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let schema = {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "applications": { "type": "array", "items": { "$ref": "/HostelApplication" } },
-          "authorities": { "type": "array", "items": { "$ref": "/ApprovingAuthority", "minItems": 1 } }
-        }
-      }
-      let r = validator.validate(result, schema, { nestedErrors: true });
-      expect(r.valid).to.be.true;
+    task
+      .then(result => {
+        let schema = {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            applications: {
+              type: "array",
+              items: { $ref: "/HostelApplication" }
+            },
+            authorities: {
+              type: "array",
+              items: { $ref: "/ApprovingAuthority", minItems: 1 }
+            }
+          }
+        };
+        let r = validator.validate(result, schema, { nestedErrors: true });
+        expect(r.valid).to.be.true;
 
-      done();
-    }).catch(err => { throw err; })
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape leave request applications beta', (done) => {
-    let filePath = path.join('test', 'data', 'leave_applications_beta.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape leave request applications beta", done => {
+    let filePath = path.join("test", "data", "leave_applications_beta.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = hostel.parseLeaveApplicationsBeta(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let schema = {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "applications": { "type": "array", "items": { "$ref": "/HostelApplicationBeta" } }
-        }
-      }
-      let r = validator.validate(result, schema, { nestedErrors: true });
-      expect(r.valid).to.be.true;
+    task
+      .then(result => {
+        let schema = {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            applications: {
+              type: "array",
+              items: { $ref: "/HostelApplicationBeta" }
+            }
+          }
+        };
+        let r = validator.validate(result, schema, { nestedErrors: true });
+        expect(r.valid).to.be.true;
 
-      done();
-    }).catch(err => { throw err; })
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 
-  it('scrape late hours applications', (done) => {
-    let filePath = path.join('test', 'data', 'Hostel_LAB_Permission.html')
-    let html = fs.readFileSync(filePath, 'utf8');
+  it("scrape late hours applications", done => {
+    let filePath = path.join("test", "data", "Hostel_LAB_Permission.html");
+    let html = fs.readFileSync(filePath, "utf8");
     let task = hostel.parseLateApplications(html);
     expect(task).to.be.instanceOf(Promise);
 
-    task.then(result => {
-      let schema = { "type": "array", "items": { "$ref": "/LateHoursApplication", "minItems": 1 } };
-      let r = validator.validate(result, schema, { nestedErrors: true });
-      expect(r.valid).to.be.true;
+    task
+      .then(result => {
+        let schema = {
+          type: "array",
+          items: { $ref: "/LateHoursApplication", minItems: 1 }
+        };
+        let r = validator.validate(result, schema, { nestedErrors: true });
+        expect(r.valid).to.be.true;
 
-      done();
-    }).catch(err => { throw err; })
+        done();
+      })
+      .catch(err => {
+        throw err;
+      });
   });
 });

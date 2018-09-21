@@ -2,9 +2,9 @@
  * @module scrapers/hotel
  */
 
-const cheerio = require('cheerio');
-const Promise = require('bluebird');
-const tabletojson = require('tabletojson')
+const cheerio = require("cheerio");
+const Promise = require("bluebird");
+const tabletojson = require("tabletojson");
 
 /**
  * parse report of applied leave requests
@@ -14,20 +14,24 @@ const tabletojson = require('tabletojson')
  * @returns {Promise<HostelApplication>}
  */
 
-
-module.exports.parseLeaveApplications = (html) => {
+module.exports.parseLeaveApplications = html => {
   return new Promise((resolve, reject) => {
     try {
       const $ = cheerio.load(html);
-      const authorities = $('select[name=apply] > option')
+      const authorities = $("select[name=apply] > option")
         .toArray()
-        .map(e => { return { 'id': $(e).val(), 'name': $(e).text() } })
-        .filter(e => (e.name.length > 0) && (e.id.length > 0));
+        .map(e => {
+          return { id: $(e).val(), name: $(e).text() };
+        })
+        .filter(e => e.name.length > 0 && e.id.length > 0);
 
-      html = $('table[cellpadding=4]').html();
-      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0];
+      html = $("table[cellpadding=4]").html();
+      const table = tabletojson.convert(`<table>${html}</table>`, {
+        ignoreEmptyRows: true,
+        allowHTML: false
+      })[0];
 
-      let applications
+      let applications;
       if (table === null || table === undefined) {
         applications = [];
       } else {
@@ -38,7 +42,7 @@ module.exports.parseLeaveApplications = (html) => {
             to: row[5],
             request_type: row[6],
             status: row[7]
-          }
+          };
         });
       }
       return resolve({
@@ -49,8 +53,7 @@ module.exports.parseLeaveApplications = (html) => {
       return reject(ex);
     }
   });
-
-}
+};
 
 /**
  * parse report of applied leave requests
@@ -60,30 +63,32 @@ module.exports.parseLeaveApplications = (html) => {
  * @returns {Promise<HostelApplicationBeta>}
  */
 
-
-module.exports.parseLeaveApplicationsBeta = (html) => {
+module.exports.parseLeaveApplicationsBeta = html => {
   return new Promise((resolve, reject) => {
     try {
       // console.log(html);
       const $ = cheerio.load(html);
 
       html = $('table[class="table table-bordered"]').html();
-      const table = tabletojson.convert(`<table>${html}</table>`, { ignoreEmptyRows: true, allowHTML: false })[0];
+      const table = tabletojson.convert(`<table>${html}</table>`, {
+        ignoreEmptyRows: true,
+        allowHTML: false
+      })[0];
 
-      let applications
+      let applications;
       if (table === null || table === undefined) {
         applications = [];
       } else {
         applications = table.map(row => {
           return {
-            application_id: row['Leave Id'],
-            from: row['From'],
-            to: row['To'],
-            request_type: row['LeaveType'],
-            status: row['Status'],
-            place: row['Visit Place'],
-            reason: row['Reason']
-          }
+            application_id: row["Leave Id"],
+            from: row["From"],
+            to: row["To"],
+            request_type: row["LeaveType"],
+            status: row["Status"],
+            place: row["Visit Place"],
+            reason: row["Reason"]
+          };
         });
       }
       return resolve({
@@ -93,7 +98,7 @@ module.exports.parseLeaveApplicationsBeta = (html) => {
       return reject(ex);
     }
   });
-}
+};
 
 /**
  * parse report of applied late hours requests
@@ -102,36 +107,66 @@ module.exports.parseLeaveApplicationsBeta = (html) => {
  * @param {String} html
  * @returns {Promise<LateHoursApplication>}
  */
-module.exports.parseLateApplications = (html) => {
+module.exports.parseLateApplications = html => {
   return new Promise((resolve, reject) => {
     try {
       const $ = cheerio.load(html);
-      const tables = $('table[class=tblFormat1]');
-      const table = tables.eq(1)
-      const applications = table.find('tr').map((i, row) => {
-        const td = $(row).find("td");
-        if (td.length === 0) {
-          return null;
-        }
-        const application = {
-          "from": td.eq(1).text().trim(),
-          "to": td.eq(2).text().trim(),
-          "time": td.eq(3).text().trim().replace(/\s+/g, ' '),
-          "venue": td.eq(4).text().trim(),
-          "reason": td.eq(5).text().trim(),
-          "faculty": td.eq(6).text().trim(),
-          "approved": (td.eq(7).text().trim() === 'Approved'),
-          "cancel_id": null
-        }
-        if (!application.approved) {
-          const onclick = td.eq(8).find("input").attr("onclick");
-          application.cancel_id = onclick.split("'")[1] || null;
-        }
-        return application;
-      }).get().filter(e => e !== null);
+      const tables = $("table[class=tblFormat1]");
+      const table = tables.eq(1);
+      const applications = table
+        .find("tr")
+        .map((i, row) => {
+          const td = $(row).find("td");
+          if (td.length === 0) {
+            return null;
+          }
+          const application = {
+            from: td
+              .eq(1)
+              .text()
+              .trim(),
+            to: td
+              .eq(2)
+              .text()
+              .trim(),
+            time: td
+              .eq(3)
+              .text()
+              .trim()
+              .replace(/\s+/g, " "),
+            venue: td
+              .eq(4)
+              .text()
+              .trim(),
+            reason: td
+              .eq(5)
+              .text()
+              .trim(),
+            faculty: td
+              .eq(6)
+              .text()
+              .trim(),
+            approved:
+              td
+                .eq(7)
+                .text()
+                .trim() === "Approved",
+            cancel_id: null
+          };
+          if (!application.approved) {
+            const onclick = td
+              .eq(8)
+              .find("input")
+              .attr("onclick");
+            application.cancel_id = onclick.split("'")[1] || null;
+          }
+          return application;
+        })
+        .get()
+        .filter(e => e !== null);
       return resolve(applications);
     } catch (ex) {
       return reject(ex);
     }
   });
-}
+};

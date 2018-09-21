@@ -1,10 +1,10 @@
 /**
  * @module routes/grades
  */
-const path = require('path');
-const requests = require(path.join(__dirname, '..', 'utilities', 'requests'));
-const academic = require(path.join(__dirname, '..', 'scrapers', 'academic'));
-const express = require('express');
+const path = require("path");
+const requests = require(path.join(__dirname, "..", "utilities", "requests"));
+const academic = require(path.join(__dirname, "..", "scrapers", "academic"));
+const express = require("express");
 const router = express.Router();
 
 /**
@@ -13,23 +13,26 @@ const router = express.Router();
  * respond with academic history
  */
 
-
-router.post('/', (req, res, next) => {
+router.post("/", (req, res, next) => {
   const campus = req.body.campus;
-  if (campus == 'chennai') {
-    const baseUri = 'https://academicscc.vit.ac.in/student';
+  if (campus == "chennai") {
+    const baseUri = "https://academicscc.vit.ac.in/student";
     const uri = `${baseUri}/student_history.asp`;
     const task = requests.get(uri, req.cookies);
-    task.then(academic.parseHistory)
+    task
+      .then(academic.parseHistory)
       .then(result => res.json(result))
       .catch(next);
   } else {
-    const historyUri = 'https://vtopbeta.vit.ac.in/vtop/examinations/examGradeView/StudentGradeHistory';
-    requests.post(historyUri, req.cookies)
+    const historyUri =
+      "https://vtopbeta.vit.ac.in/vtop/examinations/examGradeView/StudentGradeHistory";
+    requests
+      .post(historyUri, req.cookies)
       .then(academic.parseHistoryBeta)
       .then(results => {
         res.json(results);
-      }).catch(next);
+      })
+      .catch(next);
   }
 });
 
