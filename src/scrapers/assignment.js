@@ -50,7 +50,7 @@ module.exports.parseDA = html => {
           const cells = $(e).find("td");
           let status = cells.eq(6).text().trim();
           if(status === "") { 
-            if(cells.eq(7)[0].innerHTML.indexOf('glyphicon-pencil')){ status='Process'} } 
+            if(cells.eq(7).html().indexOf('glyphicon-pencil')){ status='Process'} } 
           else {
             status = "Uploaded: " + status
           }
@@ -67,7 +67,6 @@ module.exports.parseDA = html => {
           };
         })
         .get();
-      details.shift();
       return resolve(details);
     } catch (err) {
       return reject(err);
