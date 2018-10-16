@@ -45,8 +45,16 @@ module.exports.parseDA = html => {
       const table1 = tables.eq(1);
       const details = table1
         .find("tr")
+        .slice(2)
         .map(function(i, e) {
           const cells = $(e).find("td");
+          let status = cells.eq(6).text().trim();
+          if(status === "") { 
+            if(cells.eq(7)[0].innerHTML.indexOf('glyphicon-pencil')){ status='Process'} } 
+          else {
+            status = "Uploaded: " + status
+          }
+      
           return {
             title: cells.eq(1).text(),
             max_mark: cells.eq(2).text(),
@@ -55,10 +63,7 @@ module.exports.parseDA = html => {
               .eq(4)
               .text()
               .trim(),
-            status: cells
-              .eq(5)
-              .text()
-              .trim()
+            status: status
           };
         })
         .get();
