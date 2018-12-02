@@ -31,12 +31,12 @@ const supportedSchools = [
 ];
 
 const uri = {
-  init: "https://vtopbeta.vit.ac.in/vtop/hostels/lab/permission",
-  apply: "https://vtopbeta.vit.ac.in/vtop/hostels/lab/permission/apply",
-  submit: "https://vtopbeta.vit.ac.in/vtop/hostels/lab/permission/submit",
+  init: "https://vtop.vit.ac.in/vtop/hostels/lab/permission",
+  apply: "https://vtop.vit.ac.in/vtop/hostels/lab/permission/apply",
+  submit: "https://vtop.vit.ac.in/vtop/hostels/lab/permission/submit",
   applications:
-    "https://vtopbeta.vit.ac.in/vtop/hostels/lab/permission/view/status",
-  cancel: "https://vtopbeta.vit.ac.in/vtop/hostels/student/leave/cancel"
+    "https://vtop.vit.ac.in/vtop/hostels/lab/permission/view/status",
+  cancel: "https://vtop.vit.ac.in/vtop/hostels/student/leave/cancel"
 };
 
 /**

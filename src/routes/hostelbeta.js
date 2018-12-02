@@ -21,10 +21,10 @@ const supportedTypes = [
 ];
 
 const uri = {
-  init: "https://vtopbeta.vit.ac.in/vtop/hostels/student/leave",
-  submit: "https://vtopbeta.vit.ac.in/vtop/hostels/student/leave/submit",
-  applications: "https://vtopbeta.vit.ac.in/vtop/hostels/student/leave/status",
-  cancel: "https://vtopbeta.vit.ac.in/vtop/hostels/student/leave/cancel"
+  init: "https://vtop.vit.ac.in/vtop/hostels/student/leave",
+  submit: "https://vtop.vit.ac.in/vtop/hostels/student/leave/submit",
+  applications: "https://vtop.vit.ac.in/vtop/hostels/student/leave/status",
+  cancel: "https://vtop.vit.ac.in/vtop/hostels/student/leave/cancel"
 };
 
 /**

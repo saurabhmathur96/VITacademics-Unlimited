@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.post("/", (req, res, next) => {
   const curriculumUri =
-    "https://vtopbeta.vit.ac.in/vtop/academics/common/Curriculum";
+    "https://vtop.vit.ac.in/vtop/academics/common/Curriculum";
   requests
     .post(curriculumUri, req.cookies)
     .then(academic.parseCurriculumBeta)

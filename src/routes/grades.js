@@ -25,9 +25,9 @@ router.post("/", (req, res, next) => {
       .catch(next);
   } else {
     const historyUri =
-      "https://vtopbeta.vit.ac.in/vtop/examinations/examGradeView/StudentGradeHistory";
+      "https://vtop.vit.ac.in/vtop/examinations/examGradeView/StudentGradeHistory";
     requests
-      .post(historyUri, req.cookies)
+      .post(historyUri, req.cookies, {authorizedID:req.body.reg_no})
       .then(academic.parseHistoryBeta)
       .then(results => {
         res.json(results);

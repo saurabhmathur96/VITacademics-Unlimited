@@ -94,7 +94,7 @@ module.exports.parseDailyBeta = html => {
   return new Promise((resolve, reject) => {
     try {
       const $ = cheerio.load(html);
-      html = $("#studentDetailsList").html();
+      html = $("#studentDetailsList table").html();
       if (html === null || html === undefined) {
         return resolve([]);
       }
@@ -102,28 +102,27 @@ module.exports.parseDailyBeta = html => {
         ignoreEmptyRows: true,
         allowHTML: false
       })[0];
-
       if (table === null || table === undefined) {
         return resolve([]);
       }
       const schedule = table
         .map(row => {
-          if (row["Class\n\t\t\t\t\t\t\t\t\t\t\t\t\tNbr"] === undefined) {
+          if (row["Class\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tNbr"] === undefined) {
             return null;
           }
           return {
-            class_number: row["Class\n\t\t\t\t\t\t\t\t\t\t\t\t\tNbr"].trim(),
-            course_code: row["Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tCode"].trim(),
-            course_name: row["Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tTitle"].trim(),
-            course_type: row["Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tType"].trim(),
+            class_number: row["Class\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tNbr"].trim(),
+            course_code: row["Course\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tCode"].trim(),
+            course_name: row["Course\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tTitle"].trim(),
+            course_type: row["Course\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tType"].trim(),
             ltpjc: row["L T P J C"].replace(/ +/g, ""),
             course_option: row[
-              "Course\n\t\t\t\t\t\t\t\t\t\t\t\t\tOption"
+              "Course\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tOption"
             ].trim(),
             course_mode: "NA",
             slot: row["Slot"].trim(),
             venue: row["Venue"].trim(),
-            faculty_name: row["Faculty\n\t\t\t\t\t\t\t\t\t\t\t\t\tName"]
+            faculty_name: row["Faculty\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tName"]
               .trim()
               .replace(/\s+/g, " ")
           };

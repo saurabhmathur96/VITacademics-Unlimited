@@ -17,26 +17,18 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
  * @param {String} password
  * @param {String} [campus]
  */
-function getCookieBeta(username, password, campus, attempt = 0) {
+function getCookieBeta(username, password, campus, attempt = 0,cookies = null) {
   return requests
-    .getCookies("https://vtopbeta.vit.ac.in/vtop/", null)
+    .getCookies("https://vtop.vit.ac.in/vtop/", cookies)
     .then(result => {
-      return gsidScraper
-        .getGsid(result.body)
-        .then(gsid => {
-          return requests.get(
-            "https://vtopbeta.vit.ac.in/vtop/executeApp?" + gsid,
-            result.cookies
-          );
-        })
-        .then(() =>
-          requests.postCookies(
-            "https://vtopbeta.vit.ac.in/vtop/getLogin",
-            result.cookies
-          )
-        );
+      return requests.postCookies(
+            "https://vtop.vit.ac.in/vtop/vtopLogin",
+         result.cookies,{});
     })
     .then(loginPage => {
+      if(loginPage.body.indexOf("Session Timed out") != -1){
+        return getCookieBeta(username,password,campus,attempt,loginPage.cookies);
+      }
       const $ = cheerio.load(loginPage.body);
       const imageUrl = $("img")
         .eq(1)
@@ -48,7 +40,7 @@ function getCookieBeta(username, password, campus, attempt = 0) {
     })
     .then(result => {
       return requests.postCookies(
-        "https://vtopbeta.vit.ac.in/vtop/processLogin",
+        "https://vtop.vit.ac.in/vtop/doLogin",
         result[0],
         {
           uname: username,

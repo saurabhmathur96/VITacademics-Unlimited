@@ -29,7 +29,7 @@ router.post("/", (req, res, next) => {
 
       const uri = {
         teacher_page:
-          "https://vtopbeta.vit.ac.in/vtop/processViewStudentCourseDetail"
+          "https://vtop.vit.ac.in/vtop/processViewStudentCourseDetail"
         // add other uri here
       };
       // get course details from database in course

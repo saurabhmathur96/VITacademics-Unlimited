@@ -452,14 +452,23 @@ module.exports.parseMarksBeta = html => {
   return new Promise((resolve, reject) => {
     try {
       let $ = cheerio.load(html, { normalizeWhitespace: true });
+      let iterBool = false;
       const marks = $("table")
         .eq(0)
-        .find("tr[style='background-color: #d2edf7;']")
+        .find(".tableContent")
+        .filter(function(row) {
+          if (iterBool) {
+            iterBool = false;
+            return false;
+          }
+          iterBool = true;
+          return true;
+        })
         .map((i, element) => {
           const course_marks = $(element)
             .next()
             .find("table")
-            .find("tr[class='danger']")
+            .find(".tableContent-level1")
             .map((j, e) => {
               const td = $(e).find("td");
               return {

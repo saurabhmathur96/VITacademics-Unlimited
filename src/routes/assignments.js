@@ -39,19 +39,20 @@ router.post("/", (req, res, next) => {
       }
       const uri = {
         courses:
-          "https://vtopbeta.vit.ac.in/vtop/examinations/doDigitalAssignment",
+          "https://vtop.vit.ac.in/vtop/examinations/doDigitalAssignment",
         details:
-          "https://vtopbeta.vit.ac.in/vtop/examinations/processDigitalAssignment"
+          "https://vtop.vit.ac.in/vtop/examinations/processDigitalAssignment"
       };
       return requests
-        .post(uri.courses, req.cookies, { semesterSubId: semId })
+        .post(uri.courses, req.cookies, { semesterSubId: semId, authorizedID: req.body.reg_no })
         .then(assignments.parseCourses)
         .then(courses =>
           fetchAssignmentDetails(
             courses,
             uri.details,
             req.cookies,
-            assignments.parseDA
+            assignments.parseDA,
+            req.body.reg_no
           )
         )
         .then(courses => res.json({ courses: courses }));
@@ -59,11 +60,11 @@ router.post("/", (req, res, next) => {
     .catch(next);
 });
 
-function fetchAssignmentDetails(courses, uri, cookies, parseDA) {
+function fetchAssignmentDetails(courses, uri, cookies, parseDA, reg_no) {
   return Promise.all(
     courses.map(course => {
       return requests
-        .post(uri, cookies, { classId: course.class_number })
+        .post(uri, cookies, { classId: course.class_number,authorizedID:reg_no })
         .then(parseDA)
         .then(details => {
           course.details = details;

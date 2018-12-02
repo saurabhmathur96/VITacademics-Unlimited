@@ -44,42 +44,43 @@ router.post("/", (req, res, next) => {
     .format("YYYY");
 
   let courseCollection = new database.CourseCollection();
-  const semId = semester === "FS" ? "VL2018191" : "VL2017185";
+  const semId = semester === "FS" ? "VL2018191" : "VL2018195";
   if (campus === "vellore") {
     // Use vtopbeta for data
     const uri = {
       schedule: {
-        timetable: "https://vtopbeta.vit.ac.in/vtop/processViewTimeTable",
+        timetable: "https://vtop.vit.ac.in/vtop/processViewTimeTable",
         exam:
-          "https://vtopbeta.vit.ac.in/vtop/examinations/doSearchExamScheduleForStudent"
+          "https://vtop.vit.ac.in/vtop/examinations/doSearchExamScheduleForStudent"
       },
       attendance: {
-        report: "https://vtopbeta.vit.ac.in/vtop/processViewStudentAttendance",
-        details: "https://vtopbeta.vit.ac.in/vtop/processViewAttendanceDetail"
+        report: "https://vtop.vit.ac.in/vtop/processViewStudentAttendance",
+        details: "https://vtop.vit.ac.in/vtop/processViewAttendanceDetail"
       },
-      marks: "https://vtopbeta.vit.ac.in/vtop/examinations/doStudentMarkView"
+      marks: "https://vtop.vit.ac.in/vtop/examinations/doStudentMarkView"
     };
 
     const tasks = [
       requests
-        .post(uri.attendance.report, req.cookies, { semesterSubId: semId })
+        .post(uri.attendance.report, req.cookies, { semesterSubId: semId, authorizedID : req.body.reg_no})
         .then(attendance.parseReportBeta)
         .then(courses =>
           fetchAttendanceDetails(
             courses,
             uri.attendance.details,
             req.cookies,
-            attendance.parseDetailsBeta
+            attendance.parseDetailsBeta,
+            req.body.reg_no
           )
         ),
       requests
-        .post(uri.schedule.timetable, req.cookies, { semesterSubId: semId })
+        .post(uri.schedule.timetable, req.cookies, { semesterSubId: semId, authorizedID : req.body.reg_no} )
         .then(schedule.parseDailyBeta),
       requests
-        .post(uri.schedule.exam, req.cookies, { semesterSubId: semId })
+        .post(uri.schedule.exam, req.cookies, { semesterSubId: semId, authorizedID : req.body.reg_no} )
         .then(schedule.parseExamBeta),
       requests
-        .post(uri.marks, req.cookies, { semesterSubId: semId })
+        .post(uri.marks, req.cookies, { semesterSubId: semId,authorizedID : req.body.reg_no})
         .then(academic.parseMarksBeta)
         .then(marksReports =>
           updateMarksCollection(
@@ -127,7 +128,8 @@ router.post("/", (req, res, next) => {
             courses,
             uri.attendance.details,
             req.cookies,
-            attendance.parseDetails
+            attendance.parseDetails,
+            req.body.reg_no
           )
         ),
       requests
@@ -167,7 +169,7 @@ router.post("/", (req, res, next) => {
         process.nextTick(() => {
           const facultyCollection = new database.FacultyCollection();
           const facultyUrl =
-            "https://vtopbeta.vit.ac.in/vtop/proctor/viewProctorDetails";
+            "https://vtop.vit.ac.in/vtop/proctor/viewProctorDetails";
           requests
             .post(facultyUrl, req.cookies, {})
             .then(home.parseFaculty)
@@ -178,9 +180,10 @@ router.post("/", (req, res, next) => {
     .catch(next);
 });
 
-function fetchAttendanceDetails(courses, uri, cookies, parseDetails) {
+function fetchAttendanceDetails(courses, uri, cookies, parseDetails,reg_no) {
   return Promise.all(
     courses.map(course => {
+      course.form.authorizedID = reg_no;
       return requests
         .post(uri, cookies, course.form)
         .then(parseDetails)
