@@ -267,7 +267,7 @@ module.exports.parseHistoryBeta = html => {
       const creditsTable = baseScraper("table")
         .eq(length - 1)
         .children("tr")
-        .eq(0);
+        .eq(1);
       data.credits_registered = parseInt(
         creditsTable
           .children("td")
