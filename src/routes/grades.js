@@ -24,15 +24,23 @@ router.post("/", (req, res, next) => {
       .then(result => res.json(result))
       .catch(next);
   } else {
-    const historyUri =
-      "https://vtop.vit.ac.in/vtop/examinations/examGradeView/StudentGradeHistory";
-    requests
-      .post(historyUri, req.cookies, {authorizedID:req.body.reg_no})
-      .then(academic.parseHistoryBeta)
-      .then(results => {
-        res.json(results);
-      })
-      .catch(next);
+    if(req.body.reg_no.startsWith("18")){
+      res.json({
+        grades: [],
+        semester_wise: {},
+        grade_count: []});
+
+    }else {
+      const historyUri =
+        "https://vtop.vit.ac.in/vtop/examinations/examGradeView/StudentGradeHistory";
+      requests
+        .post(historyUri, req.cookies)
+        .then(academic.parseHistoryBeta)
+        .then(results => {
+          res.json(results);
+        })
+        .catch(next);
+    }
   }
 });
 
