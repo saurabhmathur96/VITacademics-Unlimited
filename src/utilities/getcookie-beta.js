@@ -57,7 +57,7 @@ function getCookieBeta(username, password, campus, attempt = 0,cookies = null) {
       if (errorMessage === "User does not exist") {
         throw new Error("Username is incorrect.");
       } else if (
-        errorMessage === "Invalid Username/Password, Please try again"
+        errorMessage === "Invalid User Id / Password"
       ) {
         throw new Error("Password is incorrect.");
       } else if (errorMessage === "Invalid Captcha") {
@@ -68,7 +68,7 @@ function getCookieBeta(username, password, campus, attempt = 0,cookies = null) {
           attempt += 1;
           return getCookieBeta(username, password, campus, attempt);
         }
-        logger.error("Error signing in to VTOP beta", errorMessage);
+        logger.error("Error signing in to VTOP", errorMessage);
       }
       return result.cookies;
     });
